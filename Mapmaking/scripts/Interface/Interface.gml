@@ -64,16 +64,18 @@ function Interface() constructor
 				if(gridSel != -1)
 				{
 					var mg = new vec2(floor(mouse_x / 16), floor(mouse_y / 16));
-					if(right) { preTile = new vec2(-1, -1); }
-				
-					if(mg.x != preTile.x || mg.y != preTile.y)
+					if(right || !mouse_check_button(mb_left) || click) { preTile = new vec2(-5, -5); }
+					
+					if(abs(mg.x - preTile.x) >= tiles[selTile].size.x || abs(mg.y - preTile.y) >= tiles[selTile].size.y)
 					{
 						if(hold)
 						{
 							var tls = mapData.chunk[? chunk_get_key()].layers[| selLayer].tiles;
-		
+							
 							ds_grid_set(tls, mg.x, mg.y, new ChunkTile(tiles[selTile].hai, selZ));
 							updateMap = true;
+							
+							preTile = new vec2(floor(mouse_x / 16), floor(mouse_y / 16));
 						}
 					
 						if(right)
@@ -82,12 +84,12 @@ function Interface() constructor
 
 							ds_grid_set(tls, mg.x, mg.y, new ChunkTile(tile.none, 15));
 							updateMap = true;
+							
+							preTile = new vec2(floor(mouse_x / 16), floor(mouse_y / 16));
 						}
 					}
 				}
 			}
-			
-			preMouse = new vec2(floor(mouse_x / 16), floor(mouse_y / 16));
 		
 			// -- Height
 			if(d.x > 626 && d.x < 646) && (d.y > 28 && d.y < 679)

@@ -60,7 +60,7 @@ function Button(_label, _x, _y, w, h, _act) constructor
 	{
 		switch(action)
 		{
-			case(button.compile): with(GAME) MapCompile(); break;
+			case(button.compile): with(GAME) map_compile(); break;
 			case(button.export_model): /* No action yet */ break;
 			case(button.import): map_import(); break;
 			case(button.export): map_export(); break;

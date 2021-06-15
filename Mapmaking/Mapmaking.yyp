@@ -20,6 +20,7 @@
     {"id":{"name":"add_vertex_point","path":"scripts/add_vertex_point/add_vertex_point.yy",},"order":1,},
     {"id":{"name":"fntGUI","path":"fonts/fntGUI/fntGUI.yy",},"order":0,},
     {"id":{"name":"chunk_get_key","path":"scripts/chunk_get_key/chunk_get_key.yy",},"order":5,},
+    {"id":{"name":"map_compile","path":"scripts/map_compile/map_compile.yy",},"order":2,},
     {"id":{"name":"txOW_1","path":"sprites/txOW_1/txOW_1.yy",},"order":5,},
     {"id":{"name":"Interface","path":"scripts/Interface/Interface.yy",},"order":0,},
     {"id":{"name":"Sprite5","path":"sprites/Sprite5/Sprite5.yy",},"order":6,},
