@@ -267,7 +267,28 @@ function map_compile()
 																	txOW_1
 																	);
 								break;
-														
+								case(tile.land_rock_S):
+									placed ++;
+									file_get_vertices( chunkMesh[? _c], "tiles/geometry/rock_small.gmmod", 
+																	matrix_build(rp.x, rp.y, _z * 16, 0, 0, 0, 1, 1, 1), 
+																	new vec3(1, 1, 1), 
+																	new vec3(0, 0, 0),
+																	new vec2(7, 10),
+																	new vec2(2, 2),
+																	txOW_1
+																	);
+								break;
+								case(tile.land_rock_L):
+									placed ++;
+									file_get_vertices( chunkMesh[? _c], "tiles/geometry/rock_big.gmmod", 
+																	matrix_build(rp.x, rp.y, _z * 16, 0, 0, 0, 1, 1, 1), 
+																	new vec3(1, 1, 1), 
+																	new vec3(0, 0, 0),
+																	new vec2(7, 10),
+																	new vec2(2, 2),
+																	txOW_1
+																	);
+								break;
 							}
 			
 						}

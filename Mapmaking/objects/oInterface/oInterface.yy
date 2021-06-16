@@ -26,8 +26,8 @@
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "Core",
-    "path": "folders/Core.yy",
+    "name": "Scripts",
+    "path": "folders/Core/Scripts.yy",
   },
   "resourceVersion": "1.0",
   "name": "oInterface",

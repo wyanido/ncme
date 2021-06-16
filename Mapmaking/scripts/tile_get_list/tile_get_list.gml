@@ -58,5 +58,8 @@ function tile_get_list()
 	AddItem(tile.tallgrass, "Tall Grass", 1, 1);
 	AddItem(tile.tallgrass_thick, "Tall Grass (Thick)", 1, 1);
 	
+	AddItem(tile.land_rock_S, "Rock", 1, 1);
+	AddItem(tile.land_rock_L, "Rock (Large)", 2, 2);
+	
 	return list;
 }

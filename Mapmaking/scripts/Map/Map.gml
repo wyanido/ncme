@@ -37,7 +37,10 @@ enum tile
 	cliffSEIn_S,
 	
 	tallgrass,
-	tallgrass_thick
+	tallgrass_thick,
+	
+	land_rock_S,
+	land_rock_L
 	
 }
 
@@ -133,6 +136,9 @@ function ChunkTile(_type, _z) constructor
 			
 			case(tile.tallgrass): frame = 28; break;
 			case(tile.tallgrass_thick): frame = 29; break;
+			
+			case(tile.land_rock_S): frame = 30; break;
+			case(tile.land_rock_L): frame = 31; break;
 		}
 		
 		if(frame != -1)

@@ -1,5 +1,4 @@
 
-// --- Load Model from File
 function file_get_vertices(targetbuffer, srcfile, matrix, s, pos, UVshift, UVscale, srctex) {
 
 	var file = file_text_open_read(srcfile);

@@ -1,5 +1,6 @@
 {
   "resources": [
+    {"id":{"name":"file_get_buffer","path":"scripts/file_get_buffer/file_get_buffer.yy",},"order":3,},
     {"id":{"name":"draw_grid","path":"scripts/draw_grid/draw_grid.yy",},"order":4,},
     {"id":{"name":"rmInterface","path":"rooms/rmInterface/rmInterface.yy",},"order":1,},
     {"id":{"name":"Button","path":"scripts/Button/Button.yy",},"order":2,},
@@ -23,8 +24,8 @@
     {"id":{"name":"map_compile","path":"scripts/map_compile/map_compile.yy",},"order":2,},
     {"id":{"name":"txOW_1","path":"sprites/txOW_1/txOW_1.yy",},"order":5,},
     {"id":{"name":"Interface","path":"scripts/Interface/Interface.yy",},"order":0,},
-    {"id":{"name":"Sprite5","path":"sprites/Sprite5/Sprite5.yy",},"order":6,},
-    {"id":{"name":"oInterface","path":"objects/oInterface/oInterface.yy",},"order":0,},
+    {"id":{"name":"file_set_buffer","path":"scripts/file_set_buffer/file_set_buffer.yy",},"order":4,},
+    {"id":{"name":"oInterface","path":"objects/oInterface/oInterface.yy",},"order":5,},
   ],
   "Options": [
     {"name":"Linux","path":"options/linux/options_linux.yy",},
