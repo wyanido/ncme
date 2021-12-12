@@ -71,8 +71,8 @@
     "PhysicsWorldPixToMetres": 0.1,
   },
   "parent": {
-    "name": "Mapmaking",
-    "path": "Mapmaking.yyp",
+    "name": "ncme",
+    "path": "ncme.yyp",
   },
   "resourceVersion": "1.0",
   "name": "rm_editor",

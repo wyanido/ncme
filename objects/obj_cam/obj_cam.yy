@@ -26,8 +26,8 @@
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "Mapmaking",
-    "path": "Mapmaking.yyp",
+    "name": "ncme",
+    "path": "ncme.yyp",
   },
   "resourceVersion": "1.0",
   "name": "obj_cam",
