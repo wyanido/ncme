@@ -6,7 +6,7 @@ function map_export()
 	if(save_path != "")	// -- If Operation Not Cancelled
 	{
 		var save_buff = buffer_create(16, buffer_grow, 1);	// -- Dynamic Buffer
-		var chk = GAME.mapData.chunk;
+		var chk = obj_interface.mapData.chunk;
 		var chunkcount = 0;
 		
 		// -- Iterate through all chunk DS Map entries
@@ -21,14 +21,14 @@ function map_export()
 				{
 					for(var _y = 0; _y < 32; _y ++)
 					{
-						tilecount += chk[? _c].layers[| l].tiles[# _x, _y].hai;	// -- Tile Type
+						tilecount += chk[? _c].layers[| l].tiles[# _x, _y].tile_type;	// -- Tile Type
 					}
 				}
 			}
 			if(tilecount == 0) continue;
 			
 			// -- Start Chunk String with coords, e.g. "0,0|"
-			var chunkstring = string(chk[? _c].offX) + "," + string(chk[? _c].offY) + "|";
+			var chunkstring = string(chk[? _c].pos_x) + "," + string(chk[? _c].pos_y) + "|";
 			
 			for(var l = 0; l < 8; l ++)	// -- Each Layer of the Chunk
 			{
@@ -39,7 +39,7 @@ function map_export()
 				{
 					for(var _y = 0; _y < 32; _y ++)
 					{
-						tilecount += chk[? _c].layers[| l].tiles[# _x, _y].hai;	// -- Tile Type
+						tilecount += chk[? _c].layers[| l].tiles[# _x, _y].tile_type;	// -- Tile Type
 					}
 				}
 				if(tilecount == 0) { chunkstring += "EMPTY:"; continue; }
@@ -49,7 +49,7 @@ function map_export()
 					for(var _y = 0; _y < 32; _y ++)
 					{
 						// -- Example layer string: "081-151-311-201-031- ..."
-						var n = string(chk[? _c].layers[| l].tiles[# _x, _y].hai);	// -- Tile Type
+						var n = string(chk[? _c].layers[| l].tiles[# _x, _y].tile_type);	// -- Tile Type
 						var zz = string(chk[? _c].layers[| l].tiles[# _x, _y].z);		// -- Tile Z-Index
 					
 						if(string_length(zz) == 1) zz = "0" + zz;

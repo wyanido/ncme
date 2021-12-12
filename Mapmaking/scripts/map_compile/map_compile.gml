@@ -2,10 +2,10 @@ function map_compile()
 {
 	
 	window_mouse_set(308, 360);
-	GAME.cam.view3D = true;
+	global.compiled_view = true;
 	
 	// --- Compile Map Data
-	chunkMesh = ds_map_create();
+	ds_map_clear(chunkMesh);
 	
 	vertex_format_begin();
 
@@ -16,7 +16,7 @@ function map_compile()
 
 	format = vertex_format_end();
 	
-	for(var _c = ds_map_find_first(GAME.mapData.chunk); _c < ds_map_size(GAME.mapData.chunk); _c = ds_map_find_next(GAME.mapData.chunk, _c))
+	for(var _c = ds_map_find_first(obj_interface.mapData.chunk); _c < ds_map_size(obj_interface.mapData.chunk); _c = ds_map_find_next(obj_interface.mapData.chunk, _c))
 		{
 			
 			ds_map_add(chunkMesh, _c, vertex_create_buffer());
@@ -30,8 +30,8 @@ function map_compile()
 					{
 						for(var _y = 0; _y < 32; _y ++)
 						{
-							var m = GAME.mapData.chunk[? _c].layers[| l].tiles[# _x, _y].hai;
-							var _z = 15 - GAME.mapData.chunk[? _c].layers[| l].tiles[# _x, _y].z;
+							var m = obj_interface.mapData.chunk[? _c].layers[| l].tiles[# _x, _y].tile_type;
+							var _z = 15 - obj_interface.mapData.chunk[? _c].layers[| l].tiles[# _x, _y].z;
 							var rp = new vec2(_x * 16, _y * 16); // World position, accounting for chunk position
 				
 							switch(m)
@@ -299,7 +299,7 @@ function map_compile()
 			
 			if(!placed) {
 				vertex_delete_buffer(chunkMesh[? _c]);
-				chunkMesh[? _c] = noone;
+				chunkMesh[? _c] = undefined;
 			} else {
 				vertex_freeze(chunkMesh[? _c]);	
 		}

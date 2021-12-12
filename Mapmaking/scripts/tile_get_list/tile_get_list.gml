@@ -10,7 +10,7 @@ function tile_get_list()
 	function AddItem(_id, _label, _w, _h) constructor
 	{
 		var tl = new TileDesc(), len = array_length(list);
-		tl.hai = _id;
+		tl.tile_type = _id;
 		tl.label = _label;
 		tl.index = len;
 		tl.size = new vec2(_w, _h);

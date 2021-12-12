@@ -2,8 +2,8 @@
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "Model",
-    "path": "folders/Core/Scripts/Function/Model.yy",
+    "name": "model",
+    "path": "folders/Scripts/Function/model.yy",
   },
   "resourceVersion": "1.0",
   "name": "file_set_buffer",

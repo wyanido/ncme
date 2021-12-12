@@ -46,37 +46,33 @@ enum tile
 
 function Map() constructor
 {
-	
 	chunk = ds_map_create();
 	chunk[? "0,0"] = new Chunk(0, 0);
 	
-	Render = function()
+	static Render = function()
 	{
-		for(var _c = ds_map_find_first(chunk); _c < ds_map_size(chunk); _c = ds_map_find_next(chunk, _c))
+		for(var c = ds_map_find_first(chunk); c < ds_map_size(chunk); c = ds_map_find_next(chunk, c))
 		{
-			_c.Render();
+			c.Render();
 		}
 	}
 	
 }
 
-function Chunk(_cx, _cy) constructor
+function Chunk(_x, _y) constructor
 {
-	
-	offX = _cx;
-	offY = _cy;
+	pos_x = _x;
+	pos_y = _y;
 	
 	layers = ds_list_create();
-	
-	renderCache = ds_list_create();
-	for(var i = 0; i < 8; i ++) { renderCache[| i] = noone; }
-	
+	render_cache = array_create(8, undefined);
+
 	repeat(8)
 	{
 		ds_list_add(layers, new ChunkLayer());	
 	}
 	
-	Render = function()
+	static Render = function()
 	{
 		for(var _l = 0; _l < 8; _l ++)
 			{
@@ -90,11 +86,10 @@ function Chunk(_cx, _cy) constructor
 
 function ChunkLayer() constructor
 {
-	
 	tiles = ds_grid_create(32, 32);
-	ds_grid_set_region(tiles, 0, 0, 31, 31, new ChunkTile(tile.none, GAME.selZ));
+	ds_grid_set_region(tiles, 0, 0, 31, 31, new ChunkTile(tile.none, obj_interface.selZ));
 	
-	Render = function()
+	static Render = function()
 	{
 		for(var _x = 0; _x < 32; _x ++)
 		{
@@ -111,20 +106,22 @@ function ChunkLayer() constructor
 function ChunkTile(_type, _z) constructor
 {
 	
-	hai = _type;
+	tile_type = _type;
 	z = _z;
 
-	Render = function(_x, _y)
+	static Render = function(_x, _y)
 	{
-		
 		var posX = _x * 16, posY = _y * 16;
 		var frame = -1;
 		
-		switch(hai)
+		switch(tile_type)
 		{
 			default:
-				if(hai >= 2 && hai <= 14) frame = hai - 1;
-				if(hai >= 19 && hai <= 30) frame = hai - 3;
+				if (tile_type >= 2 && tile_type <= 14) 
+					frame = tile_type - 1;
+				
+				if (tile_type >= 19 && tile_type <= 30) 
+					frame = tile_type - 3;
 			break;
 			case(tile.floor_grass): draw_sprite_part(sTile_Full, 0, posX mod 64, posY mod 64, 16, 16, posX + 1, posY + 1); break;
 			
@@ -141,11 +138,7 @@ function ChunkTile(_type, _z) constructor
 			case(tile.land_rock_L): frame = 31; break;
 		}
 		
-		if(frame != -1)
-		{
+		if frame != -1
 			draw_sprite(sTile_Full, frame, posX + 1, posY + 1);
-		}
-
 	}
-		
 }
