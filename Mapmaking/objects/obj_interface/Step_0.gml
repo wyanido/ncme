@@ -5,12 +5,12 @@ var click = mouse_check_button_pressed(mb_left), hold = mouse_check_button(mb_le
 var right = mouse_check_button(mb_right);
 			
 // --- Place TIle
-if(!global.compiled_view)
+if !global.compiled_view
 {
 	// -- Highlight Cell
-	gridSel = (mouse_x > 0 && mouse_x < 512) && (mouse_y > 0 && mouse_y < 512) ? new vec2(mouse_x, mouse_y) : -1;
+	cell_sel = (mouse_x > 0 && mouse_x < 512) && (mouse_y > 0 && mouse_y < 512) ? new vec2(mouse_x, mouse_y) : -1;
 			
-	if(gridSel != -1)
+	if(cell_sel != -1)
 	{
 		var mg = new vec2(floor(mouse_x / 16), floor(mouse_y / 16));
 		if(right || !mouse_check_button(mb_left) || click) { preTile = new vec2(-5, -5); }
@@ -19,33 +19,25 @@ if(!global.compiled_view)
 		{
 			if(hold)
 			{
-				var tls = mapData.chunk[? chunk_get_key()].layers[| selLayer].tiles;
-							
+				var tls = map_data.chunk[? chunk_get_key()].layers[| selLayer].tiles;
+				
 				ds_grid_set(tls, mg.x, mg.y, new ChunkTile(tiles[selTile].tile_type, selZ));
-				updateMap = true;
+				refresh_layer = true;
 							
 				preTile = new vec2(floor(mouse_x / 16), floor(mouse_y / 16));
 			}
 					
 			if(right)
 			{
-				var tls = mapData.chunk[? chunk_get_key()].layers[| selLayer].tiles;
+				var tls = map_data.chunk[? chunk_get_key()].layers[| selLayer].tiles;
 
 				ds_grid_set(tls, mg.x, mg.y, new ChunkTile(tile.none, 15));
-				updateMap = true;
+				refresh_layer = true;
 							
 				preTile = new vec2(floor(mouse_x / 16), floor(mouse_y / 16));
 			}
 		}
 	}
-}
-		
-// -- Height
-if(d.x > 626 && d.x < 646) && (d.y > 28 && d.y < 679)
-{
-	window_set_cursor(cr_handpoint);
-			
-	if hold selZ = floor((d.y - 28) / 21);
 }
 			
 // -- Select Tile

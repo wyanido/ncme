@@ -13,8 +13,17 @@ if global.compiled_view
 	draw_set_valign(fa_top);
 	draw_set_colour(c_white);
 	
+	draw_set_font(fnt_UI);
 	draw_text(16, 720 - 32, "Projection | X: " + string(pos.x) + ", Y: "+ string(pos.y) + ", Z: " + string(pos.z) + "        Pitch: " + string(pitch) + ", Yaw: " + string(yaw));
 	draw_set_colour(0x714AE8);
 	draw_text(16, 720 - 56, "Press ESC to exit Compiled View");
 }
-else draw_surface_ext(application_surface, 0, 0, 1, 1, 0, c_white, 1); 
+else
+{
+	draw_surface_ext(application_surface, 0, 0, 1, 1, 0, c_white, 1); 
+	draw_set_colour(0x332420);
+	draw_rectangle(4, 715 - 32, 611, 715, false);
+}
+
+draw_set_colour(0x332420);
+draw_rectangle(616, 0, 1280, 720, false);

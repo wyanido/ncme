@@ -6,12 +6,12 @@ if keyboard_check_pressed(vk_escape)
 	
 	with obj_interface
 	{
-		for ( var c = ds_map_find_first(chunkMesh); c < ds_map_size(chunkMesh) - 1; c = ds_map_find_next(chunkMesh, c) )
+		for ( var c = ds_map_find_first(chunk_mesh); c < ds_map_size(chunk_mesh) - 1; c = ds_map_find_next(chunk_mesh, c) )
 		{
-			if !is_undefined(chunkMesh[? c])
+			if !is_undefined(chunk_mesh[? c])
 			{
-				vertex_delete_buffer(chunkMesh[? c]);
-				chunkMesh[? c] = undefined;
+				vertex_delete_buffer(chunk_mesh[? c]);
+				chunk_mesh[? c] = undefined;
 			}
 		}
 	}

@@ -6,7 +6,7 @@ function map_export()
 	if(save_path != "")	// -- If Operation Not Cancelled
 	{
 		var save_buff = buffer_create(16, buffer_grow, 1);	// -- Dynamic Buffer
-		var chk = obj_interface.mapData.chunk;
+		var chk = obj_interface.map_data.chunk;
 		var chunkcount = 0;
 		
 		// -- Iterate through all chunk DS Map entries

@@ -69,8 +69,8 @@
   ],
   "nineSlice": null,
   "parent": {
-    "name": "Assets",
-    "path": "folders/Assets.yy",
+    "name": "UI",
+    "path": "folders/UI.yy",
   },
   "resourceVersion": "1.0",
   "name": "ui_square",

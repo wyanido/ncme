@@ -12,7 +12,7 @@ onClick = function()
 	{
 		selChunk.y --;
 	
-		if is_undefined(mapData.chunk[? chunk_get_key()])
+		if is_undefined(map_data.chunk[? chunk_get_key()])
 			chunk_fill_empty();
 	}
 }

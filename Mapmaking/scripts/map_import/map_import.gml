@@ -36,9 +36,9 @@ function map_import()
 					
 					if(string_copy(chunkstring, char, 5) == "EMPTY")
 					{
-						if(obj_interface.mapData.chunk[? _cx + "," + _cy] == undefined) obj_interface.mapData.chunk[? _cx + "," + _cy] = new Chunk(real(_cx), real(_cy));
+						if(obj_interface.map_data.chunk[? _cx + "," + _cy] == undefined) obj_interface.map_data.chunk[? _cx + "," + _cy] = new Chunk(real(_cx), real(_cy));
 						
-						ds_grid_set_region(obj_interface.mapData.chunk[? _cx + "," + _cy].layers[| l].tiles, 0, 0, 31, 31, new ChunkTile(tile.none, 15));
+						ds_grid_set_region(obj_interface.map_data.chunk[? _cx + "," + _cy].layers[| l].tiles, 0, 0, 31, 31, new ChunkTile(tile.none, 15));
 						
 						char += 6;
 						continue;
@@ -54,8 +54,8 @@ function map_import()
 						while (string_char_at(chunkstring, char + 2 + IDlen) != "-") IDlen ++;
 						var _h = string_copy(chunkstring, char + 2, IDlen);
 					
-						if(obj_interface.mapData.chunk[? _cx + "," + _cy] == undefined) obj_interface.mapData.chunk[? _cx + "," + _cy] = new Chunk(real(_cx), real(_cy));
-						obj_interface.mapData.chunk[? _cx + "," + _cy].layers[| l].tiles[# floor(tile_index / 32), tile_index mod 32] = new ChunkTile(real(_h), real(_z));
+						if(obj_interface.map_data.chunk[? _cx + "," + _cy] == undefined) obj_interface.map_data.chunk[? _cx + "," + _cy] = new Chunk(real(_cx), real(_cy));
+						obj_interface.map_data.chunk[? _cx + "," + _cy].layers[| l].tiles[# floor(tile_index / 32), tile_index mod 32] = new ChunkTile(real(_h), real(_z));
 					
 						char += 3 + IDlen;
 						tile_index ++;
@@ -70,7 +70,6 @@ function map_import()
 		buffer_delete(decmp);
 		buffer_delete(buff);
 					
-		obj_interface.refreshMap = true;
-		
+		obj_interface.refresh_map = true;
 	}
 }

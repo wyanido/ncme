@@ -8,7 +8,7 @@ onUpdate = function()
 
 onClick = function()
 {
-	var lr = obj_interface.mapData.chunk[? chunk_get_key()].layers[| obj_interface.selLayer];
+	var lr = obj_interface.map_data.chunk[? chunk_get_key()].layers[| obj_interface.selLayer];
 			
 	for(var _x = 0; _x < 32; _x ++)
 	{
@@ -62,5 +62,5 @@ onClick = function()
 		}
 	}
 				
-	obj_interface.updateMap = true;
+	obj_interface.refresh_layer = true;
 }

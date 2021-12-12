@@ -32,8 +32,8 @@ function create_grid_model(chunkCount)
 	add_vertex_line(-cmax, 0, 0, cmax, 0, 0, 0x714AE8, 1);	// X Axis Indicator
 
 	// -- Draw Chunk Borders
-	for(var _x = -cc / 2; _x <= cc / 2; _x ++) { if _x != 0 add_vertex_line(_x * 512, -cmax, 0, _x * 512, cmax, 0, 0xFFFFFF, 0.5); }
-	for(var _y = -cc / 2; _y <= cc / 2; _y ++) { if _y != 0 add_vertex_line(-cmax, _y * 512, 0, cmax, _y * 512, 0, 0xFFFFFF, 0.5); }
+	for(var _x = -cc / 2; _x <= cc / 2; _x ++) { if _x != 0 add_vertex_line(_x * 512, -cmax, 0, _x * 512, cmax, 0, c_white, 0.5); }
+	for(var _y = -cc / 2; _y <= cc / 2; _y ++) { if _y != 0 add_vertex_line(-cmax, _y * 512, 0, cmax, _y * 512, 0, c_white, 0.5); }
 	
 	// -- Draw Tile Borders
 	for(var _x = -tmax * 2; _x < tmax * 2; _x ++)  {

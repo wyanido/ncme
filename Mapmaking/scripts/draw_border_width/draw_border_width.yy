@@ -3,7 +3,7 @@
   "isCompatibility": false,
   "parent": {
     "name": "Function",
-    "path": "folders/Scripts/Function.yy",
+    "path": "folders/Function.yy",
   },
   "resourceVersion": "1.0",
   "name": "draw_border_width",

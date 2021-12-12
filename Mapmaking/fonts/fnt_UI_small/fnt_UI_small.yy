@@ -42,8 +42,8 @@
   "canGenerateBitmap": true,
   "maintainGms1Font": false,
   "parent": {
-    "name": "Font",
-    "path": "folders/Assets/Font.yy",
+    "name": "UI",
+    "path": "folders/UI.yy",
   },
   "resourceVersion": "1.0",
   "name": "fnt_UI_small",

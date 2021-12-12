@@ -3,7 +3,7 @@
   "isCompatibility": false,
   "parent": {
     "name": "map",
-    "path": "folders/Scripts/Function/map.yy",
+    "path": "folders/Function/map.yy",
   },
   "resourceVersion": "1.0",
   "name": "map_import",

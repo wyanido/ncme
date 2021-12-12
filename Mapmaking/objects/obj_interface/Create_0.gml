@@ -10,12 +10,12 @@ selChunk = new vec2(0, 0);
 selLayer = 0;
 selZ = 15;
 
-mapData = new Map();
-chunkMesh = ds_map_create();		
+map_data = new Map();
+chunk_mesh = ds_map_create();		
 preTile = new vec2(-1, -1);
 		
-refreshMap = false;
-updateMap = false;
+refresh_map = false;
+refresh_layer = false;
 
 tiles = tile_get_list();
 hoverTile = noone;

@@ -2,7 +2,10 @@ draw_clear_alpha(0x111111, 1);
 
 if !global.compiled_view
 {	
-	view_mat = matrix_build_lookat(589.5, 274.5, -16000, 589.5, 274.5, 0, 0, 1, 0);
+	var	xw = 50.5,
+			yv = 85.5;
+	
+	view_mat = matrix_build_lookat(640 - xw, 360 - yv, -16000, 640 - xw, 360 - yv, 0, 0, 1, 0);
 	proj_mat = matrix_build_projection_ortho(1280, 720, 1, 16000);
 }
 else
