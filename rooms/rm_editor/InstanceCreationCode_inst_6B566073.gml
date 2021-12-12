@@ -36,8 +36,7 @@ onClick = function()
 				if(nb[0] && nb[1] && !nb[2] && !nb[3]) { lr.tiles[# _x, _y] = new ChunkTile(tile.floor_dirtNWOut, _z); }
 				if(!nb[0] && nb[1] && nb[2] && !nb[3]) { lr.tiles[# _x, _y] = new ChunkTile(tile.floor_dirtSEOut, _z); }
 				if(!nb[0] && !nb[1] && nb[2] && nb[3]) { lr.tiles[# _x, _y] = new ChunkTile(tile.floor_dirtSWOut, _z); }
-				if(nb[0] && !nb[1] && !nb[2] && nb[3]) { lr.tiles[# _x, _y] = new ChunkTile(tile.DirtPathNWOut, _z); }
-							
+				if(nb[0] && !nb[1] && !nb[2] && nb[3]) { lr.tiles[# _x, _y] = new ChunkTile(tile.DirtPathNWOut, _z); }	
 			}
 		}
 	}
@@ -61,6 +60,6 @@ onClick = function()
 			}
 		}
 	}
-				
-	chunk_compile(chunk_get_key());
+	
+	with obj_interface chunk_compile(chunk_get_key());
 }

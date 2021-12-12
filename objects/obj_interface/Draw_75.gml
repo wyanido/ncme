@@ -26,7 +26,7 @@ draw_rectangle(xx + cellS.x + 1, 28 + cellS.y + 1, 768 + cellS.x + 31, 28 + cell
 // -- Cell Name
 var m = new vec2(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0));
 			
-if(hoverTile != noone) 
+if(hoverTile != undefined) 
 {
 	// -- Highlight Hovered Cell
 	var pos = new vec2(hoverTile.index mod w, floor(hoverTile.index / w));

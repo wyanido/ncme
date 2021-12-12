@@ -72,12 +72,12 @@ if(d.x > 768 && d.x < 960) && (d.y > 28 && d.y < 670.5)
 		checkPos = new vec2(floor(sel mod 6), floor(sel / 6));
 	}
 
-	hoverTile = (sel < array_length(tiles)) ? tiles[sel] : noone;
+	hoverTile = (sel < array_length(tiles)) ? tiles[sel] : undefined;
 				
 	if(click && sel < array_length(tiles))  selTile = sel; 
 				
 } else {
-	hoverTile = noone;	
+	hoverTile = undefined;	
 }
 			
 // Select Layer

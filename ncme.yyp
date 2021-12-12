@@ -2,7 +2,6 @@
   "resources": [
     {"id":{"name":"file_get_buffer","path":"scripts/file_get_buffer/file_get_buffer.yy",},"order":3,},
     {"id":{"name":"ui_square","path":"sprites/ui_square/ui_square.yy",},"order":5,},
-    {"id":{"name":"draw_grid","path":"scripts/draw_grid/draw_grid.yy",},"order":3,},
     {"id":{"name":"rm_editor","path":"rooms/rm_editor/rm_editor.yy",},"order":1,},
     {"id":{"name":"Vectors","path":"scripts/Vectors/Vectors.yy",},"order":5,},
     {"id":{"name":"chunk_compile","path":"scripts/chunk_compile/chunk_compile.yy",},"order":5,},
@@ -14,6 +13,7 @@
     {"id":{"name":"Map","path":"scripts/Map/Map.yy",},"order":6,},
     {"id":{"name":"draw_border_width","path":"scripts/draw_border_width/draw_border_width.yy",},"order":4,},
     {"id":{"name":"map_import","path":"scripts/map_import/map_import.yy",},"order":1,},
+    {"id":{"name":"tx_grass","path":"sprites/tx_grass/tx_grass.yy",},"order":5,},
     {"id":{"name":"tile_get_list","path":"scripts/tile_get_list/tile_get_list.yy",},"order":0,},
     {"id":{"name":"fnt_UI_small","path":"fonts/fnt_UI_small/fnt_UI_small.yy",},"order":4,},
     {"id":{"name":"obj_button","path":"objects/obj_button/obj_button.yy",},"order":0,},
@@ -55,7 +55,8 @@
     {"targets":-1,"resourceVersion":"1.3","name":"audiogroup_default","resourceType":"GMAudioGroup",},
   ],
   "TextureGroups": [
-    {"isScaled":true,"autocrop":true,"border":2,"mipsToGenerate":0,"groupParent":null,"targets":-1,"resourceVersion":"1.3","name":"Default","resourceType":"GMTextureGroup",},
+    {"isScaled":true,"autocrop":false,"border":-1,"mipsToGenerate":0,"groupParent":null,"targets":-1,"resourceVersion":"1.3","name":"Default","resourceType":"GMTextureGroup",},
+    {"isScaled":true,"autocrop":false,"border":8,"mipsToGenerate":0,"groupParent":null,"targets":-1,"resourceVersion":"1.3","name":"overworld","resourceType":"GMTextureGroup",},
   ],
   "IncludedFiles": [
     {"CopyToMask":-1,"filePath":"datafiles/tiles/geometry","resourceVersion":"1.0","name":"cliff_small_cornerOut.gmmod","resourceType":"GMIncludedFile",},

@@ -5,7 +5,6 @@ global.compiled_view = false;
 vertex_format_begin();
 
 vertex_format_add_position_3d();
-vertex_format_add_normal();
 vertex_format_add_color();
 vertex_format_add_texcoord();
 
@@ -26,9 +25,10 @@ refresh_map = false;
 refresh_layer = false;
 
 tiles = tile_get_list();
-hoverTile = noone;
+hoverTile = undefined;
 
 // Config
 gpu_set_ztestenable(true);
+gpu_set_tex_repeat(true);
 gpu_set_zwriteenable(true);
 gpu_set_alphatestenable(true);

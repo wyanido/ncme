@@ -5,7 +5,8 @@ function file_get_vertices(targetbuffer, srcfile, matrix, s, pos, UVshift, UVsca
 	var version = file_text_read_real(file);
 	var txd = new vec2(sprite_get_width(srctex) / 16, sprite_get_height(srctex) / 16);
 
-	if (version != 100) {
+	if (version != 100) 
+	{
 		show_message("Wrong version of the model file!");
 		file_text_close(file);
 		return -1;

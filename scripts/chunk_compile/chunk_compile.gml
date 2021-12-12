@@ -1,9 +1,9 @@
 function chunk_compile(this_chunk)
 {
-	// Delete existing mesh if
+	// Delete existing mesh if necessary
 	if chunk_mesh[? this_chunk] != undefined
 		vertex_delete_buffer(chunk_mesh[? this_chunk]);
-	
+
 	var this_mesh = vertex_create_buffer();
 	vertex_begin(this_mesh, global.vformat);
 	
@@ -14,10 +14,10 @@ function chunk_compile(this_chunk)
 		for(var _x = 0; _x < 32; _x ++)
 		{
 			for(var _y = 0; _y < 32; _y ++)
-			{
+			{	
 				var this_type = map_data.chunk[? this_chunk].layers[| l].tiles[# _x, _y].tile_type;
-				var _z = 15 - map_data.chunk[? this_chunk].layers[| l].tiles[# _x, _y].z;
-				var rp = new vec2(_x * 16, _y * 16); // World position, accounting for chunk position
+				var this_z = 15 - map_data.chunk[? this_chunk].layers[| l].tiles[# _x, _y].z;
+				var pos_real = new vec2(_x * 16, _y * 16);
 				
 				switch(this_type)
 				{
@@ -47,7 +47,7 @@ function chunk_compile(this_chunk)
 							
 							file_get_vertices ( 
 								this_mesh, "tiles/geometry/floor.gmmod", 
-								matrix_build(rp.x, rp.y, _z * 16, 0, 0, 0, 1, 1, 1), 
+								matrix_build(pos_real.x, pos_real.y, this_z * 16, 0, 0, 0, 1, 1, 1), 
 								new vec3(1, 1, 1), 
 								new vec3(0, 0, 0),
 								txOff,
@@ -131,7 +131,7 @@ function chunk_compile(this_chunk)
 							
 							file_get_vertices ( 
 								this_mesh, mdl, 
-								matrix_build(rp.x + (posOff.x * 16), rp.y + (posOff.y * 16), _z * 16, 0, 0, rot, 1, 1, 1), 
+								matrix_build(pos_real.x + (posOff.x * 16), pos_real.y + (posOff.y * 16), this_z * 16, 0, 0, rot, 1, 1, 1), 
 								new vec3(1, 1, 1), 
 								new vec3(0, 0, 0),
 								new vec2(5, 8),
@@ -143,8 +143,9 @@ function chunk_compile(this_chunk)
 					break;
 					case(1):
 						tiles_placed ++;
+						
 						file_get_vertices( this_mesh, "tiles/geometry/floor.gmmod", 
-														matrix_build(rp.x, rp.y, _z * 16, 0, 0, 0, 1, 1, 1), 
+														matrix_build(pos_real.x, pos_real.y, this_z * 16, 0, 0, 0, 1, 1, 1), 
 														new vec3(1, 1, 1), 
 														new vec3(0, 0, 0),
 														new vec2((_x mod 4), (_y mod 4)),
@@ -155,7 +156,7 @@ function chunk_compile(this_chunk)
 					case(tile.PineTree):
 						tiles_placed ++;
 						file_get_vertices( this_mesh, "tiles/geometry/tree_body.gmmod", 
-														matrix_build(rp.x, rp.y, _z * 16, 0, 0, 0, 1, 1, 1), 
+														matrix_build(pos_real.x, pos_real.y, this_z * 16, 0, 0, 0, 1, 1, 1), 
 														new vec3(1, 1, 1), 
 														new vec3(0, 0, 0),
 														new vec2(0, 4),
@@ -163,7 +164,7 @@ function chunk_compile(this_chunk)
 														txOW_1
 														);
 						file_get_vertices( this_mesh, "tiles/geometry/tree_base.gmmod", 
-														matrix_build(rp.x, rp.y, _z * 16 - 56, 0, 0, 0, 1, 1, 1), 
+														matrix_build(pos_real.x, pos_real.y, this_z * 16 - 56, 0, 0, 0, 1, 1, 1), 
 														new vec3(1, 1, 1), 
 														new vec3(0, 0, 0),
 														new vec2(14, 2),
@@ -174,7 +175,7 @@ function chunk_compile(this_chunk)
 					case(tile.TallPineTree):
 						tiles_placed ++;
 						file_get_vertices( this_mesh, "tiles/geometry/tree_body.gmmod", 
-														matrix_build(rp.x, rp.y, _z * 16, 0, 0, 0, 1, 1, 1), 
+														matrix_build(pos_real.x, pos_real.y, this_z * 16, 0, 0, 0, 1, 1, 1), 
 														new vec3(1, 1, 1.25), 
 														new vec3(0, 0, 0),
 														new vec2(0, 4),
@@ -182,7 +183,7 @@ function chunk_compile(this_chunk)
 														txOW_1
 														);
 						file_get_vertices( this_mesh, "tiles/geometry/tree_base.gmmod", 
-														matrix_build(rp.x, rp.y, _z * 16 - 56, 0, 0, 0, 1, 1, 1), 
+														matrix_build(pos_real.x, pos_real.y, this_z * 16 - 56, 0, 0, 0, 1, 1, 1), 
 														new vec3(1, 1, 1), 
 														new vec3(0, 0, 0),
 														new vec2(14, 2),
@@ -193,7 +194,7 @@ function chunk_compile(this_chunk)
 					case(tile.OakTree):
 						tiles_placed ++;
 						file_get_vertices( this_mesh, "tiles/geometry/tree_body.gmmod", 
-														matrix_build(rp.x, rp.y, _z * 16, 0, 0, 0, 1, 1, 1), 
+														matrix_build(pos_real.x, pos_real.y, this_z * 16, 0, 0, 0, 1, 1, 1), 
 														new vec3(1, 1, 1), 
 														new vec3(0, 0, 0),
 														new vec2(8, 4),
@@ -201,7 +202,7 @@ function chunk_compile(this_chunk)
 														txOW_1
 														);
 						file_get_vertices( this_mesh, "tiles/geometry/tree_base.gmmod", 
-														matrix_build(rp.x, rp.y, _z * 16 - 56, 0, 0, 0, 1, 1, 1), 
+														matrix_build(pos_real.x, pos_real.y, this_z * 16 - 56, 0, 0, 0, 1, 1, 1), 
 														new vec3(1, 1, 1), 
 														new vec3(0, 0, 0),
 														new vec2(14, 2),
@@ -212,7 +213,7 @@ function chunk_compile(this_chunk)
 					case(tile.TallOakTree):
 						tiles_placed ++;
 						file_get_vertices( this_mesh, "tiles/geometry/tree_body.gmmod", 
-														matrix_build(rp.x, rp.y, _z * 16, 0, 0, 0, 1, 1, 1), 
+														matrix_build(pos_real.x, pos_real.y, this_z * 16, 0, 0, 0, 1, 1, 1), 
 														new vec3(1, 1, 1.25), 
 														new vec3(0, 0, 0),
 														new vec2(8, 4),
@@ -220,7 +221,7 @@ function chunk_compile(this_chunk)
 														txOW_1
 														);
 						file_get_vertices( this_mesh, "tiles/geometry/tree_base.gmmod", 
-														matrix_build(rp.x, rp.y, _z * 16 - 56, 0, 0, 0, 1, 1, 1), 
+														matrix_build(pos_real.x, pos_real.y, this_z * 16 - 56, 0, 0, 0, 1, 1, 1), 
 														new vec3(1, 1, 1), 
 														new vec3(0, 0, 0),
 														new vec2(14, 2),
@@ -231,7 +232,7 @@ function chunk_compile(this_chunk)
 					case(31):
 						tiles_placed ++;
 						file_get_vertices( this_mesh, "tiles/geometry/tall_grass.gmmod", 
-														matrix_build(rp.x, rp.y, _z * 16, 0, 0, 0, 1, 1, 1), 
+														matrix_build(pos_real.x, pos_real.y, this_z * 16, 0, 0, 0, 1, 1, 1), 
 														new vec3(1, 1, 1), 
 														new vec3(0, 0, 0),
 														new vec2(13, 0),
@@ -242,7 +243,7 @@ function chunk_compile(this_chunk)
 					case(32):
 						tiles_placed ++;
 						file_get_vertices( this_mesh, "tiles/geometry/tall_grass.gmmod", 
-														matrix_build(rp.x, rp.y, _z * 16, 0, 0, 0, 1, 1, 1), 
+														matrix_build(pos_real.x, pos_real.y, this_z * 16, 0, 0, 0, 1, 1, 1), 
 														new vec3(1, 1, 1), 
 														new vec3(0, 0, 0),
 														new vec2(13, 1),
@@ -253,7 +254,7 @@ function chunk_compile(this_chunk)
 					case(tile.land_rock_S):
 						tiles_placed ++;
 						file_get_vertices( this_mesh, "tiles/geometry/rock_small.gmmod", 
-														matrix_build(rp.x, rp.y, _z * 16, 0, 0, 0, 1, 1, 1), 
+														matrix_build(pos_real.x, pos_real.y, this_z * 16, 0, 0, 0, 1, 1, 1), 
 														new vec3(1, 1, 1), 
 														new vec3(0, 0, 0),
 														new vec2(7, 10),
@@ -264,7 +265,7 @@ function chunk_compile(this_chunk)
 					case(tile.land_rock_L):
 						tiles_placed ++;
 						file_get_vertices( this_mesh, "tiles/geometry/rock_big.gmmod", 
-														matrix_build(rp.x, rp.y, _z * 16, 0, 0, 0, 1, 1, 1), 
+														matrix_build(pos_real.x, pos_real.y, this_z * 16, 0, 0, 0, 1, 1, 1), 
 														new vec3(1, 1, 1), 
 														new vec3(0, 0, 0),
 														new vec2(7, 10),
@@ -280,10 +281,13 @@ function chunk_compile(this_chunk)
 	vertex_end(this_mesh);
 	
 	if tiles_placed == 0 
+	{
 		vertex_delete_buffer(this_mesh);
+		chunk_mesh[? this_chunk] = undefined;
+	}
 	else 
 	{
 		vertex_freeze(this_mesh);	
-		ds_map_add(chunk_mesh, this_chunk, this_mesh);
+		chunk_mesh[? this_chunk] = this_mesh;
 	}
 }

@@ -1,7 +1,6 @@
 
 function file_get_buffer(srcfile) 
 {
-	
 	var vbuff = vertex_create_buffer();
 	var vfile = buffer_load(srcfile);
 	var decmp = buffer_decompress(vfile);
@@ -15,5 +14,4 @@ function file_get_buffer(srcfile)
 	vertex_freeze(vbuff);
 	
 	return vbuff;
-	
 }

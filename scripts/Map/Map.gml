@@ -48,15 +48,6 @@ function Map() constructor
 {
 	chunk = ds_map_create();
 	chunk[? "0,0"] = new Chunk(0, 0);
-	
-	static Render = function()
-	{
-		for(var c = ds_map_find_first(chunk); c < ds_map_size(chunk); c = ds_map_find_next(chunk, c))
-		{
-			c.Render();
-		}
-	}
-	
 }
 
 function Chunk(_x, _y) constructor
@@ -66,47 +57,18 @@ function Chunk(_x, _y) constructor
 	
 	layers = ds_list_create();
 	render_cache = array_create(8, undefined);
-
-	repeat(8)
-	{
-		ds_list_add(layers, new ChunkLayer());	
-	}
 	
-	static Render = function()
-	{
-		for(var _l = 0; _l < 8; _l ++)
-			{
-				var lr = ds_list_find_value(layers, _l);
-				
-				lr.Render();
-			}
-	}
-	
+	repeat(8) ds_list_add(layers, new ChunkLayer());
 }
 
 function ChunkLayer() constructor
 {
 	tiles = ds_grid_create(32, 32);
 	ds_grid_set_region(tiles, 0, 0, 31, 31, new ChunkTile(tile.none, obj_interface.selZ));
-	
-	static Render = function()
-	{
-		for(var _x = 0; _x < 32; _x ++)
-		{
-			for(var _y = 0; _y < 32; _y ++)
-			{
-				var tl = ds_grid_get(tiles, _x, _y);
-				
-				tl.Render(_x, _y);
-			}
-		}
-	}
 }
 
 function ChunkTile(_type, _z) constructor
 {
-	
 	tile_type = _type;
 	z = _z;
-
 }

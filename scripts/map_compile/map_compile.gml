@@ -54,7 +54,6 @@ function map_compile()
 										new vec2(1, 1),
 										txOW_1,
 									);
-							
 								}
 						
 								if(m >= 19 && m <= 30)
