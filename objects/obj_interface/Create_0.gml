@@ -2,6 +2,15 @@
 // Globals
 global.compiled_view = false;
 
+vertex_format_begin();
+
+vertex_format_add_position_3d();
+vertex_format_add_normal();
+vertex_format_add_color();
+vertex_format_add_texcoord();
+
+global.vformat = vertex_format_end();
+	
 // Chunk data
 compiled = false;
 selTile = 0;

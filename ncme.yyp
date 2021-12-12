@@ -5,6 +5,7 @@
     {"id":{"name":"draw_grid","path":"scripts/draw_grid/draw_grid.yy",},"order":3,},
     {"id":{"name":"rm_editor","path":"rooms/rm_editor/rm_editor.yy",},"order":1,},
     {"id":{"name":"Vectors","path":"scripts/Vectors/Vectors.yy",},"order":5,},
+    {"id":{"name":"chunk_compile","path":"scripts/chunk_compile/chunk_compile.yy",},"order":5,},
     {"id":{"name":"s_tile_icons","path":"sprites/s_tile_icons/s_tile_icons.yy",},"order":0,},
     {"id":{"name":"chunk_fill_empty","path":"scripts/chunk_fill_empty/chunk_fill_empty.yy",},"order":3,},
     {"id":{"name":"file_get_vertices","path":"scripts/file_get_vertices/file_get_vertices.yy",},"order":0,},

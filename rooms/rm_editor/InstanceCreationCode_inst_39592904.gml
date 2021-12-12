@@ -12,6 +12,6 @@ onClick = function()
 	{
 		ds_grid_set_region(map_data.chunk[? chunk_get_key()].layers[| selLayer].tiles, 0, 0, 31, 31, new ChunkTile(tile.none, 15));
 				
-		refresh_layer = true;
+		chunk_compile(chunk_get_key());
 	}
 }

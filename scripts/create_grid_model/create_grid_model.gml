@@ -1,14 +1,13 @@
 
 function create_grid_model(chunkCount)
 {
-
-	// -- Vertex Format
+	// Vertex Format
 	vertex_format_begin();
 	vertex_format_add_position_3d();
 	vertex_format_add_colour();
 	vformat = vertex_format_end();
 	
-	// -- Line Creation Function
+	// Line Creation Function
 	function add_vertex_line(x1, y1, z1, x2, y2, z2, col, a)
 	{
 		vertex_position_3d(g, x1, y1, z1);

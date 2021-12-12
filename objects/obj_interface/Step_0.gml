@@ -13,8 +13,11 @@ if keyboard_check_pressed(vk_space)
 		window_mouse_set(308, 360);
 }
 
-// Place TIle
-if !global.compiled_view
+// Place Tile
+var	mx = window_mouse_get_x(),
+		my = window_mouse_get_x();
+
+if !global.compiled_view && point_in_rectangle(mx, my, 0, 0, 616, 720)
 {
 	var	mgrid_x = floor(mouse_x / 16) mod 32,
 			mgrid_y = floor(mouse_y / 16) mod 32;
@@ -47,7 +50,9 @@ if !global.compiled_view
 			ds_grid_set(this_layer, mgrid_x, mgrid_y, set_tile);
 			
 			preTile = new vec2(mgrid_x, mgrid_y);	
-			refresh_layer = true
+			
+			// Rebuild chunk mesh
+			chunk_compile(chunk_key);
 		}
 	}
 }

@@ -17,5 +17,10 @@ if hovering
 	window_set_cursor(cr_handpoint);
 	
 	if mouse_check_button_pressed(mb_left) && onClick != undefined
+	{
 		onClick();	
+		
+		// Prevent other objects from detecting click
+		io_clear();
+	}
 }

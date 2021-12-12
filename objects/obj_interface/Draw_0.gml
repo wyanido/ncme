@@ -15,7 +15,10 @@ for(var c = ds_map_find_first(map_data.chunk); c < ds_map_size(map_data.chunk); 
 matrix_set(matrix_world, matrix_build_identity());
 
 // Cell outline
-if !global.compiled_view
+var	mx = window_mouse_get_x(),
+		my = window_mouse_get_x();
+
+if !global.compiled_view && point_in_rectangle(mx, my, 0, 0, 616, 720)
 { 
 	var	mgrid_x = floor(mouse_x / 16) * 16,
 			mgrid_y = floor(mouse_y / 16) * 16;
