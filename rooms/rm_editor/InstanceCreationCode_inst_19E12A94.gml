@@ -1,12 +1,13 @@
 
-label = "Compile & View Map Model";
+label = "Export Model Buffer";
 
 onUpdate = function()
 {
 	active = !global.compiled_view;	
 }
 
+/*
 onClick = function()
 {
-	with(obj_interface) map_compile();
+
 }

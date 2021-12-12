@@ -69,8 +69,8 @@
   ],
   "nineSlice": null,
   "parent": {
-    "name": "UI",
-    "path": "folders/UI.yy",
+    "name": "Editor",
+    "path": "folders/Editor.yy",
   },
   "resourceVersion": "1.0",
   "name": "ui_square",

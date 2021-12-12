@@ -2,11 +2,11 @@ draw_clear_alpha(0x111111, 1);
 
 if !global.compiled_view
 {	
-	var	xw = 50.5,
-			yv = 85.5;
+	var	chunk_x = obj_interface.selChunk.x * 32 * 16 + 0.5,
+			chunk_y = obj_interface.selChunk.y * 32 * 16 + 0.5;
 	
-	view_mat = matrix_build_lookat(640 - xw, 360 - yv, -16000, 640 - xw, 360 - yv, 0, 0, 1, 0);
-	proj_mat = matrix_build_projection_ortho(1280, 720, 1, 16000);
+	view_mat = matrix_build_lookat(256.5 + chunk_x, 256.6 + chunk_y, 1600, 256.6 + chunk_x, 256.5 + chunk_y, 0, 0, 1, 0);
+	proj_mat = matrix_build_projection_ortho(-616, 720, 1, 16000);
 }
 else
 {
@@ -19,12 +19,12 @@ else
 }
 
 // Set projection
-var cam = camera_get_active();
-	
-camera_set_view_mat(cam, view_mat);
-camera_set_proj_mat(cam, proj_mat);
-	
-camera_apply(cam);
+camera_set_view_mat(0, view_mat);
+camera_set_proj_mat(0, proj_mat);
+
+camera_apply(0);
+view_set_camera(0, 0);
 
 // Scene Grid
-if global.compiled_view { vertex_submit(mdl_grid, pr_linelist, -1) }
+matrix_set(matrix_world, matrix_build_identity());
+vertex_submit(mdl_grid, pr_linelist, -1)

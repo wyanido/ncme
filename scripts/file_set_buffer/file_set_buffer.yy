@@ -3,7 +3,7 @@
   "isCompatibility": false,
   "parent": {
     "name": "model",
-    "path": "folders/Function/model.yy",
+    "path": "folders/Editor/Function/model.yy",
   },
   "resourceVersion": "1.0",
   "name": "file_set_buffer",

@@ -1,7 +1,6 @@
 /// -- @desc Initialise UI
 // Globals
 global.compiled_view = false;
-global.surf_sprite = undefined;
 
 // Chunk data
 compiled = false;
@@ -11,9 +10,9 @@ selLayer = 0;
 selZ = 15;
 
 map_data = new Map();
-chunk_mesh = ds_map_create();		
+chunk_mesh = ds_map_create();
 preTile = new vec2(-1, -1);
-		
+
 refresh_map = false;
 refresh_layer = false;
 
@@ -21,8 +20,6 @@ tiles = tile_get_list();
 hoverTile = noone;
 
 // Config
-application_surface_draw_enable(false)
-
 gpu_set_ztestenable(true);
 gpu_set_zwriteenable(true);
 gpu_set_alphatestenable(true);

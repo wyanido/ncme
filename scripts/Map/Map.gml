@@ -109,36 +109,4 @@ function ChunkTile(_type, _z) constructor
 	tile_type = _type;
 	z = _z;
 
-	static Render = function(_x, _y)
-	{
-		var posX = _x * 16, posY = _y * 16;
-		var frame = -1;
-		
-		switch(tile_type)
-		{
-			default:
-				if (tile_type >= 2 && tile_type <= 14) 
-					frame = tile_type - 1;
-				
-				if (tile_type >= 19 && tile_type <= 30) 
-					frame = tile_type - 3;
-			break;
-			case(tile.floor_grass): draw_sprite_part(sTile_Full, 0, posX mod 64, posY mod 64, 16, 16, posX + 1, posY + 1); break;
-			
-			case(tile.TallPineTree):
-			case(tile.PineTree): frame = 14; break;
-			
-			case(tile.TallOakTree):
-			case(tile.OakTree): frame = 15; break;
-			
-			case(tile.tallgrass): frame = 28; break;
-			case(tile.tallgrass_thick): frame = 29; break;
-			
-			case(tile.land_rock_S): frame = 30; break;
-			case(tile.land_rock_L): frame = 31; break;
-		}
-		
-		if frame != -1
-			draw_sprite(sTile_Full, frame, posX + 1, posY + 1);
-	}
 }

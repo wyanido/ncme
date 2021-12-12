@@ -27,8 +27,8 @@
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "UI",
-    "path": "folders/UI.yy",
+    "name": "Editor",
+    "path": "folders/Editor.yy",
   },
   "resourceVersion": "1.0",
   "name": "obj_tileheight",

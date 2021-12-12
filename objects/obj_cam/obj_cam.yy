@@ -26,8 +26,8 @@
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "ncme",
-    "path": "ncme.yyp",
+    "name": "Editor",
+    "path": "folders/Editor.yy",
   },
   "resourceVersion": "1.0",
   "name": "obj_cam",

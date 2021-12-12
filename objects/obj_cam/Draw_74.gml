@@ -1,13 +1,5 @@
 if global.compiled_view 
 {
-	draw_clear_alpha(c_black, 0);
-	
-	// View surface
-	if global.surf_sprite != undefined sprite_delete(global.surf_sprite);
-	global.surf_sprite = sprite_create_from_surface(application_surface, 0, 0, 1280, 720, false, true, 0, 0);
-
-	draw_sprite_ext(global.surf_sprite, 0, 0, 0, 616 / 1280, 1, 0, c_white, 1);
-	
 	// View info
 	draw_set_halign(fa_left);
 	draw_set_valign(fa_top);
@@ -20,7 +12,6 @@ if global.compiled_view
 }
 else
 {
-	draw_surface_ext(application_surface, 0, 0, 1, 1, 0, c_white, 1); 
 	draw_set_colour(0x332420);
 	draw_rectangle(4, 715 - 32, 611, 715, false);
 }

@@ -1,5 +1,5 @@
 	
-var xx = 768, w = 6, h = 20, i = 0, count = sprite_get_number(sTile_Ico);
+var xx = 768, w = 6, h = 20, i = 0, count = sprite_get_number(s_tile_icons);
 	
 draw_set_colour(0x111111);
 draw_rectangle(xx, 28, xx + (w * 32), 28 + (h * 32), false);
@@ -11,15 +11,15 @@ for(var _y = 0; _y < h && i < count; _y ++)
 {
 	for(var _x = 0; _x < 8 && _x < w && i < count; _x ++)
 	{
-		draw_sprite_ext(sTile_Ico, i, xx + (_x * 32), 28 + (_y * 32), 2, 2, 0, c_white, 1);
+		draw_sprite_ext(s_tile_icons, i, xx + (_x * 32), 28 + (_y * 32), 2, 2, 0, c_white, 1);
 
 		i ++;
 	}
 }
-			
+
 var pos = new vec2(selTile mod w, floor(selTile / w));
 var cellS = new vec2(pos.x * 32, pos.y * 32);
-			
+
 draw_set_colour(0x000FFF);
 draw_rectangle(xx + cellS.x + 1, 28 + cellS.y + 1, 768 + cellS.x + 31, 28 + cellS.y + 31, true);
 					

@@ -1,9 +1,5 @@
 function map_compile()
 {
-	
-	window_mouse_set(308, 360);
-	global.compiled_view = true;
-	
 	// --- Compile Map Data
 	ds_map_clear(chunk_mesh);
 	
