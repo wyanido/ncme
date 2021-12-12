@@ -16,9 +16,12 @@ if keyboard_check_pressed(vk_space)
 // Place TIle
 if !global.compiled_view
 {
-	var	mgrid_x = floor(mouse_x / 16),
-			mgrid_y = floor(mouse_y / 16);
-		
+	var	mgrid_x = floor(mouse_x / 16) mod 32,
+			mgrid_y = floor(mouse_y / 16) mod 32;
+	
+	while mgrid_x < 0 mgrid_x += 32;
+	while mgrid_y < 0 mgrid_y += 32;
+	
 	var	chunkgrid_x = floor(mouse_x / 512), 
 			chunkgrid_y = floor(mouse_y / 512);
 				
@@ -29,12 +32,12 @@ if !global.compiled_view
 	{
 		var chunk_key = string(chunkgrid_x) + "," + string(chunkgrid_y);
 		var set_tile = undefined;
-			
+		
 		if hold 
 			set_tile = new ChunkTile(tiles[selTile].tile_type, selZ);
 		else if right
 			set_tile = new ChunkTile(tile.none, 15);
-			
+		
 		if hold || right
 		{
 			if !ds_map_exists(map_data.chunk, chunk_key)

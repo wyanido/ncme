@@ -48,5 +48,4 @@ if(hoverTile != noone)
 	draw_set_alpha(1);
 	draw_set_colour(c_white);
 	draw_text(m.x + 16, m.y + 13, hoverTile.label);
-	
 }
