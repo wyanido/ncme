@@ -11,5 +11,5 @@ if point_in_rectangle(mx, my, bbox_left, bbox_top, bbox_right, bbox_bottom)
 	window_set_cursor(cr_handpoint);
 			
 	if mouse_check_button_pressed(mb_left)
-		obj_interface.selZ = floor((my - bbox_top) / max_h);
+		obj_interface.z_selected = floor((my - bbox_top) / max_h);
 }

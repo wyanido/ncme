@@ -8,23 +8,23 @@ onUpdate = function()
 
 onClick = function()
 {
-	var lr = obj_interface.map_data.chunk[? chunk_get_key()].layers[| obj_interface.selLayer];
+	var lr = obj_interface.chunk[? chunk_get_key()].layers[| obj_interface.layer_selected];
 	
 	for(var _x = 0; _x < 32; _x ++)
 	{
 		for(var _y = 0; _y < 32; _y ++)
 		{
-			if(lr.tiles[# _x, _y].tile_type == tile.floor_dirt)
+			if(lr.tiles[# _x, _y].type == tile.floor_dirt)
 			{
 				// Path Neatening Algorithm
 				var _z = lr.tiles[# _x, _y].z;
 
 				// Find Neighbours
 				var nb = [false, false, false, false];
-				if(_y <= 0) || (lr.tiles[# _x, _y - 1].tile_type > 1 && lr.tiles[# _x, _y - 1].tile_type < 15) nb[0] = true;
-				if(_x >= 31) || (lr.tiles[# _x + 1, _y].tile_type > 1 && lr.tiles[# _x + 1, _y].tile_type < 15) nb[1] = true;
-				if(_y >= 31) || (lr.tiles[# _x, _y + 1].tile_type > 1 && lr.tiles[# _x, _y + 1].tile_type < 15) nb[2] = true;
-				if(_x <= 0) || (lr.tiles[# _x - 1, _y ].tile_type > 1 && lr.tiles[# _x - 1, _y].tile_type < 15) nb[3] = true;
+				if(_y <= 0) || (lr.tiles[# _x, _y - 1].type > 1 && lr.tiles[# _x, _y - 1].type < 15) nb[0] = true;
+				if(_x >= 31) || (lr.tiles[# _x + 1, _y].type > 1 && lr.tiles[# _x + 1, _y].type < 15) nb[1] = true;
+				if(_y >= 31) || (lr.tiles[# _x, _y + 1].type > 1 && lr.tiles[# _x, _y + 1].type < 15) nb[2] = true;
+				if(_x <= 0) || (lr.tiles[# _x - 1, _y ].type > 1 && lr.tiles[# _x - 1, _y].type < 15) nb[3] = true;
 
 				// -- NESW
 				if(nb[0] && nb[1] && !nb[2] && nb[3]) { lr.tiles[# _x, _y] = new ChunkTile(tile.floor_dirtN, _z); }
@@ -45,13 +45,13 @@ onClick = function()
 	{
 		for(var _y = 0; _y < 32; _y ++)
 		{
-			if(lr.tiles[# _x, _y].tile_type == tile.floor_dirt)
+			if(lr.tiles[# _x, _y].type == tile.floor_dirt)
 			{
 				var nb = [false, false, false, false];
-				if(_y > 0) nb[0] = lr.tiles[# _x, _y - 1].tile_type;
-				if(_x < 31) nb[1] = lr.tiles[# _x + 1, _y].tile_type;
-				if(_y < 31) nb[2] = lr.tiles[# _x, _y + 1].tile_type ;
-				if(_x > 0) nb[3] = lr.tiles[# _x - 1, _y ].tile_type;
+				if(_y > 0) nb[0] = lr.tiles[# _x, _y - 1].type;
+				if(_x < 31) nb[1] = lr.tiles[# _x + 1, _y].type;
+				if(_y < 31) nb[2] = lr.tiles[# _x, _y + 1].type ;
+				if(_x > 0) nb[3] = lr.tiles[# _x - 1, _y ].type;
 
 				if(nb[3] == tile.floor_dirtS || nb[3] == tile.floor_dirtSEOut) && (nb[0] == tile.floor_dirtE || nb[0] == tile.floor_dirtSEOut) { lr.tiles[# _x, _y] = new ChunkTile(tile.DirtPathNWIn, _z); }
 				if(nb[0] == tile.floor_dirtW || nb[0] == tile.floor_dirtSWOut) && (nb[1] == tile.floor_dirtS || nb[1] == tile.floor_dirtSWOut) { lr.tiles[# _x, _y] = new ChunkTile(tile.DirtPathNEIn, _z); }

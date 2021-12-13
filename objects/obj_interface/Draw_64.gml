@@ -7,9 +7,9 @@ for ( var l = 0; l < 8; l ++ )
 	draw_set_colour(0x111111);
 	draw_rectangle(w + sep, h + (l * (s + sep)), w + sep + s, h + s + (l * (s + sep)), false);
 				
-	if !is_undefined(map_data.chunk[? chunk_get_key()].render_cache[l])
+	if !is_undefined(chunk[? chunk_get_key()].render_cache[l])
 	{
-		draw_sprite_ext(map_data.chunk[? chunk_get_key()].render_cache[l], 0, w + sep, h + (l * (s + sep)), 72 / 512 , 72 / 512, 0, c_white, 1);
+		draw_sprite_ext(chunk[? chunk_get_key()].render_cache[l], 0, w + sep, h + (l * (s + sep)), 72 / 512 , 72 / 512, 0, c_white, 1);
 	}
 }
 			
@@ -19,7 +19,7 @@ draw_rectangle(w, h - sep, w + s + (sep * 2), h + (8 * (s + sep)), true);
 
 // -- Layer Selection
 draw_set_colour(0x000FFF);
-draw_rectangle(w + sep, h + (selLayer * (s + sep)), w + sep + s, h + s + (selLayer * (s + sep)), true);
+draw_rectangle(w + sep, h + (layer_selected * (s + sep)), w + sep + s, h + s + (layer_selected * (s + sep)), true);
 
 // Selected Cell
 if !global.compiled_view
@@ -30,8 +30,8 @@ if !global.compiled_view
 	while mgrid_x < 0 mgrid_x += 32;
 	while mgrid_y < 0 mgrid_y += 32;
 	
-	var	cell_onmap_x = floor(mouse_x / 16) + (32 * selChunk.x),
-			cell_onmap_y = floor(mouse_y / 16) + (32 * selChunk.y);
+	var	cell_onmap_x = floor(mouse_x / 16) + (32 * chunk_selected.x),
+			cell_onmap_y = floor(mouse_y / 16) + (32 * chunk_selected.y);
 
 	// Cell location
 	draw_set_valign(fa_top);

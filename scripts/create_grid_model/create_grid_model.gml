@@ -11,10 +11,10 @@ function create_grid_model(chunkCount)
 	function add_vertex_line(x1, y1, z1, x2, y2, z2, col, a)
 	{
 		vertex_position_3d(g, x1, y1, z1);
-		vertex_color(g, col, a);
+		vertex_colour(g, col, a);
 	
 		vertex_position_3d(g, x2, y2, z2);
-		vertex_color(g, col, a);
+		vertex_colour(g, col, a);
 	}
 	
 	// -- Grid Parameters

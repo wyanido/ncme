@@ -17,8 +17,8 @@
   "includeTTF": false,
   "TTFName": "",
   "textureGroupId": {
-    "name": "overworld",
-    "path": "texturegroups/overworld",
+    "name": "Default",
+    "path": "texturegroups/Default",
   },
   "ascenderOffset": 0,
   "glyphs": {

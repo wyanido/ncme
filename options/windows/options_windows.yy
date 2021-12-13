@@ -1,6 +1,6 @@
 {
-  "option_windows_display_name": "CarbonMapmaker",
-  "option_windows_executable_name": "CMM.exe",
+  "option_windows_display_name": "Nido's Carbon Mak Maker",
+  "option_windows_executable_name": "NCME.exe",
   "option_windows_version": "1.0.0.0",
   "option_windows_company_info": "",
   "option_windows_product_info": "",

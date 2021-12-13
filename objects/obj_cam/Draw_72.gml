@@ -2,8 +2,8 @@ draw_clear_alpha(0x111111, 1);
 
 if !global.compiled_view
 {	
-	var	chunk_x = obj_interface.selChunk.x * 32 * 16 + 0.5,
-			chunk_y = obj_interface.selChunk.y * 32 * 16 + 0.5;
+	var	chunk_x = obj_interface.chunk_selected.x * 32 * 16 + 0.5,
+			chunk_y = obj_interface.chunk_selected.y * 32 * 16 + 0.5;
 	
 	var	vx = 256.5 + chunk_x,
 			vy = 256.6 + chunk_y + 16;
@@ -30,4 +30,6 @@ view_set_camera(0, 0);
 
 // Scene Grid
 matrix_set(matrix_world, matrix_build_identity());
+gpu_set_zwriteenable(false);
 vertex_submit(mdl_grid, pr_linelist, -1)
+gpu_set_zwriteenable(true);

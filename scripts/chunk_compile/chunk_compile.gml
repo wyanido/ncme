@@ -9,269 +9,48 @@ function chunk_compile(this_chunk)
 	
 	var tiles_placed = 0;	
 	
-	for(var l = 0; l < 8; l ++)
-	{
-		for(var _x = 0; _x < 32; _x ++)
-		{
-			for(var _y = 0; _y < 32; _y ++)
-			{	
-				var this_type = map_data.chunk[? this_chunk].layers[| l].tiles[# _x, _y].tile_type;
-				var this_z = 15 - map_data.chunk[? this_chunk].layers[| l].tiles[# _x, _y].z;
-				var pos_real = new vec2(_x * 16, _y * 16);
+	for ( var l = 0; l < 8; l ++ ) {
+		for ( var _x = 0; _x < 32; _x ++ ) {
+			for ( var _y = 0; _y < 32; _y ++ ) {
+				var this_tile = chunk[? this_chunk].layers[| l].tiles[# _x, _y];
+				if this_tile.type = undefined continue;
 				
-				switch(this_type)
+				var this_type = tile_list[| this_tile.type];
+
+				switch this_type.model
 				{
 					default:
-						// -- Path Tiles
-						if (this_type >= 1 && this_type <= 14)
-						{
-							tiles_placed ++;
-							var txOff;
-							
-							switch this_type
-							{
-								case(tile.floor_dirt): txOff = new vec2(5,  1); break;
-								case(tile.floor_dirtS): txOff = new vec2(5, 0); break;
-								case(tile.floor_dirtN): txOff = new vec2(5, 2); break;
-								case(tile.floor_dirtE): txOff = new vec2(4, 1); break;
-								case(tile.floor_dirtW): txOff = new vec2(6, 1); break;
-								case(tile.floor_dirtSEOut): txOff = new vec2(4, 0); break;
-								case(tile.floor_dirtSWOut): txOff = new vec2(6, 0); break;
-								case(tile.floor_dirtNWOut): txOff = new vec2(4, 2); break;
-								case(tile.DirtPathNWOut): txOff = new vec2(6, 2); break;
-								case(tile.DirtPathSEIn): txOff = new vec2(4, 3); break;
-								case(tile.DirtPathSWIn): txOff = new vec2(5, 3); break;
-								case(tile.DirtPathNEIn): txOff = new vec2(6, 3); break;
-								case(tile.DirtPathNWIn): txOff = new vec2(7, 3); break;
-							}
-							
-							file_get_vertices ( 
-								this_mesh, "tiles/geometry/floor.gmmod", 
-								matrix_build(pos_real.x, pos_real.y, this_z * 16, 0, 0, 0, 1, 1, 1), 
-								new vec3(1, 1, 1), 
-								new vec3(0, 0, 0),
-								txOff,
-								new vec2(1, 1),
-								txOW_1,
-							);
-							
-						}
-						
-						if (this_type>= 19 && this_type <= 30)
-						{
-							tiles_placed ++;
-							var posOff, mdl = "", rot;
-							
-							switch(floor((this_type - 19) / 4))
-							{
-								case(0): // -- NESW
-									mdl = "tiles/geometry/cliff_small.gmmod";
-									switch this_type {
-										case 19:
-											posOff = new vec2(0, 0); 
-											rot = 0;
-										break;
-										case 20:
-											posOff = new vec2(1, 1); 
-											rot = 180;
-										break;
-										case 21:
-											posOff = new vec2(1, 0); 
-											rot = 270;
-										break;
-										case 22:
-											posOff = new vec2(0, 1); 
-											rot = 90;
-										break;
-								}
-								break;
-								case(1): // -- Outwards Corners
-									mdl = "tiles/geometry/cliff_small_cornerOut.gmmod";
-									switch(this_type) {
-										case 26:
-											posOff = new vec2(0, 0); 
-											rot = 0;
-										break;
-										case 23:
-											posOff = new vec2(1, 1); 
-											rot = 180;
-										break;
-										case 25:
-											posOff = new vec2(1, 0); 
-											rot = 270;
-										break;
-										case 24:
-											posOff = new vec2(0, 1); 
-											rot = 90;
-										break;
-									}
-								break;
-								case(2): // -- Inwards Corners
-									mdl = "tiles/geometry/cliff_small_cornerIn.gmmod";
-									switch(this_type) {
-										case 27:
-											posOff = new vec2(0, 0); 
-											rot = 0;
-										break;
-										case 29:
-											posOff = new vec2(1, 1); 
-											rot = 180;
-										break;
-										case 28:
-											posOff = new vec2(1, 0); 
-											rot = 270;
-										break;
-										case 30:
-											posOff = new vec2(0, 1); 
-											rot = 90;
-										break;
-									}
-								break;
-							}
-							
-							file_get_vertices ( 
-								this_mesh, mdl, 
-								matrix_build(pos_real.x + (posOff.x * 16), pos_real.y + (posOff.y * 16), this_z * 16, 0, 0, rot, 1, 1, 1), 
-								new vec3(1, 1, 1), 
-								new vec3(0, 0, 0),
-								new vec2(5, 8),
-								new vec2(1, 2),
-								txOW_1,
-							);
-							
-						}
-					break;
-					case(1):
+						// Load model
 						tiles_placed ++;
 						
-						file_get_vertices( this_mesh, "tiles/geometry/floor.gmmod", 
-														matrix_build(pos_real.x, pos_real.y, this_z * 16, 0, 0, 0, 1, 1, 1), 
-														new vec3(1, 1, 1), 
-														new vec3(0, 0, 0),
-														new vec2((_x mod 4), (_y mod 4)),
-														new vec2(1, 1),
-														txOW_1
-														);
+						var uvs = sprite_get_uvs(this_type.tex, 0);	
+						var matrix = matrix_build(_x * 16, _y * 16, this_tile.z * 16, 0, 0, 0, 16, 16, 16);
+						
+						model_load_file(this_mesh, this_type.model + ".obj", uvs, matrix);
 					break;
-					case(tile.PineTree):
+					case "plane":
 						tiles_placed ++;
-						file_get_vertices( this_mesh, "tiles/geometry/tree_body.gmmod", 
-														matrix_build(pos_real.x, pos_real.y, this_z * 16, 0, 0, 0, 1, 1, 1), 
-														new vec3(1, 1, 1), 
-														new vec3(0, 0, 0),
-														new vec2(0, 4),
-														new vec2(4, 4),
-														txOW_1
-														);
-						file_get_vertices( this_mesh, "tiles/geometry/tree_base.gmmod", 
-														matrix_build(pos_real.x, pos_real.y, this_z * 16 - 56, 0, 0, 0, 1, 1, 1), 
-														new vec3(1, 1, 1), 
-														new vec3(0, 0, 0),
-														new vec2(14, 2),
-														new vec2(2, 2),
-														txOW_1
-														);
-					break;
-					case(tile.TallPineTree):
-						tiles_placed ++;
-						file_get_vertices( this_mesh, "tiles/geometry/tree_body.gmmod", 
-														matrix_build(pos_real.x, pos_real.y, this_z * 16, 0, 0, 0, 1, 1, 1), 
-														new vec3(1, 1, 1.25), 
-														new vec3(0, 0, 0),
-														new vec2(0, 4),
-														new vec2(4, 4),
-														txOW_1
-														);
-						file_get_vertices( this_mesh, "tiles/geometry/tree_base.gmmod", 
-														matrix_build(pos_real.x, pos_real.y, this_z * 16 - 56, 0, 0, 0, 1, 1, 1), 
-														new vec3(1, 1, 1), 
-														new vec3(0, 0, 0),
-														new vec2(14, 2),
-														new vec2(2, 2),
-														txOW_1
-														);
-					break;
-					case(tile.OakTree):
-						tiles_placed ++;
-						file_get_vertices( this_mesh, "tiles/geometry/tree_body.gmmod", 
-														matrix_build(pos_real.x, pos_real.y, this_z * 16, 0, 0, 0, 1, 1, 1), 
-														new vec3(1, 1, 1), 
-														new vec3(0, 0, 0),
-														new vec2(8, 4),
-														new vec2(4, 4),
-														txOW_1
-														);
-						file_get_vertices( this_mesh, "tiles/geometry/tree_base.gmmod", 
-														matrix_build(pos_real.x, pos_real.y, this_z * 16 - 56, 0, 0, 0, 1, 1, 1), 
-														new vec3(1, 1, 1), 
-														new vec3(0, 0, 0),
-														new vec2(14, 2),
-														new vec2(2, 2),
-														txOW_1
-														);
-					break;
-					case(tile.TallOakTree):
-						tiles_placed ++;
-						file_get_vertices( this_mesh, "tiles/geometry/tree_body.gmmod", 
-														matrix_build(pos_real.x, pos_real.y, this_z * 16, 0, 0, 0, 1, 1, 1), 
-														new vec3(1, 1, 1.25), 
-														new vec3(0, 0, 0),
-														new vec2(8, 4),
-														new vec2(4, 4),
-														txOW_1
-														);
-						file_get_vertices( this_mesh, "tiles/geometry/tree_base.gmmod", 
-														matrix_build(pos_real.x, pos_real.y, this_z * 16 - 56, 0, 0, 0, 1, 1, 1), 
-														new vec3(1, 1, 1), 
-														new vec3(0, 0, 0),
-														new vec2(14, 2),
-														new vec2(2, 2),
-														txOW_1
-														);
-					break;
-					case(31):
-						tiles_placed ++;
-						file_get_vertices( this_mesh, "tiles/geometry/tall_grass.gmmod", 
-														matrix_build(pos_real.x, pos_real.y, this_z * 16, 0, 0, 0, 1, 1, 1), 
-														new vec3(1, 1, 1), 
-														new vec3(0, 0, 0),
-														new vec2(13, 0),
-														new vec2(1, 1),
-														txOW_1
-														);
-					break;
-					case(32):
-						tiles_placed ++;
-						file_get_vertices( this_mesh, "tiles/geometry/tall_grass.gmmod", 
-														matrix_build(pos_real.x, pos_real.y, this_z * 16, 0, 0, 0, 1, 1, 1), 
-														new vec3(1, 1, 1), 
-														new vec3(0, 0, 0),
-														new vec2(13, 1),
-														new vec2(1, 1),
-														txOW_1
-														);
-					break;
-					case(tile.land_rock_S):
-						tiles_placed ++;
-						file_get_vertices( this_mesh, "tiles/geometry/rock_small.gmmod", 
-														matrix_build(pos_real.x, pos_real.y, this_z * 16, 0, 0, 0, 1, 1, 1), 
-														new vec3(1, 1, 1), 
-														new vec3(0, 0, 0),
-														new vec2(7, 10),
-														new vec2(2, 2),
-														txOW_1
-														);
-					break;
-					case(tile.land_rock_L):
-						tiles_placed ++;
-						file_get_vertices( this_mesh, "tiles/geometry/rock_big.gmmod", 
-														matrix_build(pos_real.x, pos_real.y, this_z * 16, 0, 0, 0, 1, 1, 1), 
-														new vec3(1, 1, 1), 
-														new vec3(0, 0, 0),
-														new vec2(7, 10),
-														new vec2(2, 2),
-														txOW_1
-														);
+						
+						var px = _x * 16, py = _y * 16, pz = this_tile.z * 16;
+						var uvs = sprite_get_uvs(this_type.tex, 0);
+
+						if this_type.type == "grass"
+						{
+							// Repeat texture
+							var	uv_w = uvs[2] - uvs[0],
+									uv_h = uvs[3] - uvs[1];
+							
+							var	fac_x = (_x mod 4) * (uv_w / 4),
+									fac_y = (_y mod 4) * (uv_h / 4);
+									
+							uvs[0] += fac_x;
+							uvs[1] += fac_y;
+							uvs[3] = uvs[1] + (uv_w / 4);
+							uvs[2] = uvs[0] + (uv_h / 4);
+							
+							vertex_quad(this_mesh, px, py, px + 16, py + 16, pz, uvs, c_white, 1);
+						}
+						else vertex_quad(this_mesh, px, py, px + 16, py + 16, pz, uvs, c_white, 1);
 					break;
 				}
 			}
@@ -287,6 +66,8 @@ function chunk_compile(this_chunk)
 	}
 	else 
 	{
+		show_debug_message(vertex_get_number(this_mesh));
+		
 		vertex_freeze(this_mesh);	
 		chunk_mesh[? this_chunk] = this_mesh;
 	}

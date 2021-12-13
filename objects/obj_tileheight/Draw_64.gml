@@ -1,6 +1,6 @@
 /// -- @desc Tile height selection
 // Heights
-var z = obj_interface.selZ;
+var z = obj_interface.z_selected;
 
 draw_set_halign(fa_center);
 draw_set_valign(fa_middle);

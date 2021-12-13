@@ -10,9 +10,9 @@ onClick = function()
 {
 	with obj_interface
 	{
-		selChunk.y --;
+		chunk_selected.y --;
 	
-		if is_undefined(map_data.chunk[? chunk_get_key()])
+		if is_undefined(chunk[? chunk_get_key()])
 			chunk_fill_empty();
 	}
 }

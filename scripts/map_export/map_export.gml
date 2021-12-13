@@ -6,7 +6,7 @@ function map_export()
 	if(save_path != "")	// -- If Operation Not Cancelled
 	{
 		var save_buff = buffer_create(16, buffer_grow, 1);	// -- Dynamic Buffer
-		var chk = obj_interface.map_data.chunk;
+		var chk = obj_interface.chunk;
 		var chunkcount = 0;
 		
 		// -- Iterate through all chunk DS Map entries
@@ -21,7 +21,7 @@ function map_export()
 				{
 					for(var _y = 0; _y < 32; _y ++)
 					{
-						tilecount += chk[? _c].layers[| l].tiles[# _x, _y].tile_type;	// -- Tile Type
+						tilecount += chk[? _c].layers[| l].tiles[# _x, _y].type;	// -- Tile Type
 					}
 				}
 			}
@@ -39,7 +39,7 @@ function map_export()
 				{
 					for(var _y = 0; _y < 32; _y ++)
 					{
-						tilecount += chk[? _c].layers[| l].tiles[# _x, _y].tile_type;	// -- Tile Type
+						tilecount += chk[? _c].layers[| l].tiles[# _x, _y].type;	// -- Tile Type
 					}
 				}
 				if(tilecount == 0) { chunkstring += "EMPTY:"; continue; }
@@ -49,7 +49,7 @@ function map_export()
 					for(var _y = 0; _y < 32; _y ++)
 					{
 						// -- Example layer string: "081-151-311-201-031- ..."
-						var n = string(chk[? _c].layers[| l].tiles[# _x, _y].tile_type);	// -- Tile Type
+						var n = string(chk[? _c].layers[| l].tiles[# _x, _y].type);	// -- Tile Type
 						var zz = string(chk[? _c].layers[| l].tiles[# _x, _y].z);		// -- Tile Z-Index
 					
 						if(string_length(zz) == 1) zz = "0" + zz;
