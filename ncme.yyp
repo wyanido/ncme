@@ -21,6 +21,7 @@
     {"id":{"name":"fnt_UI_small","path":"fonts/fnt_UI_small/fnt_UI_small.yy",},"order":1,},
     {"id":{"name":"obj_button","path":"objects/obj_button/obj_button.yy",},"order":2,},
     {"id":{"name":"obj_tileheight","path":"objects/obj_tileheight/obj_tileheight.yy",},"order":4,},
+    {"id":{"name":"layer_cache_refresh","path":"scripts/layer_cache_refresh/layer_cache_refresh.yy",},"order":8,},
     {"id":{"name":"create_grid_model","path":"scripts/create_grid_model/create_grid_model.yy",},"order":7,},
     {"id":{"name":"tx_path_se","path":"sprites/tx_path_se/tx_path_se.yy",},"order":8,},
     {"id":{"name":"fnt_UI","path":"fonts/fnt_UI/fnt_UI.yy",},"order":0,},

@@ -1,5 +1,4 @@
 /// -- @desc Interface
-
 // Layers
 var w = 664, h = 36, s = 72, sep = 8.5;
 for ( var l = 0; l < 8; l ++ )
@@ -7,19 +6,19 @@ for ( var l = 0; l < 8; l ++ )
 	draw_set_colour(0x111111);
 	draw_rectangle(w + sep, h + (l * (s + sep)), w + sep + s, h + s + (l * (s + sep)), false);
 				
-	if !is_undefined(chunk[? chunk_get_key()].render_cache[l])
+	if !is_undefined(chunk[? chunk_get_key()]) && !is_undefined(chunk[? chunk_get_key()].render_cache[l])
 	{
-		draw_sprite_ext(chunk[? chunk_get_key()].render_cache[l], 0, w + sep, h + (l * (s + sep)), 72 / 512 , 72 / 512, 0, c_white, 1);
+		draw_sprite_stretched(chunk[? chunk_get_key()].render_cache[l], 0, w + sep, h + (l * (s + sep)), s, s);
 	}
 }
 			
 // -- Border
 draw_set_colour(c_white);
-draw_rectangle(w, h - sep, w + s + (sep * 2), h + (8 * (s + sep)), true);
+draw_rectangle(w, h - sep, w + s + (sep * 2) - 1, h + (8 * (s + sep)) - 1, true);
 
 // -- Layer Selection
 draw_set_colour(0x000FFF);
-draw_rectangle(w + sep, h + (layer_selected * (s + sep)), w + sep + s, h + s + (layer_selected * (s + sep)), true);
+draw_rectangle(w + sep, h + (layer_selected * (s + sep)), w + sep + s - 1, h + s + (layer_selected * (s + sep)) - 1, true);
 
 // Selected Cell
 if !global.compiled_view

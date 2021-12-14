@@ -10,6 +10,9 @@ onClick = function()
 {
 	with obj_interface
 	{
+		if !ds_map_exists(chunk, chunk_get_key())
+				chunk[? chunk_get_key()] = new Chunk(chunk_selected.x, chunk_selected.y);
+				
 		var this_layer = chunk[? chunk_get_key()].layers[| layer_selected];
 		var	neighbours = ds_grid_create(3, 3);
 		

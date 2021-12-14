@@ -27,7 +27,7 @@ if !global.compiled_view && point_in_rectangle(mx, my, 0, 0, 616, 720)
 	
 	var	chunkgrid_x = floor(mouse_x / 512), 
 			chunkgrid_y = floor(mouse_y / 512);
-				
+	
 	if right || !mouse_check_button(mb_left) || click 
 		tile_previous = undefined;
 	
@@ -43,7 +43,6 @@ if !global.compiled_view && point_in_rectangle(mx, my, 0, 0, 616, 720)
 	
 	if place_valid
 	{
-		var chunk_key = string(chunkgrid_x) + "," + string(chunkgrid_y);
 		var set_tile = undefined;
 		
 		if hold 
@@ -53,16 +52,18 @@ if !global.compiled_view && point_in_rectangle(mx, my, 0, 0, 616, 720)
 		
 		if hold || right
 		{
-			if !ds_map_exists(chunk, chunk_key)
-				chunk[? chunk_key] = new Chunk(chunkgrid_x, chunkgrid_y);
+			chunk_selected = new vec2(chunkgrid_x, chunkgrid_y);
 			
-			var this_layer = chunk[? chunk_key].layers[| layer_selected].tiles;
+			if !ds_map_exists(chunk, chunk_get_key())
+				chunk[? chunk_get_key()] = new Chunk(chunkgrid_x, chunkgrid_y);
+			
+			var this_layer = chunk[? chunk_get_key()].layers[| layer_selected].tiles;
 			ds_grid_set(this_layer, mgrid_x, mgrid_y, set_tile);
 			
 			tile_previous = new vec2(mgrid_x, mgrid_y);	
 			
 			// Rebuild chunk mesh
-			chunk_compile(chunk_key);
+			chunk_compile(chunk_get_key());
 		}
 	}
 }
@@ -70,8 +71,7 @@ if !global.compiled_view && point_in_rectangle(mx, my, 0, 0, 616, 720)
 // Select Tile
 if(d.x > 768 && d.x < 960) && (d.y > 28 && d.y < 670.5)
 {
-	window_set_cursor(cr_handpoint);
-				
+	
 	var pos = new vec2(floor((d.x - 768) / 32), floor((d.y - 28) / 32));
 	var checkPos = new vec2(0, 0);
 	var sel = 0;
@@ -81,9 +81,18 @@ if(d.x > 768 && d.x < 960) && (d.y > 28 && d.y < 670.5)
 		sel ++;
 		checkPos = new vec2(floor(sel mod 6), floor(sel / 6));
 	}
-
-	tile_hovered = (sel < ds_list_size(tile_list)) ? tile_list[| sel] : undefined;
-				
+	
+	if sel < ds_list_size(tile_list)
+	{
+		tile_hovered = tile_list[| sel];
+		window_set_cursor(cr_handpoint);
+	}
+	else
+	{
+		tile_hovered = undefined;
+		window_set_cursor(cr_default);
+	}
+	
 	if(click && sel < ds_list_size(tile_list))  tile_selected = sel; 
 				
 } else {

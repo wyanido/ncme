@@ -106,4 +106,7 @@ function chunk_compile(this_chunk)
 		vertex_freeze(this_mesh);	
 		chunk_mesh[? this_chunk] = this_mesh;
 	}
+	
+	// Refresh layer image cache
+	mdl_layercache = layer_cache_refresh(this_chunk, layer_selected);
 }

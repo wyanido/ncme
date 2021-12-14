@@ -2,11 +2,8 @@ draw_clear_alpha(0x111111, 1);
 
 if !global.compiled_view
 {	
-	var	chunk_x = obj_interface.chunk_selected.x * 32 * 16 + 0.5,
-			chunk_y = obj_interface.chunk_selected.y * 32 * 16 + 0.5;
-	
-	var	vx = 256.5 + chunk_x,
-			vy = 256.6 + chunk_y + 16;
+	var	vx = 256.5 + x,
+			vy = 256.6 + y + 16;
 	
 	view_mat = matrix_build_lookat(vx, vy, 1600, vx, vy, 0, 0, 1, 0);
 	proj_mat = matrix_build_projection_ortho(-616, 720, 1, 16000);

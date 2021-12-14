@@ -11,3 +11,6 @@ yaw = 90;
 spd = 4;
 
 mdl_grid = create_grid_model(6);
+
+panning = false;
+pan_start = new vec2(-1, -1);

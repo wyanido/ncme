@@ -15,6 +15,9 @@ global.model_cache = ds_map_create();
 layer_selected = 0;
 z_selected = 15;
 
+mdl_layercache = undefined;
+surf_layercache = surface_create(72, 72);
+
 chunk = ds_map_create();
 chunk[? "0,0"] = new Chunk(0, 0);
 chunk_selected = new vec2(0, 0);
