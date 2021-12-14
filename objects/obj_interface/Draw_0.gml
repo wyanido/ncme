@@ -9,10 +9,10 @@ for(var c = ds_map_find_first(chunk); c < ds_map_size(chunk); c = ds_map_find_ne
 	{
 		matrix_set(matrix_world, matrix_build(chunk[? c].pos_x * 512, chunk[? c].pos_y * 512, 0, 0, 0, 0, 1, 1, 1));
 		
-		vertex_submit(chunk_mesh[? c], pr_trianglelist, tex); 
+		vertex_submit(chunk_mesh[? c], keyboard_check(ord("V")) ? pr_linelist : pr_trianglelist, tex); 
 	}
 }
-	
+
 matrix_set(matrix_world, matrix_build_identity());
 
 // Cell outline

@@ -40,5 +40,8 @@ if !global.compiled_view
 	draw_set_colour(c_white);
 	
 	draw_text(16, 691, "Within Chunk | X: " + string(mgrid_x) + ", Y: " + string(mgrid_y));
-	draw_text(256, 691, "On Map | X: " + string(cell_onmap_x) + ", Y: " + string(cell_onmap_y));
+	draw_text(232, 691, "On Map | X: " + string(cell_onmap_x) + ", Y: " + string(cell_onmap_y));
+	
+	if chunk_mesh[? chunk_get_key()] != undefined
+		draw_text(440, 691, "Vertex Count: " + string(vertex_get_number(chunk_mesh[? chunk_get_key()])));
 }
