@@ -8,7 +8,7 @@ if global.compiled_view
 	draw_set_font(fnt_UI);
 	draw_text(16, 720 - 32, "Projection | X: " + string(pos.x) + ", Y: "+ string(pos.y) + ", Z: " + string(pos.z) + "        Pitch: " + string(pitch) + ", Yaw: " + string(yaw));
 	draw_set_colour(0x714AE8);
-	draw_text(16, 720 - 56, "Press ESC to exit Compiled View");
+	draw_text(16, 720 - 56, "Press SPACE to exit Compiled View");
 }
 else
 {

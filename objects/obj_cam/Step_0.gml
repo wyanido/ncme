@@ -1,22 +1,5 @@
 /// -- @desc Camera control
 // Exit compiled view and destroy mesh
-if keyboard_check_pressed(vk_escape)
-{ 
-	global.compiled_view = false; 
-	
-	with obj_interface
-	{
-		for ( var c = ds_map_find_first(chunk_mesh); c < ds_map_size(chunk_mesh) - 1; c = ds_map_find_next(chunk_mesh, c) )
-		{
-			if !is_undefined(chunk_mesh[? c])
-			{
-				vertex_delete_buffer(chunk_mesh[? c]);
-				chunk_mesh[? c] = undefined;
-			}
-		}
-	}
-}
-
 if !global.compiled_view return;
 
 // Freecam control

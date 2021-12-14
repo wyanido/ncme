@@ -48,64 +48,106 @@ ds_list_add(tile_list, {
 	model: "plane",
 	size: new vec2(1, 1),
 	tex: tx_path,
-	type: "grass_path"
+	type: "grass_path",
+	direction: "center"
 })
 ds_list_add(tile_list, {
 	name: "Grass Path ↖",
 	model: "plane",
 	size: new vec2(1, 1),
 	tex: tx_path_nw,
-	type: "grass_path"
+	type: "grass_path",
+	direction: "northwest"
 })
 ds_list_add(tile_list, {
 	name: "Grass Path ↑",
 	model: "plane",
 	size: new vec2(1, 1),
 	tex: tx_path_n,
-	type: "grass_path"
+	type: "grass_path",
+	direction: "north"
 })
 ds_list_add(tile_list, {
 	name: "Grass Path ↗",
 	model: "plane",
 	size: new vec2(1, 1),
 	tex: tx_path_ne,
-	type: "grass_path"
+	type: "grass_path",
+	direction: "northeast"
 })
 ds_list_add(tile_list, {
 	name: "Grass Path →",
 	model: "plane",
 	size: new vec2(1, 1),
 	tex: tx_path_e,
-	type: "grass_path"
+	type: "grass_path",
+	direction: "east"
 })
 ds_list_add(tile_list, {
 	name: "Grass Path ↘",
 	model: "plane",
 	size: new vec2(1, 1),
 	tex: tx_path_se,
-	type: "grass_path"
+	type: "grass_path",
+	direction: "southeast"
 })
 ds_list_add(tile_list, {
 	name: "Grass Path ↓",
 	model: "plane",
 	size: new vec2(1, 1),
 	tex: tx_path_s,
-	type: "grass_path"
+	type: "grass_path",
+	direction: "south"
 })
 ds_list_add(tile_list, {
 	name: "Grass Path ↙",
 	model: "plane",
 	size: new vec2(1, 1),
 	tex: tx_path_sw,
-	type: "grass_path"
+	type: "grass_path",
+	direction: "southwest"
 })
 ds_list_add(tile_list, {
 	name: "Grass Path ←",
 	model: "plane",
 	size: new vec2(1, 1),
 	tex: tx_path_w,
-	type: "grass_path"
+	type: "grass_path",
+	direction: "west"
 })
+ds_list_add(tile_list, {
+	name: "Grass Path ↗ (In)",
+	model: "plane",
+	size: new vec2(1, 1),
+	tex: tx_path_c_ne,
+	type: "grass_path",
+	direction: "northeast_in"
+})
+ds_list_add(tile_list, {
+	name: "Grass Path ↘ (In)",
+	model: "plane",
+	size: new vec2(1, 1),
+	tex: tx_path_c_se,
+	type: "grass_path",
+	direction: "southeast_in"
+})
+ds_list_add(tile_list, {
+	name: "Grass Path ↙ (In)",
+	model: "plane",
+	size: new vec2(1, 1),
+	tex: tx_path_c_sw,
+	type: "grass_path",
+	direction: "southwest_in"
+})
+ds_list_add(tile_list, {
+	name: "Grass Path ↖ (In)",
+	model: "plane",
+	size: new vec2(1, 1),
+	tex: tx_path_c_nw,
+	type: "grass_path",
+	direction: "northwest_in"
+})
+
 ds_list_add(tile_list, {
 	name: "Pine Tree",
 	model: "tree_pine",

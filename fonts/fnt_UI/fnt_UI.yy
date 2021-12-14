@@ -210,8 +210,8 @@
   "canGenerateBitmap": true,
   "maintainGms1Font": false,
   "parent": {
-    "name": "Editor",
-    "path": "folders/Editor.yy",
+    "name": "UI",
+    "path": "folders/Editor/UI.yy",
   },
   "resourceVersion": "1.0",
   "name": "fnt_UI",

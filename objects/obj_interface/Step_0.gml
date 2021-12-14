@@ -29,9 +29,19 @@ if !global.compiled_view && point_in_rectangle(mx, my, 0, 0, 616, 720)
 			chunkgrid_y = floor(mouse_y / 512);
 				
 	if right || !mouse_check_button(mb_left) || click 
-		tile_previous = new vec2(-1, -1);
+		tile_previous = undefined;
 	
-	if(abs(mgrid_x - tile_previous.x) >= tile_list[| tile_selected].size.x || abs(mgrid_y - tile_previous.y) >= tile_list[| tile_selected].size.y)
+	var place_valid = true;
+	if tile_previous != undefined
+	{
+		var	pre_space_x = abs(mgrid_x - tile_previous.x),
+				pre_space_y = abs(mgrid_y - tile_previous.y);
+				
+		// Test if new placement intersects with previous tile
+		var place_valid = pre_space_x >= tile_list[| tile_selected].size.x || pre_space_y >= tile_list[| tile_selected].size.y;
+	}
+	
+	if place_valid
 	{
 		var chunk_key = string(chunkgrid_x) + "," + string(chunkgrid_y);
 		var set_tile = undefined;

@@ -29,8 +29,8 @@
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "Editor",
-    "path": "folders/Editor.yy",
+    "name": "ncme",
+    "path": "ncme.yyp",
   },
   "resourceVersion": "1.0",
   "name": "obj_interface",
