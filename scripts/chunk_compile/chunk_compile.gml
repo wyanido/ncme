@@ -1,5 +1,7 @@
 function chunk_compile(this_chunk)
 {
+	show_debug_message("Re-compiled active chunk! (" + string(get_timer()) + ")");
+	
 	// Delete existing mesh if necessary
 	if chunk_mesh[? this_chunk] != undefined
 		vertex_delete_buffer(chunk_mesh[? this_chunk]);

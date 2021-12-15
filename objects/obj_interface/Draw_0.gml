@@ -13,7 +13,7 @@ if mdl_layercache != undefined
 	
 		var view_mat = matrix_build_lookat(256, 256, 1600, 256, 256, 0, 0, 1, 0);
 		var proj_mat = matrix_build_projection_ortho(-512, 512, 1, 16000);
-
+		
 		// Set projection
 		camera_set_view_mat(0, view_mat);
 		camera_set_proj_mat(0, proj_mat);
@@ -26,7 +26,7 @@ if mdl_layercache != undefined
 		if chunk[? chunk_get_key()].render_cache[layer_selected] != undefined
 			sprite_delete(chunk[? chunk_get_key()].render_cache[layer_selected]);
 	
-		chunk[? chunk_get_key()].render_cache[layer_selected] = sprite_create_from_surface(surf_layercache, 0, 0, 72, 72, false, true, 0, 0);
+		chunk[? chunk_get_key()].render_cache[layer_selected] = sprite_create_from_surface(surf_layercache, 0, 0, 72, 72, false, false, 0, 0);
 		vertex_delete_buffer(mdl_layercache);
 	}
 	else

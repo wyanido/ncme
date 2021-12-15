@@ -2,7 +2,6 @@
 
 var d = new vec2(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0));
 var click = mouse_check_button_pressed(mb_left), hold = mouse_check_button(mb_left);
-var right = mouse_check_button(mb_right);
 
 // Toggle orthographic view
 if keyboard_check_pressed(vk_space)
@@ -28,7 +27,7 @@ if !global.compiled_view && point_in_rectangle(mx, my, 0, 0, 616, 720)
 	var	chunkgrid_x = floor(mouse_x / 512), 
 			chunkgrid_y = floor(mouse_y / 512);
 	
-	if right || !mouse_check_button(mb_left) || click 
+	if mouse_check_button_pressed(mb_right) || !mouse_check_button(mb_left) || click 
 		tile_previous = undefined;
 	
 	var place_valid = true;
@@ -36,7 +35,7 @@ if !global.compiled_view && point_in_rectangle(mx, my, 0, 0, 616, 720)
 	{
 		var	pre_space_x = abs(mgrid_x - tile_previous.x),
 				pre_space_y = abs(mgrid_y - tile_previous.y);
-				
+		
 		// Test if new placement intersects with previous tile
 		var place_valid = pre_space_x >= tile_list[| tile_selected].size.x || pre_space_y >= tile_list[| tile_selected].size.y;
 	}
@@ -47,23 +46,27 @@ if !global.compiled_view && point_in_rectangle(mx, my, 0, 0, 616, 720)
 		
 		if hold 
 			set_tile = new ChunkTile(tile_selected, 15 - z_selected);
-		else if right
+		else if mouse_check_button(mb_right)
 			set_tile = new ChunkTile(undefined, -1);
 		
-		if hold || right
+		if hold || mouse_check_button(mb_right)
 		{
 			chunk_selected = new vec2(chunkgrid_x, chunkgrid_y);
 			
 			if !ds_map_exists(chunk, chunk_get_key())
-				chunk[? chunk_get_key()] = new Chunk(chunkgrid_x, chunkgrid_y);
+					chunk[? chunk_get_key()] = new Chunk(chunkgrid_x, chunkgrid_y);
 			
 			var this_layer = chunk[? chunk_get_key()].layers[| layer_selected].tiles;
-			ds_grid_set(this_layer, mgrid_x, mgrid_y, set_tile);
 			
-			tile_previous = new vec2(mgrid_x, mgrid_y);	
+			if set_tile != undefined && this_layer[# mgrid_x, mgrid_y].type != set_tile.type
+			{
+				ds_grid_set(this_layer, mgrid_x, mgrid_y, set_tile);
 			
-			// Rebuild chunk mesh
-			chunk_compile(chunk_get_key());
+				tile_previous = new vec2(mgrid_x, mgrid_y);	
+			
+				// Rebuild chunk mesh
+				chunk_compile(chunk_get_key());
+			}
 		}
 	}
 }
