@@ -10,14 +10,19 @@ vertex_format_add_texcoord();
 
 global.vformat = vertex_format_end();
 global.model_cache = ds_map_create();
-	
+
+actionlist = [];
+action_number = 0;
+
 // Chunk data
 z_selected = 15;
 
 global.chunk = ds_map_create();
 global.chunk[? "0,0"] = new Chunk(0, 0);
 chunk_selected = new vec2(0, 0);
+
 chunk_mesh = ds_map_create();
+chunk_mesh[? chunk_get_key()] = array_create(8, undefined);
 
 // Render Config
 gpu_set_ztestenable(true);

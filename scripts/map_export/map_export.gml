@@ -1,11 +1,13 @@
 
 function map_export()
 {
+	// Save location
 	var save_path = get_save_filename_ext("NCME Map File|*.ncmap", "", working_directory, "Save Map");
 	if save_path == "" return;
 	
 	var save_buff = buffer_create(512, buffer_grow, 1);
 	
+	// Iterate through chunks and parse tile data into separate strings for each layer
 	for ( var c = ds_map_find_first(global.chunk); c < ds_map_size(global.chunk); c = ds_map_find_next(global.chunk, c) )
 	{
 		buffer_write(save_buff, buffer_string, string(global.chunk[? c].pos_x) + "," + string(global.chunk[? c].pos_y));
@@ -18,7 +20,7 @@ function map_export()
 			{
 				for(var _y = 0; _y < 32; _y ++)
 				{
-					var this_tile = global.chunk[? c].layers[| l].tiles[# _x, _y];
+					var this_tile = global.chunk[? c].layers[l].tiles[# _x, _y];
 					if this_tile.type != undefined
 					{
 						var z = string_length(this_tile.z) == 1 ? "0" + string(this_tile.z) : string(this_tile.z);
@@ -38,6 +40,7 @@ function map_export()
 		}
 	}
 	
+	// Write EOF
 	buffer_write(save_buff, buffer_string, "END");
 	var compressed = buffer_compress(save_buff, 0, buffer_tell(save_buff));
 	

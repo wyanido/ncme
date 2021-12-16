@@ -25,7 +25,7 @@ function tile_compile(tile_type)
 				break;
 			}
 						
-			model_load_file(this_mesh, tile_type.model + ".obj", uvs, matrix);
+			model_load_file(this_mesh, "tiles/" + tile_type.model + ".obj", uvs, matrix);
 		break;
 		case "plane":	
 			var uvs = sprite_get_uvs(tile_type.tex, 0);

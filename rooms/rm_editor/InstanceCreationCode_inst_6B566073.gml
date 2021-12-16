@@ -13,7 +13,7 @@ onClick = function()
 		if !ds_map_exists(global.chunk, chunk_get_key())
 				global.chunk[? chunk_get_key()] = new Chunk(chunk_selected.x, chunk_selected.y);
 				
-		var this_layer = global.chunk[? chunk_get_key()].layers[| obj_layers.sel];
+		var this_layer = global.chunk[? chunk_get_key()].layers[obj_layers.sel];
 		var	neighbours = ds_grid_create(3, 3);
 		
 		for(var _x = 0; _x < 32; _x ++)
@@ -23,9 +23,7 @@ onClick = function()
 				if this_layer.tiles[# _x, _y].type == undefined continue;
 				var tile_type = obj_tiles.list[| this_layer.tiles[# _x, _y].type].type;
 				if tile_type != "grass_path" continue;
-				
-				ds_grid_clear(neighbours, 0);
-				
+
 				// Find adjacent tiles
 				for ( var _xx = -1; _xx < 2; _xx ++ )
 				{
@@ -42,8 +40,10 @@ onClick = function()
 							continue;
 						}
 						
-						if this_layer.tiles[# _x + _xx, _y + _yy].type == undefined continue;
-						neighbours[# _xx + 1, _yy + 1] = obj_tiles.list[| this_layer.tiles[# _x + _xx, _y + _yy].type].type == "grass_path";
+						if this_layer.tiles[# _x + _xx, _y + _yy].type == undefined
+							neighbours[# _xx + 1, _yy + 1] = false;
+						else
+							neighbours[# _xx + 1, _yy + 1] = obj_tiles.list[| this_layer.tiles[# _x + _xx, _y + _yy].type].type == "grass_path";
 					}
 				}
 
@@ -74,7 +74,9 @@ onClick = function()
 					set_tile = "southwest_in";
 				else if ds_grid_get_sum(neighbours, 0, 0, 2, 2) == 7 && !neighbours[# 0, 0]
 					set_tile = "northwest_in";
-				
+				else
+					set_tile = "center";
+					
 				// Apply tile
 				var this_z = this_layer.tiles[# _x, _y].z;
 
@@ -82,10 +84,14 @@ onClick = function()
 				{
 					for ( var i = 0; i < ds_list_size(obj_tiles.list); i ++)
 					{
-						if obj_tiles.list[| i].type == "grass_path" && obj_tiles.list[| i].direction == set_tile
+						if obj_tiles.list[| i].type == "grass_path"
 						{
-							this_layer.tiles[# _x, _y] = new ChunkTile(i, this_z);
-							break;
+							if obj_tiles.list[| i].direction == set_tile
+							{
+								// Apply directional change
+								this_layer.tiles[# _x, _y] = new ChunkTile(i, this_z);
+								break;
+							}
 						}
 					}
 				}

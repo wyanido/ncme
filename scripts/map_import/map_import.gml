@@ -31,7 +31,7 @@ function map_import()
 			
 			if str_layers == "NONE"
 			{
-				ds_grid_set_region(global.chunk[? chunk_key].layers[| l].tiles, 0, 0, 31, 31, new ChunkTile(undefined, -1));
+				ds_grid_set_region(global.chunk[? chunk_key].layers[l].tiles, 0, 0, 31, 31, new ChunkTile(undefined, -1));
 				continue;
 			}
 			
@@ -43,7 +43,7 @@ function map_import()
 				
 				if string_copy(str_layers, char_index, 1) == "x"
 				{
-					global.chunk[? chunk_key].layers[| l].tiles[# xx, yy] = new ChunkTile(undefined, -1);
+					global.chunk[? chunk_key].layers[l].tiles[# xx, yy] = new ChunkTile(undefined, -1);
 					tile_index ++;
 					char_index ++;
 					continue;
@@ -57,7 +57,7 @@ function map_import()
 				
 				var str_type = string_copy(str_layers, char_index, type_len);
 
-				global.chunk[? chunk_key].layers[| l].tiles[# xx, yy] = new ChunkTile(str_type, real(tile_z));
+				global.chunk[? chunk_key].layers[l].tiles[# xx, yy] = new ChunkTile(str_type, real(tile_z));
 					
 				char_index += type_len + 1;
 				tile_index ++;
@@ -72,10 +72,10 @@ function map_import()
 	for ( var c = ds_map_find_first(global.chunk); c < ds_map_size(global.chunk); c = ds_map_find_next(global.chunk, c) )
 	{
 		chunk_compile(c);
-		
+	
 		for ( var l = 0; l < 8; l ++ )
 		{
-			with obj_layers mdl_layercache = layer_cache_refresh(c, l)	
+			chunk_layercache_refresh(c, l)
 		}
 	}
 }

@@ -6,7 +6,7 @@
     "path": "folders/Resources/Function/map.yy",
   },
   "resourceVersion": "1.0",
-  "name": "chunk_fill_empty",
+  "name": "layer_compile",
   "tags": [],
   "resourceType": "GMScript",
 }

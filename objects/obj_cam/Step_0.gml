@@ -25,6 +25,9 @@ if !global.compiled_view
 							chunkgrid_y = floor(mouse_y / 512);
 						
 					chunk_selected = new vec2(chunkgrid_x, chunkgrid_y);
+					
+					if !is_array(chunk_mesh[? chunk_get_key()])
+						chunk_mesh[? chunk_get_key()] = array_create(8, undefined);
 				}
 			
 				panning = true;

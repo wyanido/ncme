@@ -43,7 +43,7 @@ if !global.compiled_view && point_in_rectangle(mx, my, 0, 0, viewport_w, 720)
 	{
 		var set_tile = undefined;
 		
-		if hold 
+		if hold
 			set_tile = new ChunkTile(obj_tiles.sel, 15 - z_selected);
 		else if mouse_check_button(mb_right)
 			set_tile = new ChunkTile(undefined, -1);
@@ -52,19 +52,42 @@ if !global.compiled_view && point_in_rectangle(mx, my, 0, 0, viewport_w, 720)
 		{
 			chunk_selected = new vec2(chunkgrid_x, chunkgrid_y);
 			
+			if !is_array(chunk_mesh[? chunk_get_key()])
+					chunk_mesh[? chunk_get_key()] = array_create(8, undefined);
+			
 			if !ds_map_exists(global.chunk, chunk_get_key())
 					global.chunk[? chunk_get_key()] = new Chunk(chunkgrid_x, chunkgrid_y);
 			
-			var this_layer = global.chunk[? chunk_get_key()].layers[| obj_layers.sel].tiles;
+			var this_layer = global.chunk[? chunk_get_key()].layers[obj_layers.sel].tiles;
+			var target = this_layer[# mgrid_x, mgrid_y];
+			var is_same_tile = (target.type == set_tile.type && 15 - z_selected == target.z);
+			var already_empty = set_tile.type == undefined && target.type == undefined;
 			
-			if set_tile != undefined && !(set_tile.type == undefined && this_layer[# mgrid_x, mgrid_y].type == undefined) && !(this_layer[# mgrid_x, mgrid_y].type == set_tile.type && 15 - z_selected == this_layer[# mgrid_x, mgrid_y].z)
+			if set_tile != undefined && !already_empty && !is_same_tile
 			{
+				array_insert(actionlist, action_number, {
+					chunk: chunk_get_key() ,
+					layer: obj_layers.sel, 
+					x: mgrid_x, 
+					y: mgrid_y, 
+					from: { 
+						type: global.chunk[? chunk_get_key()].layers[obj_layers.sel].tiles[# mgrid_x, mgrid_y].type,
+						z: global.chunk[? chunk_get_key()].layers[obj_layers.sel].tiles[# mgrid_x, mgrid_y].z
+					},
+					to: { 
+						type: set_tile.type,
+						z: set_tile.z
+					}
+				})
+				
+				action_number ++;
+				
 				ds_grid_set(this_layer, mgrid_x, mgrid_y, set_tile);
 				
 				tile_previous = new vec2(mgrid_x, mgrid_y);	
 			
 				// Rebuild chunk mesh
-				chunk_compile(chunk_get_key());
+				layer_compile(chunk_get_key(), obj_layers.sel);
 			}
 		}
 	}

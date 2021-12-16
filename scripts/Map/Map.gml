@@ -4,10 +4,10 @@ function Chunk(_x, _y) constructor
 	pos_x = _x;
 	pos_y = _y;
 	
-	layers = ds_list_create();
+	layers = [ ];
 	render_cache = array_create(8, undefined);
 	
-	repeat(8) ds_list_add(layers, new ChunkLayer());
+	repeat(8) array_push(layers, new ChunkLayer());
 }
 
 function ChunkLayer() constructor
