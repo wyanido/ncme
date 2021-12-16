@@ -390,8 +390,40 @@ ds_list_add(tile_list, {
 	})
 #endregion
 
+// Add indexes to tile info
 var tile_len = ds_list_size(tile_list);
 for ( var i = 0; i < tile_len; i ++ )
 {
 	tile_list[| i].index = i;	
 }
+
+// Generate tile icons
+tile_icons = array_create(tile_len, undefined);
+var icon_surf = surface_create(32, 32);
+surface_set_target(icon_surf);
+	
+gpu_set_fog(true, $332420, 96, 192);
+
+for ( var i = 0; i < tile_len; i ++ )
+{
+	draw_clear_alpha(c_black, 0);
+	var	sw = tile_list[| i].size.x * 16,
+			sh = tile_list[| i].size.y * 16;
+				
+	var proj_mat = matrix_build_projection_ortho(-sw, sh, 1, 16000);
+	var view_mat = matrix_build_lookat(sw / 2, sh / 2, 128, sw / 2, sh / 2, 0, 0, 1, 0);
+	camera_set_view_mat(0, view_mat);
+	camera_set_proj_mat(0, proj_mat);
+		
+	camera_apply(0);
+		
+	var tile_current = tile_compile(tile_list[| i]);
+	vertex_submit(tile_current, pr_trianglelist, sprite_get_texture(tx_grass, 0));
+	
+	tile_icons[i] = sprite_create_from_surface(icon_surf, 0, 0, 32, 32, false, false, 0, 0);
+	vertex_delete_buffer(tile_current);
+}
+
+surface_reset_target();
+surface_free(icon_surf);
+gpu_set_fog(false, c_black, 0, 0);

@@ -1,6 +1,13 @@
 
-function model_load_file(vbuff, filename, uvs, matrix, fliptex = true) 
+function model_load_file(vbuff = undefined, filename, uvs, matrix, fliptex = true) 
 {
+	var is_new_vbuff = false;
+	if vbuff == undefined
+	{
+		is_new_vbuff = true;
+		vbuff = vertex_create_buffer();	
+	}
+	
 	if !is_undefined(global.model_cache[? filename])
 	{
 		// Load cached model
@@ -119,5 +126,11 @@ function model_load_file(vbuff, filename, uvs, matrix, fliptex = true)
 		file_text_close(obj_file);
 		
 		global.model_cache[? filename] = tri_cache;
+		
+		if is_new_vbuff
+		{
+			vertex_freeze(vbuff);
+			return vbuff;
+		}
 	}
 }
