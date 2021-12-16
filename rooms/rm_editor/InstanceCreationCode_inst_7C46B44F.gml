@@ -1,5 +1,5 @@
 
-label = "Export Map File";
+label = "Export Map";
 
 onUpdate = function()
 {

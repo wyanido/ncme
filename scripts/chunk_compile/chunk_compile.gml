@@ -13,10 +13,10 @@ function chunk_compile(this_chunk)
 	for ( var l = 0; l < 8; l ++ ) {
 		for ( var _x = 0; _x < 32; _x ++ ) {
 			for ( var _y = 0; _y < 32; _y ++ ) {
-				var this_tile = chunk[? this_chunk].layers[| l].tiles[# _x, _y];
+				var this_tile = global.chunk[? this_chunk].layers[| l].tiles[# _x, _y];
 				if this_tile.type = undefined continue;
 	
-				var this_type = tile_list[| this_tile.type];
+				var this_type = obj_tiles.list[| this_tile.type];
 
 				switch this_type.model
 				{
@@ -58,7 +58,7 @@ function chunk_compile(this_chunk)
 							var row_width = 4;
 							for ( var _xx = 1; _xx < row_width; _xx ++ )
 							{
-								if (_x + _xx > 31) || chunk[? this_chunk].layers[| l].tiles[# _x + _xx, _y].type == undefined || tile_list[| chunk[? this_chunk].layers[| l].tiles[# _x + _xx, _y].type].type != "grass" || ds_list_find_index(skiplist, string(_x + _xx) + "," + string(_y)) != -1 || (_x + _xx) mod 4 == 0 || chunk[? this_chunk].layers[| l].tiles[# _x + _xx, _y].z != chunk[? this_chunk].layers[| l].tiles[# _x, _y].z
+								if (_x + _xx > 31) || global.chunk[? this_chunk].layers[| l].tiles[# _x + _xx, _y].type == undefined || obj_tiles.list[| global.chunk[? this_chunk].layers[| l].tiles[# _x + _xx, _y].type].type != "grass" || ds_list_find_index(skiplist, string(_x + _xx) + "," + string(_y)) != -1 || (_x + _xx) mod 4 == 0 || global.chunk[? this_chunk].layers[| l].tiles[# _x + _xx, _y].z != global.chunk[? this_chunk].layers[| l].tiles[# _x, _y].z
 								{
 									row_width = _xx;
 									break;
@@ -70,7 +70,7 @@ function chunk_compile(this_chunk)
 							{
 								for ( var _yy = 1; _yy < 4; _yy ++ )
 								{
-									if (_y + _yy > 31)  || chunk[? this_chunk].layers[| l].tiles[# _x + _xx, _y + _yy].type == undefined || tile_list[| chunk[? this_chunk].layers[| l].tiles[# _x + _xx, _y + _yy].type].type != "grass" || ds_list_find_index(skiplist, string(_x + _xx) + "," + string(_y + _yy)) != -1 || (_y + _yy) mod 4 == 0 || chunk[? this_chunk].layers[| l].tiles[# _x + _xx, _y + _yy].z != chunk[? this_chunk].layers[| l].tiles[# _x, _y].z
+									if (_y + _yy > 31)  || global.chunk[? this_chunk].layers[| l].tiles[# _x + _xx, _y + _yy].type == undefined || obj_tiles.list[| global.chunk[? this_chunk].layers[| l].tiles[# _x + _xx, _y + _yy].type].type != "grass" || ds_list_find_index(skiplist, string(_x + _xx) + "," + string(_y + _yy)) != -1 || (_y + _yy) mod 4 == 0 || global.chunk[? this_chunk].layers[| l].tiles[# _x + _xx, _y + _yy].z != global.chunk[? this_chunk].layers[| l].tiles[# _x, _y].z
 									{
 										largest_column = min(largest_column, _yy);
 									}
@@ -124,5 +124,5 @@ function chunk_compile(this_chunk)
 	}
 	
 	// Refresh layer image cache
-	mdl_layercache = layer_cache_refresh(this_chunk, layer_selected);
+	with obj_layers mdl_layercache = layer_cache_refresh(this_chunk, sel);
 }

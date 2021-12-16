@@ -3,7 +3,7 @@
   "isCompatibility": false,
   "parent": {
     "name": "Function",
-    "path": "folders/Editor/Function.yy",
+    "path": "folders/Resources/Function.yy",
   },
   "resourceVersion": "1.0",
   "name": "Map",

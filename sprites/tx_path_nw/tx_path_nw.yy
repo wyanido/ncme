@@ -70,7 +70,7 @@
   "nineSlice": null,
   "parent": {
     "name": "grass path",
-    "path": "folders/Editor/Assets/grass path.yy",
+    "path": "folders/Resources/Assets/grass path.yy",
   },
   "resourceVersion": "1.0",
   "name": "tx_path_nw",

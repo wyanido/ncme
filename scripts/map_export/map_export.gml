@@ -6,9 +6,9 @@ function map_export()
 	
 	var save_buff = buffer_create(512, buffer_grow, 1);
 	
-	for ( var c = ds_map_find_first(chunk); c < ds_map_size(chunk); c = ds_map_find_next(chunk, c) )
+	for ( var c = ds_map_find_first(global.chunk); c < ds_map_size(global.chunk); c = ds_map_find_next(global.chunk, c) )
 	{
-		buffer_write(save_buff, buffer_string, string(chunk[? c].pos_x) + "," + string(chunk[? c].pos_y));
+		buffer_write(save_buff, buffer_string, string(global.chunk[? c].pos_x) + "," + string(global.chunk[? c].pos_y));
 			
 		for ( var l = 0; l < 8; l ++ )
 		{
@@ -18,7 +18,7 @@ function map_export()
 			{
 				for(var _y = 0; _y < 32; _y ++)
 				{
-					var this_tile = chunk[? c].layers[| l].tiles[# _x, _y];
+					var this_tile = global.chunk[? c].layers[| l].tiles[# _x, _y];
 					if this_tile.type != undefined
 					{
 						var z = string_length(this_tile.z) == 1 ? "0" + string(this_tile.z) : string(this_tile.z);

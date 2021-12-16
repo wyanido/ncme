@@ -1,5 +1,5 @@
 
-label = "Import Map File";
+label = "Import Map";
 
 onUpdate = function()
 {

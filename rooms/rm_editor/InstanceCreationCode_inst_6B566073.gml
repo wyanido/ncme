@@ -10,10 +10,10 @@ onClick = function()
 {
 	with obj_interface
 	{
-		if !ds_map_exists(chunk, chunk_get_key())
-				chunk[? chunk_get_key()] = new Chunk(chunk_selected.x, chunk_selected.y);
+		if !ds_map_exists(global.chunk, chunk_get_key())
+				global.chunk[? chunk_get_key()] = new Chunk(chunk_selected.x, chunk_selected.y);
 				
-		var this_layer = chunk[? chunk_get_key()].layers[| layer_selected];
+		var this_layer = global.chunk[? chunk_get_key()].layers[| obj_layers.sel];
 		var	neighbours = ds_grid_create(3, 3);
 		
 		for(var _x = 0; _x < 32; _x ++)
@@ -21,7 +21,7 @@ onClick = function()
 			for(var _y = 0; _y < 32; _y ++)
 			{
 				if this_layer.tiles[# _x, _y].type == undefined continue;
-				var tile_type = tile_list[| this_layer.tiles[# _x, _y].type].type;
+				var tile_type = obj_tiles.list[| this_layer.tiles[# _x, _y].type].type;
 				if tile_type != "grass_path" continue;
 				
 				ds_grid_clear(neighbours, 0);
@@ -43,7 +43,7 @@ onClick = function()
 						}
 						
 						if this_layer.tiles[# _x + _xx, _y + _yy].type == undefined continue;
-						neighbours[# _xx + 1, _yy + 1] = tile_list[| this_layer.tiles[# _x + _xx, _y + _yy].type].type == "grass_path";
+						neighbours[# _xx + 1, _yy + 1] = obj_tiles.list[| this_layer.tiles[# _x + _xx, _y + _yy].type].type == "grass_path";
 					}
 				}
 
@@ -80,9 +80,9 @@ onClick = function()
 
 				if set_tile != undefined
 				{
-					for ( var i = 0; i < ds_list_size(tile_list); i ++)
+					for ( var i = 0; i < ds_list_size(obj_tiles.list); i ++)
 					{
-						if tile_list[| i].type == "grass_path" && tile_list[| i].direction == set_tile
+						if obj_tiles.list[| i].type == "grass_path" && obj_tiles.list[| i].direction == set_tile
 						{
 							this_layer.tiles[# _x, _y] = new ChunkTile(i, this_z);
 							break;

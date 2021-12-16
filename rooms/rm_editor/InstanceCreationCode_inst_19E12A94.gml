@@ -1,5 +1,5 @@
 
-label = "Export Model Buffer";
+label = "Export Model";
 
 onUpdate = function()
 {

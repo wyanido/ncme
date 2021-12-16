@@ -1,47 +1,58 @@
-/// -- @desc Camera control
-// Exit compiled view and destroy mesh
+/// -- @desc View control
+// Zoom
+if mouse_wheel_up() zoom -= 0.1;
+if mouse_wheel_down() zoom += 0.1;
+
+zoom = clamp(zoom, 0.4, 2);
+
+var	mx = window_mouse_get_x(), 
+		my = window_mouse_get_y();
+
+var vw = obj_interface.viewport_w;
+
 if !global.compiled_view
 {
-	// Camera panning
-	if mouse_check_button(mb_middle)
+	if point_in_rectangle(mx, my, 0, 0, vw, 720)
 	{
-		if !panning
+		// Viewport panning
+		if mouse_check_button(mb_middle)
 		{
-			with obj_interface
+			if !panning
 			{
-				var	chunkgrid_x = floor(mouse_x / 512), 
-						chunkgrid_y = floor(mouse_y / 512);
+				with obj_interface
+				{
+					var	chunkgrid_x = floor(mouse_x / 512), 
+							chunkgrid_y = floor(mouse_y / 512);
 						
-				chunk_selected = new vec2(chunkgrid_x, chunkgrid_y);
+					chunk_selected = new vec2(chunkgrid_x, chunkgrid_y);
+				}
+			
+				panning = true;
+				pan_start = new vec2(mouse_x, mouse_y);
+			
+				window_set_cursor(cr_size_all);
 			}
 			
-			panning = true;
-			pan_start = new vec2(window_mouse_get_x(), window_mouse_get_y());
-			
-			window_set_cursor(cr_size_all);
+			var diff = new vec2(mouse_x - pan_start.x, mouse_y - pan_start.y);
+		
+			x -= diff.x
+			y -= diff.y;
 		}
-		
-		var diff = new vec2(window_mouse_get_x() - pan_start.x, window_mouse_get_y() - pan_start.y);
-		
-		x -= diff.x
-		y -= diff.y;
-		
-		pan_start = new vec2(window_mouse_get_x(), window_mouse_get_y());
-	}
-	else
-	{
-		panning = false;
-		window_set_cursor(cr_default);
+		else
+		{
+			panning = false;
+			window_set_cursor(cr_default);
+		}
 	}
 }
 else
 {
 	// Freecam control
 	// Look
-	yaw -= (window_mouse_get_x() - 308) / 10;
-	pitch = clamp(pitch - (window_mouse_get_y() - 360) / 10, -89, 89);
+	yaw -= (mx - (vw / 2)) / 10;
+	pitch = clamp(pitch - (my - (window_get_height() / 2)) / 10, -89, 89);
 	
-	window_mouse_set(308, 360);
+	window_mouse_set(vw / 2, window_get_height() / 2);
 
 	// From
 	pos.z += (keyboard_check(ord(("E"))) - keyboard_check(ord("Q"))) * spd;

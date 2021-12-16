@@ -2,11 +2,11 @@ draw_clear_alpha(0x111111, 1);
 
 if !global.compiled_view
 {	
-	var	vx = 256.5 + x,
-			vy = 256.6 + y + 16;
+	var	vx = 256 + round(x),
+			vy = 256 + round(y);
 	
 	view_mat = matrix_build_lookat(vx, vy, 1600, vx, vy, 0, 0, 1, 0);
-	proj_mat = matrix_build_projection_ortho(-616, 720, 1, 16000);
+	proj_mat = matrix_build_projection_ortho(-obj_interface.viewport_w * zoom, 720 * zoom, 1, 16000);
 }
 else
 {
@@ -15,7 +15,7 @@ else
 	to.z = pos.z + dsin(pitch);
 	
 	view_mat = matrix_build_lookat(pos.x, pos.y, pos.z, to.x, to.y, to.z, 0, 0, 1);
-	proj_mat = matrix_build_projection_perspective_fov(-70, -616 / 720, 0.5, 32000);
+	proj_mat = matrix_build_projection_perspective_fov(-70, -obj_interface.viewport_w / 720, 0.5, 32000);
 }
 
 // Set projection
