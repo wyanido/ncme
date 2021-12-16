@@ -17,6 +17,8 @@ if !global.compiled_view
 			
 			panning = true;
 			pan_start = new vec2(window_mouse_get_x(), window_mouse_get_y());
+			
+			window_set_cursor(cr_size_all);
 		}
 		
 		var diff = new vec2(window_mouse_get_x() - pan_start.x, window_mouse_get_y() - pan_start.y);
@@ -26,7 +28,11 @@ if !global.compiled_view
 		
 		pan_start = new vec2(window_mouse_get_x(), window_mouse_get_y());
 	}
-	else panning = false;
+	else
+	{
+		panning = false;
+		window_set_cursor(cr_default);
+	}
 }
 else
 {

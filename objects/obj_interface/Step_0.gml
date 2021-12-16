@@ -58,10 +58,10 @@ if !global.compiled_view && point_in_rectangle(mx, my, 0, 0, 616, 720)
 			
 			var this_layer = chunk[? chunk_get_key()].layers[| layer_selected].tiles;
 			
-			if set_tile != undefined && this_layer[# mgrid_x, mgrid_y].type != set_tile.type
+			if set_tile != undefined && !(set_tile.type == undefined && this_layer[# mgrid_x, mgrid_y].type == undefined) && !(this_layer[# mgrid_x, mgrid_y].type == set_tile.type && 15 - z_selected == this_layer[# mgrid_x, mgrid_y].z)
 			{
 				ds_grid_set(this_layer, mgrid_x, mgrid_y, set_tile);
-			
+				
 				tile_previous = new vec2(mgrid_x, mgrid_y);	
 			
 				// Rebuild chunk mesh
@@ -70,7 +70,7 @@ if !global.compiled_view && point_in_rectangle(mx, my, 0, 0, 616, 720)
 		}
 	}
 }
-			
+
 // Select Tile
 if(d.x > 768 && d.x < 960) && (d.y > 28 && d.y < 670.5)
 {

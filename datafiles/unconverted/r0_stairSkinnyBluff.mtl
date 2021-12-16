@@ -1,0 +1,16 @@
+newmtl gake01
+map_Kd gake01.png
+map_d gake01.png
+
+newmtl gake1_0
+map_Kd gake1_0.png
+map_d gake1_0.png
+
+newmtl yamagake01
+map_Kd yamagake01.png
+map_d yamagake01.png
+
+newmtl kaidan01a
+map_Kd kaidan01a.png
+map_d kaidan01a.png
+

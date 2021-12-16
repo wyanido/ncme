@@ -28,6 +28,21 @@ function chunk_compile(this_chunk)
 						
 						var uvs = sprite_get_uvs(this_type.tex, 0);	
 						var matrix = matrix_build(_x * 16, _y * 16, this_tile.z * 16, 0, 0, 0, 16, 16, 16);
+						var rot = this_type[$ "rotation"];
+						rot ??= 0;
+						
+						switch rot
+						{
+							case 90:
+								var matrix = matrix_build(_x * 16, (_y + 1) * 16, this_tile.z * 16, 0, 0, rot, 16, 16, 16);
+							break;
+							case 180:
+								var matrix = matrix_build((_x + 1) * 16, (_y + 1) * 16, this_tile.z * 16, 0, 0, rot, 16, 16, 16);
+							break;
+							case 270:
+								var matrix = matrix_build((_x + 1) * 16, _y * 16, this_tile.z * 16, 0, 0, rot, 16, 16, 16);
+							break;
+						}
 						
 						model_load_file(this_mesh, this_type.model + ".obj", uvs, matrix);
 					break;
@@ -45,9 +60,10 @@ function chunk_compile(this_chunk)
 							var row_width = 4;
 							for ( var _xx = 1; _xx < row_width; _xx ++ )
 							{
-								if (_x + _xx > 31) || chunk[? this_chunk].layers[| l].tiles[# _x + _xx, _y].type == undefined || tile_list[| chunk[? this_chunk].layers[| l].tiles[# _x + _xx, _y].type].type != "grass" || ds_list_find_index(skiplist, string(_x + _xx) + "," + string(_y)) != -1 || (_x + _xx) mod 4 == 0
+								if (_x + _xx > 31) || chunk[? this_chunk].layers[| l].tiles[# _x + _xx, _y].type == undefined || tile_list[| chunk[? this_chunk].layers[| l].tiles[# _x + _xx, _y].type].type != "grass" || ds_list_find_index(skiplist, string(_x + _xx) + "," + string(_y)) != -1 || (_x + _xx) mod 4 == 0 || chunk[? this_chunk].layers[| l].tiles[# _x + _xx, _y].z != chunk[? this_chunk].layers[| l].tiles[# _x, _y].z
 								{
 									row_width = _xx;
+									break;
 								}
 							}
 							
@@ -56,7 +72,7 @@ function chunk_compile(this_chunk)
 							{
 								for ( var _yy = 1; _yy < 4; _yy ++ )
 								{
-									if (_y + _yy > 31)  || chunk[? this_chunk].layers[| l].tiles[# _x + _xx, _y + _yy].type == undefined || tile_list[| chunk[? this_chunk].layers[| l].tiles[# _x + _xx, _y + _yy].type].type != "grass" || ds_list_find_index(skiplist, string(_x + _xx) + "," + string(_y + _yy)) != -1 || (_y + _yy) mod 4 == 0
+									if (_y + _yy > 31)  || chunk[? this_chunk].layers[| l].tiles[# _x + _xx, _y + _yy].type == undefined || tile_list[| chunk[? this_chunk].layers[| l].tiles[# _x + _xx, _y + _yy].type].type != "grass" || ds_list_find_index(skiplist, string(_x + _xx) + "," + string(_y + _yy)) != -1 || (_y + _yy) mod 4 == 0 || chunk[? this_chunk].layers[| l].tiles[# _x + _xx, _y + _yy].z != chunk[? this_chunk].layers[| l].tiles[# _x, _y].z
 									{
 										largest_column = min(largest_column, _yy);
 									}
@@ -83,8 +99,8 @@ function chunk_compile(this_chunk)
 									
 							uvs[0] += fac_x;
 							uvs[1] += fac_y;
-							uvs[3] = uvs[1] + (uv_w / 4) * largest_column;
-							uvs[2] = uvs[0] + (uv_h / 4) * row_width;
+							uvs[3] = uvs[1] + (uv_h / 4) * largest_column;
+							uvs[2] = uvs[0] + (uv_w / 4) * row_width;
 							
 							vertex_quad(this_mesh, px, py, px + ext_x, py + ext_y, pz, uvs, c_white, 1);
 						}

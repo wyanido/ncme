@@ -78,8 +78,8 @@ function layer_cache_refresh(this_chunk, this_layer)
 									
 						uvs[0] += fac_x;
 						uvs[1] += fac_y;
-						uvs[3] = uvs[1] + (uv_w / 4) * largest_column;
-						uvs[2] = uvs[0] + (uv_h / 4) * row_width;
+						uvs[3] = uvs[1] + (uv_h / 4) * largest_column;
+						uvs[2] = uvs[0] + (uv_w / 4) * row_width;
 							
 						vertex_quad(this_mesh, px, py, px + ext_x, py + ext_y, pz, uvs, c_white, 1);
 					}

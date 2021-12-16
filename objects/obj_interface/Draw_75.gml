@@ -13,11 +13,17 @@ for(var _y = 0; _y < h && i < tile_count; _y ++)
 {
 	for(var _x = 0; _x < 8 && _x < w && i < tile_count; _x ++)
 	{
-		draw_sprite_stretched(tile_list[| i].tex, i, xx + (_x * 32), 28 + (_y * 32), 32, 32);
+		var tex = tile_list[| i].tex;
+		var rot = tile_list[| i][$ "rotation"];
+		rot ??= 0;
+		
+		matrix_set(matrix_world, matrix_build(xx + (_x * 32) + 16, 28 + (_y * 32) + 16, 0, 0, 0, rot, 1, 1, 1));
+		draw_sprite_part_ext(tex, i, 0, 0, 32, 32, -16, -16, 32 / min(32, sprite_get_width(tex)), 32 / min(32, sprite_get_height(tex)), c_white, 1);
 		i ++;
 	}
 }
 
+matrix_set(matrix_world, matrix_build_identity());
 var pos = new vec2(tile_selected mod w, floor(tile_selected / w));
 var cellS = new vec2(pos.x * 32, pos.y * 32);
 

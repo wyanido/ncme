@@ -14,10 +14,15 @@ function model_load_file(vbuff, filename, uvs, matrix, fliptex = true)
 			for ( var j = 0; j < 3; j ++ )
 			{
 				var new_pos = matrix_transform_vertex(matrix, tri[j].x, tri[j].y, tri[j].z);
-			
-				vertex_position_3d(vbuff, new_pos[0], new_pos[1], new_pos[2]);
+				
+				var	uv_w = uvs[2] - uvs[0],
+						uv_h = uvs[3] - uvs[1];
+				
+				var ytex = fliptex ? uvs[1] + (1 - tri[j].v) * uv_h : uvs[1] + tri[j].v * uv_h;
+				
+				vertex_position_3d(vbuff, round(new_pos[0]), round(new_pos[1]), round(new_pos[2]));
 				vertex_color(vbuff, c_white, 1);
-				vertex_texcoord(vbuff, tri[j].u, tri[j].v);
+				vertex_texcoord(vbuff, uvs[0] + tri[j].u * uv_w, ytex);
 			}
 		}
 	}
@@ -62,12 +67,8 @@ function model_load_file(vbuff, filename, uvs, matrix, fliptex = true)
 					ds_list_add(vertex_z, real(terms[3]));
 				break;
 				case "vt":
-					ds_list_add(vertex_xtex, uvs[0] + real(terms[1]) * uv_w);
-				
-					if fliptex
-						ds_list_add(vertex_ytex, uvs[1] + (1.0 - real(terms[2])) * uv_h);
-					else
-						ds_list_add(vertex_ytex, uvs[1] + real(terms[2]) * uv_h);
+					ds_list_add(vertex_xtex, real(terms[1]));
+					ds_list_add(vertex_ytex, real(terms[2]));
 				break;
 				case "f":
 					ds_list_add(tri_cache, array_create(3, 0));
@@ -90,18 +91,18 @@ function model_load_file(vbuff, filename, uvs, matrix, fliptex = true)
 						var yy = ds_list_find_value(vertex_y, real(data[0]) - 1);
 						var zz = ds_list_find_value(vertex_z, real(data[0]) - 1);
 					
-						var xtex = ds_list_find_value(vertex_xtex, real(data[1]) - 1);
-						var ytex = ds_list_find_value(vertex_ytex, real(data[1]) - 1);
+						var xtex = vertex_xtex[| real(data[1]) - 1];
+						var ytex = vertex_ytex[| real(data[1]) - 1];
 						
 						var t = yy;
 						yy = zz;
 						zz = t;
 
 						var new_pos = matrix_transform_vertex(matrix, xx, yy, zz);
-					
-						vertex_position_3d(vbuff, new_pos[0], new_pos[1], new_pos[2]);
+						
+						vertex_position_3d(vbuff, round(new_pos[0]), round(new_pos[1]), round(new_pos[2]));
 						vertex_color(vbuff, c_white, 1);
-						vertex_texcoord(vbuff, xtex, ytex);
+						vertex_texcoord(vbuff, uvs[0] + xtex * uv_w, fliptex ? uvs[1] + (1.0 - ytex) * uv_h : uvs[1] + ytex * uv_h);
 						
 						tri_cache[| ds_list_size(tri_cache) - 1][n - 1] = { x: xx, y: yy, z: zz, u: xtex, v: ytex }
 					}
