@@ -1,7 +1,5 @@
 function chunk_compile(this_chunk)
 {
-	show_debug_message("Re-compiled active chunk! (" + string(get_timer()) + ")");
-	
 	// Delete existing mesh if necessary
 	if chunk_mesh[? this_chunk] != undefined
 		vertex_delete_buffer(chunk_mesh[? this_chunk]);
@@ -89,7 +87,7 @@ function chunk_compile(this_chunk)
 							
 							var	ext_x = 16 * row_width,
 									ext_y = 16 * largest_column;
-
+							
 							// Repeat texture
 							var	uv_w = uvs[2] - uvs[0],
 									uv_h = uvs[3] - uvs[1];

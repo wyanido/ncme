@@ -1,75 +1,81 @@
 
 function map_import()
 {
-	var load_path = get_open_filename_ext("Carbon Map File|*.pcbmap", "", working_directory, "Load Map");
-				
-	if(load_path != "")	// -- If Operation Not Cancelled
+	var load_path = get_open_filename_ext("NCME Map File|*.ncmap", "", working_directory, "Load Map");
+	if load_path == "" return;
+	
+	var buff_compressed = buffer_load(load_path);
+	var save_buff = buffer_decompress(buff_compressed);
+	
+	var str_chunk = "";
+	while true
 	{
-		var buff = buffer_load(load_path);
-		var decmp = buffer_decompress(buff);
-		buffer_seek(decmp, buffer_seek_start, 0);
-		var chunkstring = "";
+		var str_chunk = buffer_read(save_buff, buffer_string);
+		if str_chunk == "END" break;
 		
-		while(chunkstring != "END")	// Read Chunks until marked "END" position
-		{
-			var chunkstring = buffer_read(decmp, buffer_string);
+		// Chunk coordinates
+		var index = 0, coord_len = 1;
+		while string_char_at(str_chunk, index + coord_len) != "," coord_len ++;
+		var chunk_x = string_copy(str_chunk, index, coord_len - 1);
+		var chunk_y = string_copy(str_chunk, index + 1 + coord_len, string_length(str_chunk) - index - 1);
+		
+		index += coord_len + 1;
+		
+		var chunk_key = chunk_x + "," + chunk_y;
+		chunk[? chunk_key] = new Chunk(real(chunk_x), real(chunk_y));		
+		
+		// Read layers
+		for ( var l = 0; l < 8; l ++ )
+		{	
+			var str_layers = buffer_read(save_buff, buffer_string);
 			
-			if(chunkstring != "END")
+			if str_layers == "NONE"
 			{
+				ds_grid_set_region(chunk[? chunk_key].layers[| l].tiles, 0, 0, 31, 31, new ChunkTile(undefined, -1));
+				continue;
+			}
+			
+			var tile_index = 0, char_index = 1;
+			while char_index < string_length(str_layers)
+			{
+				var	xx = floor(tile_index / 32),
+						yy = floor(tile_index mod 32);
 				
-				var char = 1, tile_index = 0, coordlen = 0;
-				
-				// -- Read Chunk Coordinates
-				while(string_char_at(chunkstring, char + coordlen) != ",") coordlen ++;
-				var _cx = string_copy(chunkstring, char, coordlen);
-				
-				char += coordlen + 1;
-				coordlen = 0;
-				
-				while(string_char_at(chunkstring, char + coordlen) != "|") coordlen ++;
-				var _cy = string_copy(chunkstring, char, coordlen);
-				
-				char += coordlen + 1;
-				
-				for(var l = 0; l < 8; l ++)
+				if string_copy(str_layers, char_index, 1) == "x"
 				{
-					
-					if(string_copy(chunkstring, char, 5) == "EMPTY")
-					{
-						if(obj_interface.chunk[? _cx + "," + _cy] == undefined) obj_interface.chunk[? _cx + "," + _cy] = new Chunk(real(_cx), real(_cy));
-						
-						ds_grid_set_region(obj_interface.chunk[? _cx + "," + _cy].layers[| l].tiles, 0, 0, 31, 31, new ChunkTile(tile.none, 15));
-						
-						char += 6;
-						continue;
-					}
-					
-					tile_index = 0;
-
-					while(string_char_at(chunkstring, char) != ":")
-					{
-						var _z = string_copy(chunkstring, char, 2);
+					chunk[? chunk_key].layers[| l].tiles[# xx, yy] = new ChunkTile(undefined, -1);
+					tile_index ++;
+					char_index ++;
+					continue;
+				}
 				
-						var IDlen = 1;
-						while (string_char_at(chunkstring, char + 2 + IDlen) != "-") IDlen ++;
-						var _h = string_copy(chunkstring, char + 2, IDlen);
+				var tile_z = string_copy(str_layers, char_index, 2);
+				char_index += 2;
+
+				var type_len = 1;
+				while string_char_at(str_layers, char_index + type_len) != "." type_len ++;
+				
+				var str_type = string_copy(str_layers, char_index, type_len);
+
+				chunk[? chunk_key].layers[| l].tiles[# xx, yy] = new ChunkTile(str_type, real(tile_z));
 					
-						if(obj_interface.chunk[? _cx + "," + _cy] == undefined) obj_interface.chunk[? _cx + "," + _cy] = new Chunk(real(_cx), real(_cy));
-						obj_interface.chunk[? _cx + "," + _cy].layers[| l].tiles[# floor(tile_index / 32), tile_index mod 32] = new ChunkTile(real(_h), real(_z));
-					
-						char += 3 + IDlen;
-						tile_index ++;
-					}
-					
-					char ++;
-					
-				}	
+				char_index += type_len + 1;
+				tile_index ++;
 			}
 		}
+	}
 		
-		buffer_delete(decmp);
-		buffer_delete(buff);
-					
-		obj_interface.refresh_map = true;
+	//buffer_delete(buff_compressed);
+	buffer_delete(save_buff);
+	
+	// Compile all chunks
+	for ( var c = ds_map_find_first(chunk); c < ds_map_size(chunk); c = ds_map_find_next(chunk, c) )
+	{
+		chunk_compile(c);
+		
+		for ( var l = 0; l < 8; l ++ )
+		{
+			mdl_layercache = layer_cache_refresh(c, l)	
+		}
 	}
 }

@@ -8,5 +8,8 @@ onUpdate = function()
 
 onClick = function()
 {
-	map_export()
+	with obj_interface
+	{
+		map_export()
+	}
 }

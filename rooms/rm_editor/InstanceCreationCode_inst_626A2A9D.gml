@@ -8,5 +8,8 @@ onUpdate = function()
 
 onClick = function()
 {
-	map_import()
+	with obj_interface
+	{
+		map_import()
+	}
 }

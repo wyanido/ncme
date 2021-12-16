@@ -1,44 +1,6 @@
 /// -- @desc Render viewport
 // Layer cache
 var tex = sprite_get_texture(tx_grass, 0);
-if mdl_layercache != undefined
-{
-	if mdl_layercache != "cleared_layer"
-	{
-		if !surface_exists(surf_layercache)
-			surf_layercache = surface_create(72, 72);
-
-		surface_set_target(surf_layercache);
-		draw_clear_alpha(c_black, 0);
-	
-		var view_mat = matrix_build_lookat(256, 256, 1600, 256, 256, 0, 0, 1, 0);
-		var proj_mat = matrix_build_projection_ortho(-512, 512, 1, 16000);
-		
-		// Set projection
-		camera_set_view_mat(0, view_mat);
-		camera_set_proj_mat(0, proj_mat);
-
-		camera_apply(0);
-
-		vertex_submit(mdl_layercache, pr_trianglelist, tex);
-	
-		surface_reset_target();
-		if chunk[? chunk_get_key()].render_cache[layer_selected] != undefined
-			sprite_delete(chunk[? chunk_get_key()].render_cache[layer_selected]);
-	
-		chunk[? chunk_get_key()].render_cache[layer_selected] = sprite_create_from_surface(surf_layercache, 0, 0, 72, 72, false, false, 0, 0);
-		vertex_delete_buffer(mdl_layercache);
-	}
-	else
-	{
-		if chunk[? chunk_get_key()].render_cache[layer_selected] != undefined
-			sprite_delete(chunk[? chunk_get_key()].render_cache[layer_selected]);
-		chunk[? chunk_get_key()].render_cache[layer_selected] = undefined;
-	}
-
-	mdl_layercache = undefined;
-}
-
 // Map chunks
 draw_set_colour(c_white);
 
