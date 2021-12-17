@@ -10,18 +10,30 @@ onClick = function()
 {
 	with obj_interface
 	{
+		// Log tile changes
+		var action_log = {
+			chunk: chunk_get_key() ,
+			layer: obj_layers.sel, 
+			type: "layer_adjust",
+			from: ds_grid_create(32, 32),
+			to: ds_grid_create(32, 32)
+		}
+		
 		if !ds_map_exists(global.chunk, chunk_get_key())
-				global.chunk[? chunk_get_key()] = new Chunk(chunk_selected.x, chunk_selected.y);
+			global.chunk[? chunk_get_key()] = new Chunk(chunk_selected.x, chunk_selected.y);
 				
-		var this_layer = global.chunk[? chunk_get_key()].layers[obj_layers.sel];
+		var lr = global.chunk[? chunk_get_key()].layers[obj_layers.sel];
+		
+		ds_grid_copy(action_log.from, lr.tiles);
+		
 		var	neighbours = ds_grid_create(3, 3);
 		
 		for(var _x = 0; _x < 32; _x ++)
 		{
 			for(var _y = 0; _y < 32; _y ++)
 			{
-				if this_layer.tiles[# _x, _y].type == undefined continue;
-				var tile_type = obj_tiles.list[| this_layer.tiles[# _x, _y].type].type;
+				if lr.tiles[# _x, _y].type == undefined continue;
+				var tile_type = obj_tiles.list[| lr.tiles[# _x, _y].type].type;
 				if tile_type != "grass_path" continue;
 
 				// Find adjacent tiles
@@ -40,10 +52,10 @@ onClick = function()
 							continue;
 						}
 						
-						if this_layer.tiles[# _x + _xx, _y + _yy].type == undefined
+						if lr.tiles[# _x + _xx, _y + _yy].type == undefined
 							neighbours[# _xx + 1, _yy + 1] = false;
 						else
-							neighbours[# _xx + 1, _yy + 1] = obj_tiles.list[| this_layer.tiles[# _x + _xx, _y + _yy].type].type == "grass_path";
+							neighbours[# _xx + 1, _yy + 1] = obj_tiles.list[| lr.tiles[# _x + _xx, _y + _yy].type].type == "grass_path";
 					}
 				}
 
@@ -78,7 +90,7 @@ onClick = function()
 					set_tile = "center";
 					
 				// Apply tile
-				var this_z = this_layer.tiles[# _x, _y].z;
+				var this_z = lr.tiles[# _x, _y].z;
 
 				if set_tile != undefined
 				{
@@ -89,7 +101,7 @@ onClick = function()
 							if obj_tiles.list[| i].direction == set_tile
 							{
 								// Apply directional change
-								this_layer.tiles[# _x, _y] = new ChunkTile(i, this_z);
+								lr.tiles[# _x, _y] = new ChunkTile(i, this_z);
 								break;
 							}
 						}
@@ -97,6 +109,13 @@ onClick = function()
 				}
 			}
 		}
+		
+		ds_grid_copy(action_log.to, lr.tiles);
+		
+		array_insert(action_list, action_number, action_log);
+		action_number ++;
+		
+		array_delete(action_list, action_number, array_length(action_list) - action_number);
 		
 		ds_grid_destroy(neighbours);
 		chunk_compile(chunk_get_key());

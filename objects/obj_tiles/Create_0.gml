@@ -372,6 +372,14 @@ ds_list_add(list, {
 	})
 #endregion
 
+ds_list_add(list, {
+	name: "Rock",
+	model: "rock",
+	size: new vec2(1, 1),
+	tex: tx_rock,
+	type: "rock"
+})
+
 // Add indexes to tile info
 var tile_len = ds_list_size(list);
 for ( var i = 0; i < tile_len; i ++ )

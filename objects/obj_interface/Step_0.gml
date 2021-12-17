@@ -65,11 +65,12 @@ if !global.compiled_view && point_in_rectangle(mx, my, 0, 0, viewport_w, 720)
 			
 			if set_tile != undefined && !already_empty && !is_same_tile
 			{
-				array_insert(actionlist, action_number, {
+				array_insert(action_list, action_number, {
 					chunk: chunk_get_key() ,
 					layer: obj_layers.sel, 
 					x: mgrid_x, 
-					y: mgrid_y, 
+					y: mgrid_y,
+					type: "tile",
 					from: { 
 						type: global.chunk[? chunk_get_key()].layers[obj_layers.sel].tiles[# mgrid_x, mgrid_y].type,
 						z: global.chunk[? chunk_get_key()].layers[obj_layers.sel].tiles[# mgrid_x, mgrid_y].z
@@ -81,6 +82,7 @@ if !global.compiled_view && point_in_rectangle(mx, my, 0, 0, viewport_w, 720)
 				})
 				
 				action_number ++;
+				array_delete(action_list, action_number, array_length(action_list) - action_number);
 				
 				ds_grid_set(this_layer, mgrid_x, mgrid_y, set_tile);
 				

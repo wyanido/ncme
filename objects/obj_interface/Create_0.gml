@@ -11,7 +11,7 @@ vertex_format_add_texcoord();
 global.vformat = vertex_format_end();
 global.model_cache = ds_map_create();
 
-actionlist = [];
+action_list = [];
 action_number = 0;
 
 // Chunk data

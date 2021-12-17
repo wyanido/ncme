@@ -8,15 +8,38 @@ onUpdate = function()
 
 onClick = function()
 {
+	if !ds_map_exists(global.chunk, chunk_get_key())
+		global.chunk[? chunk_get_key()] = new Chunk(obj_interface.chunk_selected.x, obj_interface.chunk_selected.y);
+				
+	var lr = global.chunk[? chunk_get_key()].layers[obj_layers.sel];
+	
+	with obj_interface
+	{
+		// Log tile changes
+		var action_log = {
+			chunk: chunk_get_key() ,
+			layer: obj_layers.sel, 
+			type: "layer",
+			from: ds_grid_create(32, 32),
+			to: {
+				type: obj_tiles.sel,
+				z: obj_interface.z_selected
+			}
+		}
+		
+		ds_grid_copy(action_log.from, lr.tiles)
+		
+		array_insert(action_list, action_number, action_log);
+		
+		action_number ++;
+		array_delete(action_list, action_number, array_length(action_list) - action_number);
+		
+	}
+	
 	with obj_tiles
 	{
-		if !ds_map_exists(global.chunk, chunk_get_key())
-				global.chunk[? chunk_get_key()] = new Chunk(obj_interface.chunk_selected.x, obj_interface.chunk_selected.y);
-		
-		var lr = global.chunk[? chunk_get_key()].layers[obj_layers.sel];
-		
 		// Clear layer before filling
-		var tile_data = list[| sel]
+		var tile_data = list[| sel];
 		ds_grid_set_region(lr.tiles, 0, 0, 31, 31, new ChunkTile(undefined, -1));
 		
 		for ( var _x = 0; _x < 32;  )
@@ -31,28 +54,5 @@ onClick = function()
 		}
 	}
 	
-	
-	with obj_interface
-	{
-		array_insert(actionlist, action_number, {
-			chunk: chunk_get_key() ,
-			layer: obj_layers.sel, 
-			x: 0, 
-			y: 0,
-			x2: 31,
-			y2: 31
-			from: { 
-				type: global.chunk[? chunk_get_key()].layers[obj_layers.sel].tiles[# mgrid_x, mgrid_y].type,
-				z: global.chunk[? chunk_get_key()].layers[obj_layers.sel].tiles[# mgrid_x, mgrid_y].z
-			},
-			to: { 
-				type: set_tile.type,
-				z: set_tile.z
-			}
-		})
-				
-		action_number ++;
-				
-		chunk_compile(chunk_get_key());
-	}
+	with obj_interface chunk_compile(chunk_get_key());
 }
