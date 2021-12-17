@@ -1,5 +1,6 @@
 
 label = "Open";
+icon = ui_open;
 
 onUpdate = function()
 {

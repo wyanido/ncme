@@ -10,7 +10,7 @@ onClick = function()
 {
 	if !ds_map_exists(global.chunk, chunk_get_key())
 		global.chunk[? chunk_get_key()] = new Chunk(obj_interface.chunk_selected.x, obj_interface.chunk_selected.y);
-				
+			
 	var lr = global.chunk[? chunk_get_key()].layers[obj_layers.sel];
 	
 	with obj_interface

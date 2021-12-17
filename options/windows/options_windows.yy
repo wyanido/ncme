@@ -1,5 +1,5 @@
 {
-  "option_windows_display_name": "Nido's Carbon Map Maker",
+  "option_windows_display_name": "Nido's Carbon Map Maker v0.1",
   "option_windows_executable_name": "NCME.exe",
   "option_windows_version": "1.0.0.0",
   "option_windows_company_info": "",

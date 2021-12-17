@@ -1,4 +1,7 @@
 /// -- @desc Initialise UI
+// Editor settings
+max_undo_history = 30;
+
 // Globals
 global.compiled_view = false;
 
@@ -13,6 +16,8 @@ global.model_cache = ds_map_create();
 
 action_list = [];
 action_number = 0;
+action_meaningful = false;
+stroke_begin = undefined;
 
 // Chunk data
 z_selected = 15;

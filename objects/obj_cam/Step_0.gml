@@ -53,7 +53,7 @@ else
 	// Freecam control
 	// Look
 	yaw -= (mx - (vw / 2)) / 10;
-	pitch = clamp(pitch - (my - (window_get_height() / 2)) / 10, -89, 89);
+	pitch = clamp(pitch - (my - (window_get_height() / 2)) / 10, -89.5, 89.5);
 	
 	window_mouse_set(vw / 2, window_get_height() / 2);
 

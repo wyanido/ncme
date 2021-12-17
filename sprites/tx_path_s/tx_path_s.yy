@@ -69,8 +69,8 @@
   ],
   "nineSlice": null,
   "parent": {
-    "name": "grass path",
-    "path": "folders/Resources/Assets/grass path.yy",
+    "name": "Path",
+    "path": "folders/Resources/Textures/Path.yy",
   },
   "resourceVersion": "1.0",
   "name": "tx_path_s",

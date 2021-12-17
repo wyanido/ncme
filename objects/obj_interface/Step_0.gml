@@ -1,4 +1,10 @@
 /// -- @desc UI control
+// Remove oldest undo entries
+if array_length(action_list) > max_undo_history
+{
+	array_delete(action_list, 0, 1);
+	action_number --;
+}
 
 var click = mouse_check_button_pressed(mb_left), hold = mouse_check_button(mb_left);
 
@@ -17,6 +23,13 @@ var	mx = window_mouse_get_x(),
 
 if !global.compiled_view && point_in_rectangle(mx, my, 0, 0, viewport_w, 720)
 {
+	if mouse_check_button_pressed(mb_left) || mouse_check_button_pressed(mb_right)
+	{
+		action_meaningful = false;	
+		stroke_begin = ds_grid_create(32, 32);
+		ds_grid_copy(stroke_begin, global.chunk[? chunk_get_key()].layers[obj_layers.sel].tiles);
+	}
+
 	var	mgrid_x = floor(mouse_x / 16) mod 32,
 			mgrid_y = floor(mouse_y / 16) mod 32;
 	
@@ -39,6 +52,7 @@ if !global.compiled_view && point_in_rectangle(mx, my, 0, 0, viewport_w, 720)
 		var place_valid = pre_space_x >= obj_tiles.list[| obj_tiles.sel].size.x || pre_space_y >= obj_tiles.list[| obj_tiles.sel].size.y;
 	}
 	
+	// Place tile
 	if place_valid
 	{
 		var set_tile = undefined;
@@ -65,32 +79,39 @@ if !global.compiled_view && point_in_rectangle(mx, my, 0, 0, viewport_w, 720)
 			
 			if set_tile != undefined && !already_empty && !is_same_tile
 			{
-				array_insert(action_list, action_number, {
-					chunk: chunk_get_key() ,
-					layer: obj_layers.sel, 
-					x: mgrid_x, 
-					y: mgrid_y,
-					type: "tile",
-					from: { 
-						type: global.chunk[? chunk_get_key()].layers[obj_layers.sel].tiles[# mgrid_x, mgrid_y].type,
-						z: global.chunk[? chunk_get_key()].layers[obj_layers.sel].tiles[# mgrid_x, mgrid_y].z
-					},
-					to: { 
-						type: set_tile.type,
-						z: set_tile.z
-					}
-				})
-				
-				action_number ++;
-				array_delete(action_list, action_number, array_length(action_list) - action_number);
+				action_meaningful = true;
 				
 				ds_grid_set(this_layer, mgrid_x, mgrid_y, set_tile);
 				
 				tile_previous = new vec2(mgrid_x, mgrid_y);	
-			
-				// Rebuild chunk mesh
+				
 				layer_compile(chunk_get_key(), obj_layers.sel);
 			}
+		}
+	}
+	
+	// Save stroke to history
+	if mouse_check_button_released(mb_left) || mouse_check_button_released(mb_right)
+	{
+		if action_meaningful
+		{
+			var action_data = {
+				chunk: chunk_get_key() ,
+				layer: obj_layers.sel,
+				x: mgrid_x,
+				y: mgrid_y,
+				type: "layer_adjust",
+				from: ds_grid_create(32, 32),
+				to: ds_grid_create(32, 32)
+			}
+		
+			ds_grid_copy(action_data.from, stroke_begin);
+			ds_grid_copy(action_data.to, global.chunk[? chunk_get_key()].layers[obj_layers.sel].tiles);
+		
+			array_insert(action_list, action_number, action_data);	
+			action_number ++;
+		
+			array_delete(action_list, action_number, array_length(action_list) - action_number);
 		}
 	}
 }

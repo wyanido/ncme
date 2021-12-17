@@ -1,9 +1,10 @@
 
 label = "Redo";
+icon = ui_redo;
 
 onUpdate = function()
 {
-	active = obj_interface.action_number < array_length(obj_interface.action_list);
+	active = obj_interface.action_number < array_length(obj_interface.action_list) && !global.compiled_view;
 }
 
 onClick = function()
@@ -15,9 +16,6 @@ onClick = function()
 		
 		switch action.type
 		{
-			case "tile":
-				global.chunk[? action.chunk].layers[action.layer].tiles[# action.x, action.y] = new ChunkTile(action.to.type, action.to.z);
-			break;
 			case "layer":
 				ds_grid_set_region(global.chunk[? action.chunk].layers[action.layer].tiles, 0, 0, 31, 31, new ChunkTile(action.to.type, 15 - action.to.z));
 			break;

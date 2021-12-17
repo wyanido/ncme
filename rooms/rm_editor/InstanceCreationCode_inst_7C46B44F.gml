@@ -1,5 +1,6 @@
 
 label = "Save";
+icon = ui_save;
 
 onUpdate = function()
 {

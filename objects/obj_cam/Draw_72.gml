@@ -7,6 +7,14 @@ if !global.compiled_view
 	
 	view_mat = matrix_build_lookat(vx, vy, 1600, vx, vy, 0, 0, 1, 0);
 	proj_mat = matrix_build_projection_ortho(-obj_interface.viewport_w * zoom, 720 * zoom, 1, 16000);
+	
+	// Adjust 3D position to editor position
+	pos.x = vx;
+	pos.y = vy;
+	pos.z = obj_interface.viewport_w * zoom - 96;
+	
+	yaw = 90;
+	pitch = -90;
 }
 else
 {

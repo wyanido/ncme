@@ -5,6 +5,7 @@ hidden = false;
 active = true;
 
 label = "Button";
+icon = undefined;
 
 onUpdate = undefined;
 onClick = undefined;
