@@ -3,7 +3,7 @@ label = "Smart Tiles";
 
 onUpdate = function()
 {
-	active = !global.compiled_view;	
+	active = !global.viewport_3d;	
 }
 
 onClick = function()
@@ -19,12 +19,9 @@ onClick = function()
 			to: ds_grid_create(32, 32)
 		}
 		
-		if !ds_map_exists(global.chunk, chunk_get_key())
-			global.chunk[? chunk_get_key()] = new Chunk(chunk_selected.x, chunk_selected.y);
-				
-		var lr = global.chunk[? chunk_get_key()].layers[obj_layers.sel];
-		
-		ds_grid_copy(action_log.from, lr.tiles);
+		var lr = chunk_get_tiles(obj_interface.chunk_selected.x, obj_interface.chunk_selected.y, obj_layers.sel);
+
+		ds_grid_copy(action_log.from, lr);
 		
 		var	neighbours = ds_grid_create(3, 3);
 		
@@ -32,8 +29,8 @@ onClick = function()
 		{
 			for(var _y = 0; _y < 32; _y ++)
 			{
-				if lr.tiles[# _x, _y].type == undefined continue;
-				var tile_type = obj_tiles.list[| lr.tiles[# _x, _y].type].type;
+				if lr[# _x, _y].type == undefined continue;
+				var tile_type = obj_tiles.list[| lr[# _x, _y].type].type;
 				if tile_type != "grass_path" continue;
 
 				// Find adjacent tiles
@@ -55,7 +52,7 @@ onClick = function()
 						if lr.tiles[# _x + _xx, _y + _yy].type == undefined
 							neighbours[# _xx + 1, _yy + 1] = false;
 						else
-							neighbours[# _xx + 1, _yy + 1] = obj_tiles.list[| lr.tiles[# _x + _xx, _y + _yy].type].type == "grass_path";
+							neighbours[# _xx + 1, _yy + 1] = obj_tiles.list[| lr[# _x + _xx, _y + _yy].type].type == "grass_path";
 					}
 				}
 
@@ -90,7 +87,7 @@ onClick = function()
 					set_tile = "center";
 					
 				// Apply tile
-				var this_z = lr.tiles[# _x, _y].z;
+				var this_z = lr[# _x, _y].z;
 
 				if set_tile != undefined
 				{
@@ -101,7 +98,7 @@ onClick = function()
 							if obj_tiles.list[| i].direction == set_tile
 							{
 								// Apply directional change
-								lr.tiles[# _x, _y] = new ChunkTile(i, this_z);
+								lr[# _x, _y] = new ChunkTile(i, this_z);
 								break;
 							}
 						}
@@ -110,7 +107,7 @@ onClick = function()
 			}
 		}
 		
-		ds_grid_copy(action_log.to, lr.tiles);
+		ds_grid_copy(action_log.to, lr);
 		
 		array_insert(action_list, action_number, action_log);
 		action_number ++;

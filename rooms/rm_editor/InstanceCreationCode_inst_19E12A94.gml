@@ -3,7 +3,7 @@ label = "Export Model";
 
 onUpdate = function()
 {
-	active = !global.compiled_view;	
+	active = !global.viewport_3d;	
 }
 
 /*

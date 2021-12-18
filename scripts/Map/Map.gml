@@ -5,7 +5,6 @@ function Chunk(_x, _y) constructor
 	pos_y = _y;
 	
 	layers = [ ];
-	render_cache = array_create(8, undefined);
 	
 	repeat(8) array_push(layers, new ChunkLayer());
 }

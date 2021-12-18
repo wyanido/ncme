@@ -3,15 +3,18 @@ function layer_compile(this_chunk, l)
 	var skiplist = ds_list_create();
 
 	// Delete existing mesh
-	if chunk_mesh[? this_chunk] != undefined
+	if is_array( chunk_mesh[? this_chunk] )
 	{
 		if chunk_mesh[? this_chunk][l] != undefined
 		{
 			vertex_delete_buffer(chunk_mesh[? this_chunk][l]);
 		}
 	}
-	else chunk_mesh[? this_chunk] = array_create(8, undefined);
-
+	else
+	{
+		chunk_mesh[? this_chunk] = array_create(8, undefined);
+	}
+	
 	var this_mesh = vertex_create_buffer();
 	vertex_begin(this_mesh, global.vformat);
 		

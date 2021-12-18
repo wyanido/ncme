@@ -5,7 +5,7 @@ draw_set_halign(fa_left);
 draw_set_font(fnt_UI);
 draw_set_colour(c_white);
 	
-if !global.compiled_view
+if !global.viewport_3d
 { 
 	var	mgrid_x = floor(mouse_x / 16) mod 32,
 			mgrid_y = floor(mouse_y / 16) mod 32;

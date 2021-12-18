@@ -4,7 +4,7 @@ icon = ui_undo;
 
 onUpdate = function()
 {
-	active = obj_interface.action_number > 0 && !global.compiled_view;
+	active = obj_interface.action_number > 0 && !global.viewport_3d;
 }
 
 onClick = function()

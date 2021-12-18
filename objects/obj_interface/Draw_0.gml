@@ -27,7 +27,7 @@ matrix_set(matrix_world, matrix_build_identity());
 var	mx = window_mouse_get_x(),
 		my = window_mouse_get_x();
 
-if !global.compiled_view && point_in_rectangle(mx, my, 0, 0, viewport_w, 720)
+if !global.viewport_3d && point_in_rectangle(mx, my, 0, 0, viewport_w, 720)
 {
 	var	mgrid_x = floor(mouse_x / 16) * 16,
 			mgrid_y = floor(mouse_y / 16) * 16;
@@ -42,7 +42,7 @@ if !global.compiled_view && point_in_rectangle(mx, my, 0, 0, viewport_w, 720)
 }
 
 // Chunk Outline
-if !global.compiled_view
+if !global.viewport_3d
 {
 	gpu_set_ztestenable(false);
 	draw_set_colour(c_white);

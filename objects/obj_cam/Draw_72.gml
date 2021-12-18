@@ -1,6 +1,6 @@
 draw_clear_alpha(0x111111, 1);
 
-if !global.compiled_view
+if !global.viewport_3d
 {	
 	var	vx = 256 + round(x),
 			vy = 256 + round(y);

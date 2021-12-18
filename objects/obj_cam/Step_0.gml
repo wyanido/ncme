@@ -1,4 +1,13 @@
 /// -- @desc View control
+// Toggle orthographic view
+if keyboard_check_pressed(vk_space)
+{
+	global.viewport_3d = !global.viewport_3d;
+	
+	if global.viewport_3d
+		window_mouse_set(308, 360);
+}
+
 // Zoom
 if mouse_wheel_up() zoom -= 0.1;
 if mouse_wheel_down() zoom += 0.1;
@@ -10,7 +19,7 @@ var	mx = window_mouse_get_x(),
 
 var vw = obj_interface.viewport_w;
 
-if !global.compiled_view
+if !global.viewport_3d
 {
 	if point_in_rectangle(mx, my, 0, 0, vw, 720)
 	{
@@ -21,11 +30,6 @@ if !global.compiled_view
 			{
 				with obj_interface
 				{
-					var	chunkgrid_x = floor(mouse_x / 512), 
-							chunkgrid_y = floor(mouse_y / 512);
-						
-					chunk_selected = new vec2(chunkgrid_x, chunkgrid_y);
-					
 					if !is_array(chunk_mesh[? chunk_get_key()])
 						chunk_mesh[? chunk_get_key()] = array_create(8, undefined);
 				}

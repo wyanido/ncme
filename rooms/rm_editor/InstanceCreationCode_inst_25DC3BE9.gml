@@ -4,7 +4,7 @@ icon = ui_redo;
 
 onUpdate = function()
 {
-	active = obj_interface.action_number < array_length(obj_interface.action_list) && !global.compiled_view;
+	active = obj_interface.action_number < array_length(obj_interface.action_list) && !global.viewport_3d;
 }
 
 onClick = function()

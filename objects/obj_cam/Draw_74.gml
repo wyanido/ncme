@@ -1,4 +1,4 @@
-if global.compiled_view 
+if global.viewport_3d 
 {
 	// View info
 	draw_set_halign(fa_left);

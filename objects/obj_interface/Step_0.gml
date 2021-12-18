@@ -1,168 +1,70 @@
 /// -- @desc UI control
-// Remove oldest undo entries
-if array_length(action_list) > max_undo_history
-{
-	array_delete(action_list, 0, 1);
-	action_number --;
+// Exit if not in edit mode
+var	editor_active = !global.viewport_3d && point_in_rectangle(window_mouse_get_x(), window_mouse_get_y(), 0, 0, viewport_w, 720);
+if !editor_active return;
+
+var	mouse = mouseToGrid(),
+		_chunk = mouseToChunk();
+
+var	lmb = mouse_check_button(mb_left),
+		rmb = mouse_check_button(mb_right),
+		mmb = mouse_check_button(mb_middle);
+
+// Tile placement
+if ( lmb || rmb || mmb ) {
+	chunk_selected = new vec2(_chunk.x, _chunk.y);
 }
 
-var click = mouse_check_button_pressed(mb_left), hold = mouse_check_button(mb_left);
+// Action history
+historyTrimEarliest();
 
-// Toggle orthographic view
-if keyboard_check_pressed(vk_space)
-{
-	global.compiled_view = !global.compiled_view;
-	
-	if global.compiled_view
-		window_mouse_set(308, 360);
+if stroke_active && (chunk_get_key() != stroke_chunk || obj_layers.sel != stroke_layer) || (mouse_check_button_released(mb_left) || mouse_check_button_released(mb_right)) {
+	// End stroke
+	historyLogEnd();
 }
 
-// Place Tile
-var	mx = window_mouse_get_x(),
-		my = window_mouse_get_x();
+if !stroke_active && ( lmb || rmb ) {
+	// Begin stroke
+	tile_previous = undefined;
+	historyLogStart();
+}
 
-if !global.compiled_view && point_in_rectangle(mx, my, 0, 0, viewport_w, 720)
+var place_valid = true;
+
+if tile_previous != undefined
 {
-	var	mgrid_x = floor(mouse_x / 16) mod 32,
-			mgrid_y = floor(mouse_y / 16) mod 32;
-	
-	while mgrid_x < 0 mgrid_x += 32;
-	while mgrid_y < 0 mgrid_y += 32;
-	
-	var	chunkgrid_x = floor(mouse_x / 512), 
-			chunkgrid_y = floor(mouse_y / 512);
-	
-	// Save stroke to history
-	if (mouse_check_button(mb_left) || mouse_check_button(mb_right)) && !stroke_active
+	var	pre_space_x = abs(mouse.x - tile_previous.x),
+			pre_space_y = abs(mouse.y - tile_previous.y);
+		
+	// Test if new placement intersects with previous tile
+	var place_valid = pre_space_x >= obj_tiles.list[| obj_tiles.sel].size.x || pre_space_y >= obj_tiles.list[| obj_tiles.sel].size.y;
+}
+
+if place_valid
+{
+	var set_tile = undefined;
+
+	if ( lmb || rmb )
 	{
-		if !ds_map_exists(global.chunk, chunk_get_key())
-				global.chunk[? chunk_get_key()] = new Chunk(chunkgrid_x, chunkgrid_y);
-		
-		action_meaningful = false;	
-		stroke_begin = ds_grid_create(32, 32);
-		stroke_chunk = chunk_get_key();
-		stroke_layer = obj_layers.sel;
-		stroke_active = true;
-		
-		ds_grid_copy(stroke_begin, global.chunk[? chunk_get_key()].layers[obj_layers.sel].tiles);
-	}
-				
-	if mouse_check_button_released(mb_left) || mouse_check_button_released(mb_right)
-	{
-		if action_meaningful
-		{
-			var action_data = {
-				chunk: stroke_chunk,
-				layer: stroke_layer,
-				x: mgrid_x,
-				y: mgrid_y,
-				type: "layer_adjust",
-				from: ds_grid_create(32, 32),
-				to: ds_grid_create(32, 32)
-			}
-		
-			ds_grid_copy(action_data.from, stroke_begin);
-			ds_grid_copy(action_data.to, global.chunk[? stroke_chunk].layers[stroke_layer].tiles);
-			
-			array_insert(action_list, action_number, action_data);	
-			action_number ++;
-			
-			array_delete(action_list, action_number, array_length(action_list) - action_number);
-		}
-		
-		stroke_active = false;
-	}
-	
-	if mouse_check_button_pressed(mb_right) || !mouse_check_button(mb_left) || click 
-		tile_previous = undefined;
-	
-	var place_valid = true;
-	if tile_previous != undefined
-	{
-		var	pre_space_x = abs(mgrid_x - tile_previous.x),
-				pre_space_y = abs(mgrid_y - tile_previous.y);
-		
-		// Test if new placement intersects with previous tile
-		var place_valid = pre_space_x >= obj_tiles.list[| obj_tiles.sel].size.x || pre_space_y >= obj_tiles.list[| obj_tiles.sel].size.y;
-	}
-	
-	// Place tile
-	if place_valid
-	{
-		var set_tile = undefined;
-		
-		if hold
-			set_tile = new ChunkTile(obj_tiles.sel, 15 - z_selected);
-		else if mouse_check_button(mb_right)
+		if lmb
+			set_tile = new ChunkTile(obj_tiles.sel, 15 - obj_tileheight.sel);
+		else if rmb
 			set_tile = new ChunkTile(undefined, -1);
 		
-		if hold || mouse_check_button(mb_right)
+		var this_layer = chunk_get_tiles(chunk_selected.x, chunk_selected.y, obj_layers.sel);
+		var target = this_layer[# mouse.x, mouse.y];
+		
+		var is_same_tile = ( target.type == set_tile.type ) && ( 15 - obj_tileheight.sel == target.z );
+		var already_empty = set_tile.type == undefined && target.type == undefined;
+		
+		if set_tile != undefined && !already_empty && !is_same_tile
 		{
-			chunk_selected = new vec2(chunkgrid_x, chunkgrid_y);
+			action_meaningful = true;
+			tile_previous = new vec2(mouse.x, mouse.y);
 			
-			if !is_array(chunk_mesh[? chunk_get_key()])
-					chunk_mesh[? chunk_get_key()] = array_create(8, undefined);
-			
-			if !ds_map_exists(global.chunk, chunk_get_key())
-					global.chunk[? chunk_get_key()] = new Chunk(chunkgrid_x, chunkgrid_y);
-			
-			var this_layer = global.chunk[? chunk_get_key()].layers[obj_layers.sel].tiles;
-			var target = this_layer[# mgrid_x, mgrid_y];
-			var is_same_tile = (target.type == set_tile.type && 15 - z_selected == target.z);
-			var already_empty = set_tile.type == undefined && target.type == undefined;
-			
-			if set_tile != undefined && !already_empty && !is_same_tile
-			{
-				action_meaningful = true;
-				
-				if chunk_get_key() != stroke_chunk || obj_layers.sel != stroke_layer
-				{
-					show_debug_message(stroke_chunk);
-					show_debug_message(chunk_get_key());
-					if action_meaningful
-					{
-						var action_data = {
-							chunk: stroke_chunk,
-							layer: stroke_layer,
-							x: mgrid_x,
-							y: mgrid_y,
-							type: "layer_adjust",
-							from: ds_grid_create(32, 32),
-							to: ds_grid_create(32, 32)
-						}
-		
-						ds_grid_copy(action_data.from, stroke_begin);
-						ds_grid_copy(action_data.to, global.chunk[? stroke_chunk].layers[stroke_layer].tiles);
-			
-						array_insert(action_list, action_number, action_data);	
-						action_number ++;
-			
-						array_delete(action_list, action_number, array_length(action_list) - action_number);
-					}
-		
-					stroke_active = false;
-				}
-				
-				// Save stroke to history
-				if (mouse_check_button(mb_left) || mouse_check_button(mb_right)) && !stroke_active
-				{
-					if !ds_map_exists(global.chunk, chunk_get_key())
-							global.chunk[? chunk_get_key()] = new Chunk(chunkgrid_x, chunkgrid_y);
-		
-					action_meaningful = false;	
-					stroke_begin = ds_grid_create(32, 32);
-					stroke_chunk = chunk_get_key();
-					stroke_layer = obj_layers.sel;
-					stroke_active = true;
-		
-					ds_grid_copy(stroke_begin, global.chunk[? chunk_get_key()].layers[obj_layers.sel].tiles);
-				}
-				
-				ds_grid_set(this_layer, mgrid_x, mgrid_y, set_tile);
-				tile_previous = new vec2(mgrid_x, mgrid_y);	
-				
-				layer_compile(chunk_get_key(), obj_layers.sel);
-			}
+			this_layer[# mouse.x, mouse.y] = set_tile;
+
+			layer_compile(chunk_get_key(), obj_layers.sel);
 		}
 	}
 }
