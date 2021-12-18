@@ -18,6 +18,9 @@ action_list = [];
 action_number = 0;
 action_meaningful = false;
 stroke_begin = undefined;
+stroke_chunk = undefined;
+stroke_layer = undefined;
+stroke_active = false;
 
 // Chunk data
 z_selected = 15;

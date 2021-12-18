@@ -7,6 +7,13 @@ function map_import()
 	var buff_compressed = buffer_load(load_path);
 	var save_buff = buffer_decompress(buff_compressed);
 	
+	// Clear current map
+	ds_map_clear(global.chunk);
+	global.chunk[? "0,0"] = new Chunk(0, 0);
+	
+	obj_interface.action_list = [ ];
+	action_number = 0;
+
 	var str_chunk = "";
 	while true
 	{

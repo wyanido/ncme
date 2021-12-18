@@ -23,13 +23,6 @@ var	mx = window_mouse_get_x(),
 
 if !global.compiled_view && point_in_rectangle(mx, my, 0, 0, viewport_w, 720)
 {
-	if mouse_check_button_pressed(mb_left) || mouse_check_button_pressed(mb_right)
-	{
-		action_meaningful = false;	
-		stroke_begin = ds_grid_create(32, 32);
-		ds_grid_copy(stroke_begin, global.chunk[? chunk_get_key()].layers[obj_layers.sel].tiles);
-	}
-
 	var	mgrid_x = floor(mouse_x / 16) mod 32,
 			mgrid_y = floor(mouse_y / 16) mod 32;
 	
@@ -38,6 +31,47 @@ if !global.compiled_view && point_in_rectangle(mx, my, 0, 0, viewport_w, 720)
 	
 	var	chunkgrid_x = floor(mouse_x / 512), 
 			chunkgrid_y = floor(mouse_y / 512);
+	
+	// Save stroke to history
+	if (mouse_check_button(mb_left) || mouse_check_button(mb_right)) && !stroke_active
+	{
+		if !ds_map_exists(global.chunk, chunk_get_key())
+				global.chunk[? chunk_get_key()] = new Chunk(chunkgrid_x, chunkgrid_y);
+		
+		action_meaningful = false;	
+		stroke_begin = ds_grid_create(32, 32);
+		stroke_chunk = chunk_get_key();
+		stroke_layer = obj_layers.sel;
+		stroke_active = true;
+		
+		ds_grid_copy(stroke_begin, global.chunk[? chunk_get_key()].layers[obj_layers.sel].tiles);
+	}
+				
+	if mouse_check_button_released(mb_left) || mouse_check_button_released(mb_right)
+	{
+		if action_meaningful
+		{
+			var action_data = {
+				chunk: stroke_chunk,
+				layer: stroke_layer,
+				x: mgrid_x,
+				y: mgrid_y,
+				type: "layer_adjust",
+				from: ds_grid_create(32, 32),
+				to: ds_grid_create(32, 32)
+			}
+		
+			ds_grid_copy(action_data.from, stroke_begin);
+			ds_grid_copy(action_data.to, global.chunk[? stroke_chunk].layers[stroke_layer].tiles);
+			
+			array_insert(action_list, action_number, action_data);	
+			action_number ++;
+			
+			array_delete(action_list, action_number, array_length(action_list) - action_number);
+		}
+		
+		stroke_active = false;
+	}
 	
 	if mouse_check_button_pressed(mb_right) || !mouse_check_button(mb_left) || click 
 		tile_previous = undefined;
@@ -81,37 +115,54 @@ if !global.compiled_view && point_in_rectangle(mx, my, 0, 0, viewport_w, 720)
 			{
 				action_meaningful = true;
 				
-				ds_grid_set(this_layer, mgrid_x, mgrid_y, set_tile);
+				if chunk_get_key() != stroke_chunk || obj_layers.sel != stroke_layer
+				{
+					show_debug_message(stroke_chunk);
+					show_debug_message(chunk_get_key());
+					if action_meaningful
+					{
+						var action_data = {
+							chunk: stroke_chunk,
+							layer: stroke_layer,
+							x: mgrid_x,
+							y: mgrid_y,
+							type: "layer_adjust",
+							from: ds_grid_create(32, 32),
+							to: ds_grid_create(32, 32)
+						}
+		
+						ds_grid_copy(action_data.from, stroke_begin);
+						ds_grid_copy(action_data.to, global.chunk[? stroke_chunk].layers[stroke_layer].tiles);
+			
+						array_insert(action_list, action_number, action_data);	
+						action_number ++;
+			
+						array_delete(action_list, action_number, array_length(action_list) - action_number);
+					}
+		
+					stroke_active = false;
+				}
 				
+				// Save stroke to history
+				if (mouse_check_button(mb_left) || mouse_check_button(mb_right)) && !stroke_active
+				{
+					if !ds_map_exists(global.chunk, chunk_get_key())
+							global.chunk[? chunk_get_key()] = new Chunk(chunkgrid_x, chunkgrid_y);
+		
+					action_meaningful = false;	
+					stroke_begin = ds_grid_create(32, 32);
+					stroke_chunk = chunk_get_key();
+					stroke_layer = obj_layers.sel;
+					stroke_active = true;
+		
+					ds_grid_copy(stroke_begin, global.chunk[? chunk_get_key()].layers[obj_layers.sel].tiles);
+				}
+				
+				ds_grid_set(this_layer, mgrid_x, mgrid_y, set_tile);
 				tile_previous = new vec2(mgrid_x, mgrid_y);	
 				
 				layer_compile(chunk_get_key(), obj_layers.sel);
 			}
-		}
-	}
-	
-	// Save stroke to history
-	if mouse_check_button_released(mb_left) || mouse_check_button_released(mb_right)
-	{
-		if action_meaningful
-		{
-			var action_data = {
-				chunk: chunk_get_key() ,
-				layer: obj_layers.sel,
-				x: mgrid_x,
-				y: mgrid_y,
-				type: "layer_adjust",
-				from: ds_grid_create(32, 32),
-				to: ds_grid_create(32, 32)
-			}
-		
-			ds_grid_copy(action_data.from, stroke_begin);
-			ds_grid_copy(action_data.to, global.chunk[? chunk_get_key()].layers[obj_layers.sel].tiles);
-		
-			array_insert(action_list, action_number, action_data);	
-			action_number ++;
-		
-			array_delete(action_list, action_number, array_length(action_list) - action_number);
 		}
 	}
 }
