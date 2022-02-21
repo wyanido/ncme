@@ -25,6 +25,7 @@ if !global.viewport_3d
 	
 	var chunk = chunk_mesh[? chunk_get_key()];
 	
-	if chunk != undefined && chunk[obj_layers.sel] != undefined
+	if ( chunk != undefined && chunk[obj_layers.sel] != undefined ) {
 		draw_text(16, 691 - 26, "Vertex Count: " + string(vertex_get_number(chunk[obj_layers.sel])));
+	}
 }

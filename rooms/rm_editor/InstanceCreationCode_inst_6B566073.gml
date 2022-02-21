@@ -49,7 +49,7 @@ onClick = function()
 							continue;
 						}
 						
-						if lr.tiles[# _x + _xx, _y + _yy].type == undefined
+						if lr[# _x + _xx, _y + _yy].type == undefined
 							neighbours[# _xx + 1, _yy + 1] = false;
 						else
 							neighbours[# _xx + 1, _yy + 1] = obj_tiles.list[| lr[# _x + _xx, _y + _yy].type].type == "grass_path";

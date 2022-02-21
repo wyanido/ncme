@@ -2,6 +2,9 @@
 // Editor settings
 max_undo_history = 30;
 
+window_set_min_width(window_get_width());
+window_set_min_height(window_get_height());
+
 // Globals
 vertex_format_begin();
 
@@ -34,18 +37,12 @@ chunk_mesh[? chunk_get_key()] = array_create(8, undefined);
 
 // Render Config
 gpu_set_ztestenable(true);
-gpu_set_tex_repeat(true);
+gpu_set_tex_repeat(false);
 gpu_set_zwriteenable(true);
 gpu_set_alphatestenable(true);
 
 // Viewport & Window
 viewport_w = 608;
-
-view_set_wport(0, viewport_w);
-view_set_wport(1, room_width - viewport_w);
-view_set_xport(1, viewport_w)
-window_set_size(room_width, room_height);
-surface_resize(application_surface, room_width, room_height);
 
 // Functions
 mouseToGrid = function()

@@ -1,4 +1,24 @@
 /// -- @desc UI control
+// Check for window resize
+if ( window_get_width() != display_get_gui_width() || window_get_height() != display_get_gui_height() ) 
+{
+	var	new_w = window_get_width(),
+			new_h = window_get_height();
+	
+	viewport_w = new_w - 608;
+	
+	surface_resize(application_surface, new_w, new_h);
+	display_set_gui_size(new_w, new_h);
+	
+	view_set_wport(0, viewport_w);
+	view_set_hport(0, new_h);
+	
+	view_set_wport(1, new_w - viewport_w);
+	view_set_hport(1, new_h);
+	
+	view_set_xport(1, viewport_w);
+}
+
 // Exit if not in edit mode
 var	editor_active = !global.viewport_3d && point_in_rectangle(window_mouse_get_x(), window_mouse_get_y(), 0, 0, viewport_w, 720);
 if !editor_active return;

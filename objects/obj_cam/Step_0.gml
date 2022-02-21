@@ -52,12 +52,14 @@ if !global.viewport_3d
 		}
 	}
 }
-else
+else if (window_has_focus())
 {
-	// Freecam control
-	// Look
-	yaw -= (mx - (vw / 2)) / 10;
-	pitch = clamp(pitch - (my - (window_get_height() / 2)) / 10, -89.5, 89.5);
+	// Require window focus as to not spin crazily while unfocused
+	// Don't turn the view on the frame an input is pressed to prevent the camera snapping while refocusing the window
+	if (!mouse_check_button_pressed(mb_any)) {
+		yaw -= (mx - (vw / 2)) / 10;
+		pitch = clamp(pitch - (my - (window_get_height() / 2)) / 10, -89.5, 89.5);
+	}
 	
 	window_mouse_set(vw / 2, window_get_height() / 2);
 
