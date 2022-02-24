@@ -1,7 +1,6 @@
 
 start_x = x - 608;
 sel = 0;
-prev = new vec2(-1, -1);
 hovered = undefined;
 
 // Tile type indexes

@@ -5,15 +5,15 @@ function chunk_compile(this_chunk)
 	for ( var l = 0; l < 8; l ++ ) 
 	{
 		// Delete existing mesh
-		if chunk_mesh[? this_chunk] != undefined
-		{
-			if chunk_mesh[? this_chunk][l] != undefined
-			{
+		if (chunk_mesh[? this_chunk] != undefined) {
+			if (chunk_mesh[? this_chunk][l] != undefined) {
 				vertex_delete_buffer(chunk_mesh[? this_chunk][l]);
 			}
 		}
-		else chunk_mesh[? this_chunk] = array_create(8, undefined);
-
+		else {
+			chunk_mesh[? this_chunk] = array_create(8, undefined);
+		}
+		
 		var this_mesh = vertex_create_buffer();
 		vertex_begin(this_mesh, global.vformat);
 		
@@ -23,11 +23,14 @@ function chunk_compile(this_chunk)
 		for ( var _x = 0; _x < 32; _x ++ ) { 
 			for ( var _y = 0; _y < 32; _y ++ ) {
 				var this_tile = global.chunk[? this_chunk].layers[l].tiles[# _x, _y];
-				if this_tile.type = undefined continue;
-	
+				
+				if (this_tile.type == undefined) {
+					continue;
+				}
+				
 				var this_type = obj_tiles.list[| this_tile.type];
 
-				switch this_type.model
+				switch (this_type.model)
 				{
 					default:
 						// Load model
@@ -63,10 +66,9 @@ function chunk_compile(this_chunk)
 						{
 							if ds_list_find_index(skiplist, string(_x) + "," + string(_y)) != -1 continue;
 							
-							// Greedy meshing
+							// Greedy meshing for large repeated textures
 							var row_width = 4;
-							for ( var _xx = 1; _xx < row_width; _xx ++ )
-							{
+							for ( var _xx = 1; _xx < row_width; _xx ++ ) {
 								if (_x + _xx > 31) || global.chunk[? this_chunk].layers[l].tiles[# _x + _xx, _y].type == undefined || obj_tiles.list[| global.chunk[? this_chunk].layers[l].tiles[# _x + _xx, _y].type].type != "grass" || ds_list_find_index(skiplist, string(_x + _xx) + "," + string(_y)) != -1 || (_x + _xx) mod 4 == 0 || global.chunk[? this_chunk].layers[l].tiles[# _x + _xx, _y].z != global.chunk[? this_chunk].layers[l].tiles[# _x, _y].z
 								{
 									row_width = _xx;
@@ -75,10 +77,8 @@ function chunk_compile(this_chunk)
 							}
 							
 							var largest_column = 4;
-							for ( var _xx = 0; _xx < row_width; _xx ++ )
-							{
-								for ( var _yy = 1; _yy < 4; _yy ++ )
-								{
+							for ( var _xx = 0; _xx < row_width; _xx ++ ) {
+								for ( var _yy = 1; _yy < 4; _yy ++ ) {
 									if (_y + _yy > 31)  || global.chunk[? this_chunk].layers[l].tiles[# _x + _xx, _y + _yy].type == undefined || obj_tiles.list[| global.chunk[? this_chunk].layers[l].tiles[# _x + _xx, _y + _yy].type].type != "grass" || ds_list_find_index(skiplist, string(_x + _xx) + "," + string(_y + _yy)) != -1 || (_y + _yy) mod 4 == 0 || global.chunk[? this_chunk].layers[l].tiles[# _x + _xx, _y + _yy].z != global.chunk[? this_chunk].layers[l].tiles[# _x, _y].z
 									{
 										largest_column = min(largest_column, _yy);
@@ -86,10 +86,8 @@ function chunk_compile(this_chunk)
 								}
 							}
 							
-							for ( var _xx = 0; _xx < row_width; _xx ++ )
-							{
-								for ( var _yy = 0; _yy < largest_column; _yy ++ )
-								{
+							for ( var _xx = 0; _xx < row_width; _xx ++ ) {
+								for ( var _yy = 0; _yy < largest_column; _yy ++ ) {
 									ds_list_add(skiplist, string(_x + _xx) + "," + string(_y + _yy));
 								}
 							}
@@ -119,8 +117,7 @@ function chunk_compile(this_chunk)
 		
 		vertex_end(this_mesh);
 	
-		if tiles_placed == 0 
-		{
+		if (tiles_placed == 0) {
 			vertex_delete_buffer(this_mesh);
 			chunk_mesh[? this_chunk][l] = undefined;
 		}
@@ -132,5 +129,5 @@ function chunk_compile(this_chunk)
 	}
 	
 	ds_list_destroy(skiplist);
-	chunk_layercache_refresh(this_chunk);
+	layer_icon_refresh(this_chunk);
 }

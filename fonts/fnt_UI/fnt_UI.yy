@@ -210,8 +210,8 @@
   "canGenerateBitmap": true,
   "maintainGms1Font": false,
   "parent": {
-    "name": "Textures",
-    "path": "folders/Resources/Textures.yy",
+    "name": "resources",
+    "path": "folders/resources.yy",
   },
   "resourceVersion": "1.0",
   "name": "fnt_UI",

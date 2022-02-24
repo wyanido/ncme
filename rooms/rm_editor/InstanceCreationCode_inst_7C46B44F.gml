@@ -4,7 +4,7 @@ icon = ui_save;
 
 onUpdate = function()
 {
-	active = !global.viewport_3d;	
+	active = !global.viewport_is_3d;	
 }
 
 onClick = function()

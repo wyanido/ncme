@@ -1,22 +1,43 @@
 /// -- @desc Render viewport
-// Map chunks
-var tex = sprite_get_texture(tx_grass, 0);
-draw_set_colour(c_white);
-
-for(var c = ds_map_find_first(global.chunk); c < ds_map_size(global.chunk); c = ds_map_find_next(global.chunk, c))
+// Iterate through chunks to render
+for ( var c = ds_map_find_first(global.chunk); c < ds_map_size(global.chunk); c = ds_map_find_next(global.chunk, c) )
 {
-	if chunk_mesh[? c] == undefined continue;
+	var cchunk = chunk_mesh[? c];
 	
+	if ( is_undefined(cchunk) || !is_array(cchunk)) { 
+		continue;
+	}
+	
+	// Get real position of chunk
 	var	pos_x = global.chunk[? c].pos_x * 512,
 			pos_y = global.chunk[? c].pos_y * 512;
 	
-	for (var l = 0; l < 8; l ++)
+	for ( var l = 0; l < 8; l ++ )
 	{
-		var mesh = chunk_mesh[? c][l];
-		if !is_undefined(mesh) 
+		// Layer mesh
+		var lmesh = cchunk[l];
+		
+		if (is_undefined(lmesh)) {
+			continue;	
+		}
+		
+		matrix_set(matrix_world, matrix_build(pos_x, pos_y, 0, 0, 0, 0, 1, 1, 1));
+		vertex_submit(cchunk[l], pr_trianglelist, global.tex_world);
+		
+		if (global.heightmap_visible) 
 		{
-			matrix_set(matrix_world, matrix_build(pos_x, pos_y, 0, 0, 0, 0, 1, 1, 1));
-			vertex_submit(mesh, pr_trianglelist, tex); 
+			var	hmap = global.heightmap_cache[? c];
+			
+			if (!is_undefined(hmap)) 
+			{
+				// Render heightmap on top of mesh
+				gpu_set_ztestenable(false);
+				
+				matrix_set(matrix_world, matrix_build(pos_x, pos_y, 0, 0, 0, 0, TILE_SIZE, TILE_SIZE, TILE_SIZE));
+				vertex_submit(hmap, pr_trianglelist, -1);	
+				
+				gpu_set_ztestenable(true);
+			}
 		}
 	}
 }
@@ -27,13 +48,14 @@ matrix_set(matrix_world, matrix_build_identity());
 var	mx = window_mouse_get_x(),
 		my = window_mouse_get_x();
 
-if !global.viewport_3d && point_in_rectangle(mx, my, 0, 0, viewport_w, 720)
+if ( !global.viewport_is_3d && point_in_rectangle(mx, my, 0, 0, global.viewport_w, window_get_height()))
 {
 	var	mgrid_x = floor(mouse_x / 16) * 16,
 			mgrid_y = floor(mouse_y / 16) * 16;
 	
-	var	grid_w = obj_tiles.list[| obj_tiles.sel].size.x * 16 - 1,
-			grid_h = obj_tiles.list[| obj_tiles.sel].size.y * 16 - 1;
+	var	grid_sz = obj_tiles.list[| obj_tiles.sel].size,
+			grid_w = grid_sz.x * 16 - 1,
+			grid_h = grid_sz.y * 16 - 1;
 
 	gpu_set_ztestenable(false);
 	draw_set_colour(0x000FFF);
@@ -42,7 +64,7 @@ if !global.viewport_3d && point_in_rectangle(mx, my, 0, 0, viewport_w, 720)
 }
 
 // Chunk Outline
-if !global.viewport_3d
+if (!global.viewport_is_3d)
 {
 	gpu_set_ztestenable(false);
 	draw_set_colour(c_white);

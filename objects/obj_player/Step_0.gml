@@ -1,4 +1,9 @@
 
+// Disable if not in 3D view
+if (!global.viewport_is_3d) {
+	return;
+}
+
 // Move to target location
 x += sign(x_target - x);
 y += sign(y_target - y);

@@ -2,9 +2,9 @@
 // Toggle orthographic view
 if keyboard_check_pressed(vk_space)
 {
-	global.viewport_3d = !global.viewport_3d;
+	global.viewport_is_3d = !global.viewport_is_3d;
 	
-	if global.viewport_3d
+	if global.viewport_is_3d
 		window_mouse_set(308, 360);
 }
 
@@ -17,9 +17,9 @@ zoom = clamp(zoom, 0.4, 2);
 var	mx = window_mouse_get_x(), 
 		my = window_mouse_get_y();
 
-var vw = obj_interface.viewport_w;
+var vw = global.viewport_w;
 
-if !global.viewport_3d
+if !global.viewport_is_3d
 {
 	if point_in_rectangle(mx, my, 0, 0, vw, 720)
 	{

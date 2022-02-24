@@ -77,8 +77,8 @@
   ],
   "nineSlice": null,
   "parent": {
-    "name": "Player",
-    "path": "folders/Resources/Textures/Player.yy",
+    "name": "character",
+    "path": "folders/resources/character.yy",
   },
   "resourceVersion": "1.0",
   "name": "s_hero_m_walk_right",

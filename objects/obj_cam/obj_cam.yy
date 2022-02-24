@@ -26,8 +26,8 @@
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "UI",
-    "path": "folders/UI.yy",
+    "name": "interface",
+    "path": "folders/interface.yy",
   },
   "resourceVersion": "1.0",
   "name": "obj_cam",

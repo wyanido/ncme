@@ -2,7 +2,7 @@
 var	mx = window_mouse_get_x(), 
 		my = window_mouse_get_y();
 
-x = obj_interface.viewport_w + start_x;
+x = global.viewport_w + start_x;
 
 if point_in_rectangle(mx, my, bbox_left, bbox_top, bbox_right, bbox_bottom)
 {

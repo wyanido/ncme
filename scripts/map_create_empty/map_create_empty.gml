@@ -1,4 +1,4 @@
-function map_format()
+function map_create_empty()
 {
 	var map_data = ds_map_create();
 	

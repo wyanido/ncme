@@ -2,11 +2,11 @@
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "Function",
-    "path": "folders/Resources/Function.yy",
+    "name": "ncme",
+    "path": "ncme.yyp",
   },
   "resourceVersion": "1.0",
-  "name": "Map",
+  "name": "globals",
   "tags": [],
   "resourceType": "GMScript",
 }

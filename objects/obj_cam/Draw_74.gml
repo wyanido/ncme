@@ -1,4 +1,4 @@
-if global.viewport_3d 
+if global.viewport_is_3d 
 {
 	// View info
 	draw_set_halign(fa_left);
@@ -10,4 +10,4 @@ if global.viewport_3d
 }
 
 draw_set_colour(0x332420);
-draw_rectangle(obj_interface.viewport_w, 0, window_get_width(), window_get_height(), false);
+draw_rectangle(global.viewport_w, 0, window_get_width(), window_get_height(), false);

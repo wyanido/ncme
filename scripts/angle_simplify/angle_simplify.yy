@@ -2,8 +2,8 @@
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "Function",
-    "path": "folders/Resources/Function.yy",
+    "name": "functions",
+    "path": "folders/functions.yy",
   },
   "resourceVersion": "1.0",
   "name": "angle_simplify",

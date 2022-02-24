@@ -29,7 +29,7 @@ draw_set_colour(c_white);
 draw_border_width(bbox_left, bbox_top, bbox_right, bbox_bottom, 2);
 
 // Selection Highlight
-var v = y + (sel * max_h);
+var v = y + ((15 - sel) * max_h);
 draw_set_colour(0x000FFF);
 draw_rectangle(x + 1, v, x + width, v + max_h, true);
 draw_set_alpha(0.3);

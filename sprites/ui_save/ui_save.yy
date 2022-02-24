@@ -69,8 +69,8 @@
   ],
   "nineSlice": null,
   "parent": {
-    "name": "UI",
-    "path": "folders/Resources/UI.yy",
+    "name": "icon",
+    "path": "folders/resources/icon.yy",
   },
   "resourceVersion": "1.0",
   "name": "ui_save",

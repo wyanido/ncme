@@ -3,15 +3,12 @@ function layer_compile(this_chunk, l)
 	var skiplist = ds_list_create();
 
 	// Delete existing mesh
-	if is_array( chunk_mesh[? this_chunk] )
-	{
-		if chunk_mesh[? this_chunk][l] != undefined
-		{
+	if (is_array(chunk_mesh[? this_chunk])) {
+		if (!is_undefined(chunk_mesh[? this_chunk][l])) {
 			vertex_delete_buffer(chunk_mesh[? this_chunk][l]);
 		}
 	}
-	else
-	{
+	else {
 		chunk_mesh[? this_chunk] = array_create(8, undefined);
 	}
 	
@@ -24,8 +21,10 @@ function layer_compile(this_chunk, l)
 	for ( var _x = 0; _x < 32; _x ++ ) { 
 		for ( var _y = 0; _y < 32; _y ++ ) {
 			var this_tile = global.chunk[? this_chunk].layers[l].tiles[# _x, _y];
-			if this_tile.type = undefined continue;
-	
+			if (is_undefined(this_tile.type)) {
+				continue;
+			}
+			
 			var this_type = obj_tiles.list[| this_tile.type];
 
 			switch this_type.model
@@ -87,10 +86,8 @@ function layer_compile(this_chunk, l)
 							}
 						}
 							
-						for ( var _xx = 0; _xx < row_width; _xx ++ )
-						{
-							for ( var _yy = 0; _yy < largest_column; _yy ++ )
-							{
+						for ( var _xx = 0; _xx < row_width; _xx ++ ) {
+							for ( var _yy = 0; _yy < largest_column; _yy ++ ) {
 								ds_list_add(skiplist, string(_x + _xx) + "," + string(_y + _yy));
 							}
 						}
@@ -120,17 +117,15 @@ function layer_compile(this_chunk, l)
 		
 	vertex_end(this_mesh);
 	
-	if tiles_placed == 0 
-	{
+	if (tiles_placed == 0) {
 		vertex_delete_buffer(this_mesh);
 		chunk_mesh[? this_chunk][l] = undefined;
 	}
-	else 
-	{
+	else  {
 		vertex_freeze(this_mesh);	
 		chunk_mesh[? this_chunk][l] = this_mesh;
 	}
 	
 	ds_list_destroy(skiplist);
-	chunk_layercache_refresh(this_chunk);
+	layer_icon_refresh(this_chunk);
 }

@@ -1,8 +1,8 @@
 {
   "type": 1,
   "parent": {
-    "name": "ncme",
-    "path": "ncme.yyp",
+    "name": "resources",
+    "path": "folders/resources.yy",
   },
   "resourceVersion": "1.0",
   "name": "shd_billboard",

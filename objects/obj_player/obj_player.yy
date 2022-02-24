@@ -25,8 +25,8 @@
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "ncme",
-    "path": "ncme.yyp",
+    "name": "interface",
+    "path": "folders/interface.yy",
   },
   "resourceVersion": "1.0",
   "name": "obj_player",

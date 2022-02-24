@@ -69,8 +69,8 @@
   ],
   "nineSlice": null,
   "parent": {
-    "name": "Textures",
-    "path": "folders/Resources/Textures.yy",
+    "name": "tiles",
+    "path": "folders/resources/tiles.yy",
   },
   "resourceVersion": "1.0",
   "name": "tx_tall_grass_dark",

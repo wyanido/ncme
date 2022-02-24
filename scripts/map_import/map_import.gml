@@ -10,6 +10,7 @@ function map_import()
 	// Clear current map
 	ds_map_clear(global.chunk);
 	global.chunk[? "0,0"] = new Chunk(0, 0);
+	global.heightmap[? "0,0"] = ds_grid_create(CHUNK_SIZE * 2, CHUNK_SIZE * 2);
 	
 	obj_interface.action_list = [ ];
 	action_number = 0;
@@ -30,14 +31,14 @@ function map_import()
 		
 		var chunk_key = chunk_x + "," + chunk_y;
 		global.chunk[? chunk_key] = new Chunk(real(chunk_x), real(chunk_y));		
+		global.heightmap[? chunk_key] = ds_grid_create(CHUNK_SIZE * 2, CHUNK_SIZE * 2);
 		
 		// Read layers
 		for ( var l = 0; l < 8; l ++ )
 		{	
 			var str_layers = buffer_read(save_buff, buffer_string);
 			
-			if str_layers == "NONE"
-			{
+			if (str_layers == "NONE") {
 				ds_grid_set_region(global.chunk[? chunk_key].layers[l].tiles, 0, 0, 31, 31, new ChunkTile(undefined, -1));
 				continue;
 			}
@@ -82,7 +83,7 @@ function map_import()
 	
 		for ( var l = 0; l < 8; l ++ )
 		{
-			chunk_layercache_refresh(c, l)
+			layer_icon_refresh(c, l)
 		}
 	}
 }

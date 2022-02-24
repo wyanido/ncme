@@ -3,12 +3,12 @@ label = "Clear Layer";
 
 onUpdate = function()
 {
-	active = !global.viewport_3d;	
+	active = !global.viewport_is_3d;	
 }
 
 onClick = function()
 {
-	with obj_interface
+	with (obj_interface)
 	{
 		var lr = chunk_get_tiles(chunk_selected.x, chunk_selected.y, obj_layers.sel);
 		
@@ -31,7 +31,12 @@ onClick = function()
 		action_number ++;
 		array_delete(action_list, action_number, array_length(action_list) - action_number);
 		
-		ds_grid_set_region(lr, 0, 0, 31, 31, new ChunkTile(undefined, 15));
+		ds_grid_set_region(lr, 0, 0, 31, 31, new ChunkTile(undefined, 0));
+		
+		// Destroy heightmap
+		ds_map_delete(global.heightmap, chunk_get_key())
+		vertex_delete_buffer(global.heightmap_cache[? chunk_get_key()]);
+		global.heightmap_cache[? chunk_get_key()] = undefined;
 		
 		chunk_compile(chunk_get_key());	
 	}

@@ -14,8 +14,9 @@ if hovering
 	if !pre_hover
 		window_set_cursor(cr_handpoint);
 			
-	if mouse_check_button_pressed(mb_left)
-		obj_tileheight.sel = floor((my - bbox_top) / max_h);
+	if (mouse_check_button_pressed(mb_left)) {
+		obj_tileheight.sel = 15 - floor((my - bbox_top) / max_h);
+	}
 }
 else if !hovering && pre_hover
 	window_set_cursor(cr_default);

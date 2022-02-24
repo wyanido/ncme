@@ -69,8 +69,8 @@
   ],
   "nineSlice": null,
   "parent": {
-    "name": "Path",
-    "path": "folders/Resources/Textures/Path.yy",
+    "name": "path",
+    "path": "folders/resources/tiles/path.yy",
   },
   "resourceVersion": "1.0",
   "name": "tx_path_n",

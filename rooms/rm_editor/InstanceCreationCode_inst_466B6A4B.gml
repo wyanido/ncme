@@ -3,16 +3,16 @@ label = "Flood Layer";
 
 onUpdate = function()
 {
-	active = !global.viewport_3d;	
+	active = !global.viewport_is_3d;	
 }
 
 onClick = function()
 {
 	var lr = chunk_get_tiles(obj_interface.chunk_selected.x, obj_interface.chunk_selected.y, obj_layers.sel);
 	
+	// Log tile changes
 	with obj_interface
 	{
-		// Log tile changes
 		var action_log = {
 			chunk: chunk_get_key() ,
 			layer: obj_layers.sel, 
@@ -30,20 +30,18 @@ onClick = function()
 		
 		action_number ++;
 		array_delete(action_list, action_number, array_length(action_list) - action_number);
-		
 	}
 	
-	with obj_tiles
+	with (obj_tiles)
 	{
 		// Clear layer before filling
 		var tile_data = list[| sel];
 		ds_grid_set_region(lr, 0, 0, 31, 31, new ChunkTile(undefined, -1));
+		ds_grid_set_region(global.heightmap[? chunk_get_key()], 0, 0, CHUNK_SIZE * 2 - 1, CHUNK_SIZE * 2 - 1, obj_tileheight.sel);
 		
-		for ( var _x = 0; _x < 32;  )
-		{
-			for ( var _y = 0; _y < 32;  )
-			{	
-				lr[# _x, _y] = new ChunkTile(sel, 15 - obj_tileheight.sel);
+		for ( var _x = 0; _x < 32;  ) {
+			for ( var _y = 0; _y < 32;  ) {	
+				lr[# _x, _y] = new ChunkTile(sel, obj_tileheight.sel);
 				_y += tile_data.size.y;
 			}
 			
@@ -51,5 +49,8 @@ onClick = function()
 		}
 	}
 	
-	with obj_interface chunk_compile(chunk_get_key());
+	with (obj_interface) {
+		chunk_compile(chunk_get_key());
+		hmap_compile_mesh(chunk_get_key());
+	}
 }

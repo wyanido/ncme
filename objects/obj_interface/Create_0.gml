@@ -1,20 +1,7 @@
 /// -- @desc Initialise UI
 // Editor settings
-max_undo_history = 30;
-
 window_set_min_width(window_get_width());
 window_set_min_height(window_get_height());
-
-// Globals
-vertex_format_begin();
-
-vertex_format_add_position_3d();
-vertex_format_add_colour();
-vertex_format_add_texcoord();
-
-global.vformat = vertex_format_end();
-global.model_cache = ds_map_create();
-global.viewport_3d = false;
 
 // Undo / Redo History
 action_list = [];
@@ -28,12 +15,9 @@ stroke_active = false;
 
 tile_previous = undefined;
 
-// Chunk data
-global.chunk = map_format();
-
 chunk_selected = new vec2(0, 0);
 chunk_mesh = ds_map_create();
-chunk_mesh[? chunk_get_key()] = array_create(8, undefined);
+chunk_mesh[? chunk_get_key()] = array_create(LAYER_COUNT, undefined);
 
 // Render Config
 gpu_set_ztestenable(true);
@@ -41,32 +25,10 @@ gpu_set_tex_repeat(false);
 gpu_set_zwriteenable(true);
 gpu_set_alphatestenable(true);
 
-// Viewport & Window
-viewport_w = 608;
-
 // Functions
-mouseToGrid = function()
-{
-	var	mgrid_x = floor(mouse_x / 16) mod 32,
-			mgrid_y = floor(mouse_y / 16) mod 32;
-	
-	while mgrid_x < 0 mgrid_x += 32;
-	while mgrid_y < 0 mgrid_y += 32;
-
-	return new vec2(mgrid_x, mgrid_y);
-}
-
-mouseToChunk = function()
-{
-	var	chunkgrid_x = floor(mouse_x / 512), 
-			chunkgrid_y = floor(mouse_y / 512);
-			
-	return new vec2(chunkgrid_x, chunkgrid_y);
-}
-
 historyTrimEarliest = function()
 {
-	while array_length(action_list) > max_undo_history
+	while (array_length(action_list) > UNDO_MAX)
 	{
 		array_delete(action_list, 0, 1);
 		action_number --;
@@ -75,11 +37,11 @@ historyTrimEarliest = function()
 
 historyLogStart = function()
 {
-	var _chunk = mouseToChunk();
+	var _chunk = point_to_chunk(mouse_x, mouse_y);
 	var lr = chunk_get_tiles(_chunk.x, _chunk.y, obj_layers.sel);
 	
 	action_meaningful = false;	
-	stroke_begin = ds_grid_create(32, 32);
+	stroke_begin = ds_grid_create(CHUNK_SIZE, CHUNK_SIZE);
 	stroke_chunk = chunk_get_key();
 	stroke_layer = obj_layers.sel;
 	stroke_active = true;
@@ -89,9 +51,9 @@ historyLogStart = function()
 
 historyLogEnd = function()
 {
-	var mouse = mouseToGrid();
+	var mouse = point_to_tile(mouse_x, mouse_y);
 
-	if action_meaningful
+	if (action_meaningful)
 	{
 		var action_data = {
 			chunk: stroke_chunk,
@@ -99,8 +61,8 @@ historyLogEnd = function()
 			x: mouse.x,
 			y: mouse.y,
 			type: "layer_adjust",
-			from: ds_grid_create(32, 32),
-			to: ds_grid_create(32, 32)
+			from: ds_grid_create(CHUNK_SIZE, CHUNK_SIZE),
+			to: ds_grid_create(CHUNK_SIZE, CHUNK_SIZE)
 		}
 		
 		ds_grid_copy(action_data.from, stroke_begin);
@@ -113,4 +75,27 @@ historyLogEnd = function()
 	}
 		
 	stroke_active = false;
+}
+
+windowCheckResize = function()
+{
+	if	(window_get_width() != display_get_gui_width()) || 
+		(window_get_height() != display_get_gui_height())
+	{
+		var	new_w = window_get_width(),
+				new_h = window_get_height();
+		
+		global.viewport_w = new_w - 608;
+	
+		surface_resize(application_surface, new_w, new_h);
+		display_set_gui_size(new_w, new_h);
+	
+		view_set_wport(0, global.viewport_w);
+		view_set_hport(0, new_h);
+	
+		view_set_wport(1, new_w - global.viewport_w);
+		view_set_hport(1, new_h);
+	
+		view_set_xport(1, global.viewport_w);
+	}
 }

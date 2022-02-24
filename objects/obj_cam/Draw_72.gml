@@ -1,17 +1,17 @@
 draw_clear_alpha(0x111111, 1);
 
-if !global.viewport_3d
+if !global.viewport_is_3d
 {	
 	var	vx = 256 + round(x),
 			vy = 256 + round(y);
 	
 	view_mat = matrix_build_lookat(vx, vy, 1600, vx, vy, 0, 0, 1, 0);
-	proj_mat = matrix_build_projection_ortho(-obj_interface.viewport_w * zoom, 720 * zoom, 1, 16000);
+	proj_mat = matrix_build_projection_ortho(-global.viewport_w * zoom, 720 * zoom, 1, 16000);
 	
 	// Adjust 3D position to editor position
 	pos.x = vx;
 	pos.y = vy;
-	pos.z = obj_interface.viewport_w * zoom - 96;
+	pos.z = global.viewport_w * zoom - 96;
 	
 	yaw = 90;
 	pitch = -90;
@@ -23,7 +23,7 @@ else
 	to.z = pos.z + dsin(pitch);
 	
 	view_mat = matrix_build_lookat(pos.x, pos.y, pos.z, to.x, to.y, to.z, 0, 0, 1);
-	proj_mat = matrix_build_projection_perspective_fov(-70, -obj_interface.viewport_w / 720, 0.5, 32000);
+	proj_mat = matrix_build_projection_perspective_fov(-70, -global.viewport_w / 720, 0.5, 32000);
 }
 
 // Set projection
